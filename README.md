@@ -51,5 +51,5 @@ El proyecto se encuentra bajo la licencia Creative Commons, la forma en la que l
 
   •	Link documento Mock Ups: https://drive.google.com/file/d/1UK8NkpjCxjHhErGjsjD6jLrfoULwwAOb/view?usp=drivesdk  
 
-  •	Link Trello (Mock Ups): https://trello.com/b/4XxUg6AV/proyecto-de-cátedra-dps104-g01t-grupo-04
+  •	Link Trello: https://trello.com/b/4XxUg6AV/proyecto-de-cátedra-dps104-g01t-grupo-04
 
