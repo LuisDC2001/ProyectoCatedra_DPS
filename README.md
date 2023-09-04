@@ -35,7 +35,7 @@ Para poder utilizar esta aplicación, se debe contar con el IDE Android Studio a
 # Autores ✒️
   •	Anthony Eduardo Ortega Cruz -programador frontend 
   
-  •	Fernando Ernesto Bonilla Orellana -analista de calidad programador backend 
+  •	Fernando Ernesto Bonilla Orellana -analista de calidad y programador backend 
   
   •	Erika Abigail Acuña Melara -programador frontend 
   
