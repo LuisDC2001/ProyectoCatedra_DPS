@@ -49,7 +49,7 @@ El proyecto se encuentra bajo la licencia Creative Commons, la forma en la que l
 # Enlaces de interés 👀
   •	Link diseños Mock Ups: https://www.figma.com/file/ey8PkUxrZRnxbpSEUHKMeA/DPS-Proyect?type=design&node-id=11%3A19&mode=design&t=17Z3wNtyLCKI04Pt-1
 
-  •	Link documento Mock Ups: https://drive.google.com/file/d/1UK8NkpjCxjHhErGjsjD6jLrfoULwwAOb/view?usp=drivesdk  
+  •	Link documento Mock Ups: https://drive.google.com/file/d/1dL8liVXH36wzZBL3QBRfbCETNMjd9mmo/view?usp=sharing
 
   •	Link Trello: https://trello.com/b/4XxUg6AV/proyecto-de-cátedra-dps104-g01t-grupo-04
 
