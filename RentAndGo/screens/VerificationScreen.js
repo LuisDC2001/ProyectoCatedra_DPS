@@ -41,7 +41,7 @@ const Verification = () => {
                     text="Verificar"
                     onPress={check}
                     type="PRIMARY"
-                    size={350} />
+                     />
             </View>
         </ScrollView>
     )
