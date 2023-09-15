@@ -41,7 +41,7 @@ const ForgotPass = () => {
                     text="Enviar Código"
                     onPress={send}
                     type="PRIMARY"
-                    size={350} />
+                     />
             </View>
         </ScrollView>
     )

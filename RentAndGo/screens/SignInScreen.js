@@ -25,7 +25,7 @@ const SignInScreen = () => {
     }
 
     const Google = () => {
-        console.warn("Registrate con Google")
+        navigation.navigate('Google');
     }
 
     const ContraVisibility = () => {
@@ -73,11 +73,13 @@ const SignInScreen = () => {
 
                 <Button
                     text="Google"
+                    type="TWO"
                     onPress={Google}
                     bgcolor="#e3e3e3"
-                    fgcolor="#363636"
+                    fgcolor="#4285F4"
                     icononame="google"
-                    size={150} />
+                    iconColor="#4285F4"
+                    size={100} />
 
             </View>
         </ScrollView>
@@ -90,7 +92,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start', //la sube
         padding: 20,
         height: '100%',
-        marginTop: 200,
+        marginTop: 100,
     },
     logo: {
         width: 300,

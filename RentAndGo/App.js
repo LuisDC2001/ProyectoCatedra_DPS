@@ -13,6 +13,7 @@ import FilterScreen from "./screens/FilterScreen";
 import VerificationScreen from "./screens/VerificationScreen";
 import NewPassScreen from "./screens/NewPassScreen";
 import PassChangedScreen from './screens/PassChangedScreen'
+import GoogleScreen from "./screens/GoogleScreen";
 import { StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AppProvider } from "./AppContext";
@@ -118,6 +119,11 @@ const App = () => {
           <Stack.Screen 
             name="Filter" 
             component={FilterScreen} 
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen 
+            name="Google" 
+            component={GoogleScreen} 
             options={{ headerShown: false }}
           />
 
