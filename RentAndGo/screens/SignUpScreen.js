@@ -96,9 +96,6 @@ const Login = () => {
                     text=" ¿Ya tienes una cuenta? Ingresar"
                     onPress={SingInPress} type="TERTIARY" />
 
-
-
-
                 </View>
         </ScrollView>
     )

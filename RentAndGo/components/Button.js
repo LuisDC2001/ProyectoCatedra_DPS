@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Button = ({ onPress, text, type, bgcolor, fgcolor, icononame,size}) => {
+const Button = ({ onPress, text, type, bgcolor, fgcolor, icononame,size,iconColor}) => {
     return (
         <View>
             <TouchableOpacity
@@ -12,7 +12,7 @@ const Button = ({ onPress, text, type, bgcolor, fgcolor, icononame,size}) => {
                 bgcolor ? { backgroundColor: bgcolor } : {},
                 size ? {width: size} : {}]}>
                 {icononame ? (
-                    <Icon name={icononame} style={styles.icon} />
+                    <Icon name={icononame} color={iconColor} style={styles.icon} />
                 ) : null}
                 <Text
                     style={[styles.text,
@@ -46,6 +46,13 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 0.1
     },
+    container_TWO: {
+        flexDirection: 'row',
+         alignItems: 'center',
+    },
+    text_TWO:{
+        marginLeft:10
+     }
 
 })
 export default Button;
