@@ -1,11 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import SplashScreen from "./screens/SplashScreen";
 //import Icon from "react-native-vector-icons/FontAwesome";
-import { AppProvider } from "./AppContext";
+//import { AppProvider } from "./AppContext";
 
 
 const Stack = createStackNavigator();
@@ -13,7 +12,7 @@ const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <AppProvider>
+    //<AppProvider>
       <NavigationContainer>
         {/* Place the ExpoStatusBar component here */}
         <StatusBar style="auto" />
@@ -27,7 +26,7 @@ const App = () => {
 
         </Stack.Navigator>
       </NavigationContainer>
-    </AppProvider>
+   // </AppProvider>
   );
 };
 
