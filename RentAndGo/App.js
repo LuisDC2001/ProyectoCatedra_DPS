@@ -6,7 +6,7 @@ import SplashScreen from "./screens/SplashScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import HomeScreen from "./screens/HomeScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
-import LogInScreen from "./screens/SignInScreen";
+import SignInScreen from "./screens/SignInScreen";
 import ReservationsScreen from "./screens/ReservationsScreen";
 import ForgotPassScreen from "./screens/ForgotPassScreen";
 import AccountScreen from "./screens/AccountScreen";
