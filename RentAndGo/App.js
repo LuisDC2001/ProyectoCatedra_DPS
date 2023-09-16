@@ -3,8 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SplashScreen from "./screens/SplashScreen";
+import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import HomeScreen from "./screens/HomeScreen";
+import DetailsScreen from "./screens/DetailsScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
 import ReservationsScreen from "./screens/ReservationsScreen";
 import ForgotPassScreen from "./screens/ForgotPassScreen";
@@ -16,7 +18,7 @@ import PassChangedScreen from './screens/PassChangedScreen'
 import { StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AppProvider } from "./AppContext";
-import SignInScreen from "./screens/SignInScreen";
+
 
 
 const Stack = createStackNavigator();
@@ -115,11 +117,25 @@ const App = () => {
             component={HomeTab}
             options={{ headerShown: false }}
           />
+
           <Stack.Screen 
             name="Filter" 
             component={FilterScreen} 
             options={{ headerShown: false }}
           />
+<<<<<<< Updated upstream
+=======
+          <Stack.Screen 
+            name="Details" 
+            component={DetailsScreen} 
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen 
+            name="Google" 
+            component={GoogleScreen} 
+            options={{ headerShown: false }}
+          />
+>>>>>>> Stashed changes
 
         </Stack.Navigator>
       </NavigationContainer>

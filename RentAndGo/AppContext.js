@@ -13,7 +13,6 @@ export const AppProvider = ({ children }) => {
       setFavoriteVehicles(updatedFavorites);
     } else {
       setFavoriteVehicles([...favoriteVehicles, vehicleId]);
-      console.warn("Agregado a favoritos");
     }
     console.log("favoriteVehicles:", favoriteVehicles);
   };
