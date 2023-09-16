@@ -64,7 +64,7 @@ const NewPass = () => {
                     text="Cambiar Contraseña"
                     onPress={change}
                     type="PRIMARY"
-                    size={350} />
+                     />
             </View>
         </ScrollView>
     )

@@ -16,7 +16,7 @@ const PassChanged = () => {
         // Iniciar la animación de la animación Lottie
         lottieAnim.current.play();
 
-        // Animación de entrada del texto (fade in)
+       
     })
 
    
@@ -44,7 +44,7 @@ const PassChanged = () => {
                     text="Iniciar Sesión"
                     onPress={SignIn}
                     type="PRIMARY"
-                    size={350} />
+                     />
             </View>
         </ScrollView>
     )
@@ -54,7 +54,7 @@ const PassChanged = () => {
 const styles = StyleSheet.create({
     root: {
         alignItems: 'left',
-        justifyContent: 'flex-start', //la sube
+        justifyContent: 'flex-start', 
         padding: 20,
         height: '100%',
         marginTop: 30,
