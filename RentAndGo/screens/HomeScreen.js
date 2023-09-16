@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  TouchableWithoutFeedback,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Asegúrate de importar FontAwesome o la fuente de iconos que desees
 import Carros from "../Carros";
@@ -35,6 +36,11 @@ const HomeScreen = () => {
 
   const handleFilterButtonPress = () => {
     navigation.navigate('Filter'); // Asegúrate de navegar a la pantalla 'Filter'
+  };
+
+  const handleVehiclePress = (vehicleId) => {
+    // Realiza la navegación a la pantalla "Details" aquí
+    navigation.navigate('Details', { vehicleId }); // de pasar el identificador del vehículo
   };
   
   return (
@@ -70,6 +76,10 @@ const HomeScreen = () => {
       {/* ScrollView que contiene todos los vehicle containers */}
       <ScrollView>
         {filteredVehicles.map((vehicle) => (
+          <TouchableWithoutFeedback
+          key={vehicle.id}
+          onPress={() => handleVehiclePress(vehicle.id)}
+        >
           <View key={vehicle.id} style={styles.vehicleContainer}>
             <View style={styles.infoRow}>
               <Text>
@@ -96,6 +106,7 @@ const HomeScreen = () => {
               resizeMode="cover"
             />
           </View>
+          </TouchableWithoutFeedback>
         ))}
       </ScrollView>
     </View>
