@@ -59,11 +59,11 @@ const styles = StyleSheet.create({
   textContainer: {
     alignItems: 'center',
     position: 'absolute',
-    bottom: 200, // Ajusta el valor según tus necesidades para la distancia vertical
+    bottom: 200, 
   },
   text: {
     fontSize: 32,
-    fontFamily: 'Helvetica Neue',
+    fontFamily: 'Arial',
     fontWeight: 'bold',
     color: 'black',
   },

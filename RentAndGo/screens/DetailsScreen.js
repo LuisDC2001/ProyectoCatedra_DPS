@@ -3,11 +3,10 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import Carros from "../Carros";
 
 const Details = ({ route }) => {
-  // Obtén el identificador del vehículo de los parámetros de navegación
+  // Obteniendo el identificador del vehículo de los parámetros de navegación
   const { vehicleId } = route.params;
 
   // Simula obtener los detalles del vehículo basados en el vehicleId
-  // Puedes reemplazar esta lógica con tu propia lógica de obtención de datos
   const vehicleDetails = obtenerDetallesDelVehiculoPorId(vehicleId);
 
   return (
@@ -50,7 +49,6 @@ const Details = ({ route }) => {
           <Text style={styles.title}>Tipo de gasolina: </Text>
           <Text style={styles.detalle}>{vehicleDetails.fuel}</Text>
         </Text>
-        {/* Agrega más detalles del vehículo aquí */}
       </View>
 
       <View style={styles.leftContainer}>
@@ -76,7 +74,6 @@ const Details = ({ route }) => {
 // Función para obtener los detalles del vehículo por su identificador
 const obtenerDetallesDelVehiculoPorId = (vehicleId) => {
   // Simula la obtención de datos de algún lugar (por ejemplo, una base de datos)
-  // Reemplaza esto con tu propia lógica de obtención de datos
   const vehicleDetails = Carros.find((vehicle) => vehicle.id === vehicleId);
   return vehicleDetails || {}; // Retorna un objeto vacío si no se encuentra el vehículo
 };
@@ -165,7 +162,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end', // Alinea el botón a la derecha
     bottom: 100,
   },
-  // Agrega más estilos según tus necesidades
 });
 
 export default Details;
