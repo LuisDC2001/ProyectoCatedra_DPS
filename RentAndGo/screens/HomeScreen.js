@@ -9,7 +9,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome"; // Asegúrate de importar FontAwesome o la fuente de iconos que desees
+import Icon from "react-native-vector-icons/FontAwesome"; 
 import Carros from "../Carros";
 import { useAppContext } from '../AppContext';
 import { useNavigation } from '@react-navigation/native';
@@ -26,7 +26,7 @@ const HomeScreen = () => {
   );
 
   const handleSearch = () => {
-    // Aquí colocas la lógica de búsqueda
+    // lógica de búsqueda
     const filteredVehicles = Carros.filter((vehicle) =>
     vehicle.brand.toLowerCase().includes(searchText.toLowerCase()) ||
     vehicle.model.toLowerCase().includes(searchText.toLowerCase())
@@ -35,12 +35,12 @@ const HomeScreen = () => {
   };
 
   const handleFilterButtonPress = () => {
-    navigation.navigate('Filter'); // Asegúrate de navegar a la pantalla 'Filter'
+    navigation.navigate('Filter'); // navegar a la pantalla 'Filter'
   };
 
   const handleVehiclePress = (vehicleId) => {
-    // Realiza la navegación a la pantalla "Details" aquí
-    navigation.navigate('Details', { vehicleId }); // de pasar el identificador del vehículo
+    // navegación a la pantalla "Details" 
+    navigation.navigate('Details', { vehicleId }); // pasar el identificador del vehículo
   };
   
   return (

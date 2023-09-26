@@ -45,8 +45,7 @@ const HomeTab = () => {
 
             return <Icon name={iconName} size={size} color={color} />;
           },
-        })}
-        tabBarOptions={{
+
           activeTintColor: "blue", // Color del ícono activo
           inactiveTintColor: "gray", // Color del ícono inactivo
           style: {
@@ -55,7 +54,8 @@ const HomeTab = () => {
           labelStyle: {
             fontSize: 12, // Tamaño del nombre del botón
           },
-        }}
+        })}
+      
       >
         <Tab.Screen
           name="Inicio"
@@ -74,7 +74,6 @@ const App = () => {
   return (
     <AppProvider>
       <NavigationContainer>
-        {/* Place the ExpoStatusBar component here */}
         <StatusBar style="auto" />
 
         <Stack.Navigator initialRouteName="SplashScreen">

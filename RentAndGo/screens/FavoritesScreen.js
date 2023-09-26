@@ -20,8 +20,8 @@ const FavoritesScreen = () => {
   const favoriteCars = Carros.filter((vehicle) => favoriteVehicles.includes(vehicle.id));
 
   const handleVehiclePress = (vehicleId) => {
-    // Realiza la navegación a la pantalla "Details" aquí
-    navigation.navigate('Details', { vehicleId }); // de pasar el identificador del vehículo
+    // navegación a la pantalla "Details" aquí
+    navigation.navigate('Details', { vehicleId }); // pasar el identificador del vehículo
   };
 
   const navigation = useNavigation();
@@ -41,7 +41,6 @@ const FavoritesScreen = () => {
                 <Text style={styles.infoLabelBold}>{vehicle.brand}</Text>
                 <Text style={{ fontSize: 20 }}> {vehicle.model}</Text>
               </Text>
-              {/* Agrega aquí el código del corazón para manejar favoritos si es necesario */}
             </View>
             <View style={styles.infoRow}>
               <Text>
