@@ -49,7 +49,7 @@ CREATE TABLE TipoVehiculo(
 
 CREATE TABLE Vehiculo(
     id INT NOT NULL AUTO_INCREMENT,
-    año INT NOT NULL,
+    year INT NOT NULL,
     color VARCHAR(100) NULL,
     placa VARCHAR(10) NOT NULL,
     imagen VARCHAR(250) NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE Rol(
 CREATE TABLE Usuario(
     id INT NOT NULL AUTO_INCREMENT,
     correoElectronico VARCHAR(100) NOT NULL,
-    contraseña VARCHAR(256) NOT NULL,
+    contrasena VARCHAR(256) NOT NULL,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
     fechaNacimiento DATE NOT NULL,
@@ -125,7 +125,7 @@ CREATE TABLE Usuario_Reserva(
     fechaReserva DATETIME NOT NULL,
     fechaFin DATETIME NOT NULL,
     favorito BOOLEAN NOT NULL DEFAULT FALSE,
-    reseña TEXT NULL,
+    resena TEXT NULL,
     idEstado INT NOT NULL,
     idUsuario INT NOT NULL,
     idReserva INT NOT NULL,

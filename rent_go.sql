@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 17-09-2023 a las 19:29:24
+-- Tiempo de generación: 01-10-2023 a las 04:36:22
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,7 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `rent_go`
 --
-
 DROP DATABASE IF EXISTS `rent_go`;
 CREATE DATABASE IF NOT EXISTS `rent_go` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
 USE `rent_go`;
@@ -31,10 +30,11 @@ USE `rent_go`;
 -- Estructura de tabla para la tabla `estado`
 --
 
-CREATE TABLE `estado` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `estado` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -43,10 +43,11 @@ CREATE TABLE `estado` (
 -- Estructura de tabla para la tabla `marca`
 --
 
-CREATE TABLE `marca` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `marca` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -55,11 +56,13 @@ CREATE TABLE `marca` (
 -- Estructura de tabla para la tabla `modelo`
 --
 
-CREATE TABLE `modelo` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `modelo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `idMarca` int(11) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `FK_Marca_Modelo` (`idMarca`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -68,11 +71,19 @@ CREATE TABLE `modelo` (
 -- Estructura de tabla para la tabla `nacionalidad`
 --
 
-CREATE TABLE `nacionalidad` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `nacionalidad` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `nacionalidad`
+--
+
+INSERT INTO `nacionalidad` (`id`, `nombre`, `fechaFila`) VALUES
+(1, 'Salvadoreño', '2023-10-01 02:34:31');
 
 -- --------------------------------------------------------
 
@@ -80,8 +91,8 @@ CREATE TABLE `nacionalidad` (
 -- Estructura de tabla para la tabla `propietario`
 --
 
-CREATE TABLE `propietario` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `propietario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
   `apellido` varchar(100) DEFAULT NULL,
   `razonSocial` varchar(250) DEFAULT NULL,
@@ -90,7 +101,9 @@ CREATE TABLE `propietario` (
   `telefono` int(11) NOT NULL,
   `fechaNacimiento` date NOT NULL,
   `idTipoPropietario` int(11) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `FK_TipoPropietario_Propietario` (`idTipoPropietario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -99,8 +112,8 @@ CREATE TABLE `propietario` (
 -- Estructura de tabla para la tabla `reserva`
 --
 
-CREATE TABLE `reserva` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `reserva` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cantidadDias` int(11) NOT NULL,
   `precioDia` decimal(6,2) NOT NULL,
   `precioDiaExtra` decimal(6,2) NOT NULL,
@@ -111,7 +124,9 @@ CREATE TABLE `reserva` (
   `lugarDevolucion` text NOT NULL,
   `disponible` tinyint(1) NOT NULL DEFAULT 1,
   `idVehiculo` int(11) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `FK_Vehiculo_Reserva` (`idVehiculo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -120,11 +135,20 @@ CREATE TABLE `reserva` (
 -- Estructura de tabla para la tabla `rol`
 --
 
-CREATE TABLE `rol` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `rol` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `rol`
+--
+
+INSERT INTO `rol` (`id`, `nombre`, `fechaFila`) VALUES
+(1, 'Cliente', '2023-10-01 02:34:31'),
+(2, 'Administrador', '2023-10-01 02:34:31');
 
 -- --------------------------------------------------------
 
@@ -132,10 +156,11 @@ CREATE TABLE `rol` (
 -- Estructura de tabla para la tabla `tipopropietario`
 --
 
-CREATE TABLE `tipopropietario` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `tipopropietario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -144,10 +169,11 @@ CREATE TABLE `tipopropietario` (
 -- Estructura de tabla para la tabla `tipovehiculo`
 --
 
-CREATE TABLE `tipovehiculo` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `tipovehiculo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -156,10 +182,10 @@ CREATE TABLE `tipovehiculo` (
 -- Estructura de tabla para la tabla `usuario`
 --
 
-CREATE TABLE `usuario` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `usuario` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `correoElectronico` varchar(100) NOT NULL,
-  `contraseña` varchar(256) NOT NULL,
+  `contrasena` varchar(256) NOT NULL,
   `nombre` varchar(100) NOT NULL,
   `apellido` varchar(100) NOT NULL,
   `fechaNacimiento` date NOT NULL,
@@ -167,7 +193,11 @@ CREATE TABLE `usuario` (
   `imagenPerfil` varchar(250) DEFAULT NULL,
   `idNacionalidad` int(11) NOT NULL,
   `idRol` int(11) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `U_CorreoElectronico_Usuario` (`correoElectronico`),
+  KEY `FK_Nacionalidad_Usuario` (`idNacionalidad`),
+  KEY `FK_Rol_Usuario` (`idRol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -176,16 +206,20 @@ CREATE TABLE `usuario` (
 -- Estructura de tabla para la tabla `usuario_reserva`
 --
 
-CREATE TABLE `usuario_reserva` (
-  `id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `usuario_reserva` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `fechaReserva` datetime NOT NULL,
   `fechaFin` datetime NOT NULL,
   `favorito` tinyint(1) NOT NULL DEFAULT 0,
-  `reseña` text DEFAULT NULL,
+  `resena` text DEFAULT NULL,
   `idEstado` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
   `idReserva` int(11) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `FK_Estado_Usuario_Reserva` (`idEstado`),
+  KEY `FK_Usuario_Usuario_Reserva` (`idUsuario`),
+  KEY `FK_Reserva_Usuario_Reserva` (`idReserva`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
@@ -194,182 +228,22 @@ CREATE TABLE `usuario_reserva` (
 -- Estructura de tabla para la tabla `vehiculo`
 --
 
-CREATE TABLE `vehiculo` (
-  `id` int(11) NOT NULL,
-  `año` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `vehiculo` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `year` int(11) NOT NULL,
   `color` varchar(100) DEFAULT NULL,
   `placa` varchar(10) NOT NULL,
   `imagen` varchar(250) NOT NULL,
   `idModelo` int(11) NOT NULL,
   `idTipoVehiculo` int(11) NOT NULL,
   `idPropietario` int(11) NOT NULL,
-  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `U_Placa_Vehiculo` (`placa`),
+  KEY `FK_Modelo_Vehiculo` (`idModelo`),
+  KEY `FK_TipoVehiculo_Vehiculo` (`idTipoVehiculo`),
+  KEY `FK_Propietario_Vehiculo` (`idPropietario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `estado`
---
-ALTER TABLE `estado`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `marca`
---
-ALTER TABLE `marca`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `modelo`
---
-ALTER TABLE `modelo`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_Marca_Modelo` (`idMarca`);
-
---
--- Indices de la tabla `nacionalidad`
---
-ALTER TABLE `nacionalidad`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `propietario`
---
-ALTER TABLE `propietario`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_TipoPropietario_Propietario` (`idTipoPropietario`);
-
---
--- Indices de la tabla `reserva`
---
-ALTER TABLE `reserva`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_Vehiculo_Reserva` (`idVehiculo`);
-
---
--- Indices de la tabla `rol`
---
-ALTER TABLE `rol`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tipopropietario`
---
-ALTER TABLE `tipopropietario`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tipovehiculo`
---
-ALTER TABLE `tipovehiculo`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `U_CorreoElectronico_Usuario` (`correoElectronico`),
-  ADD KEY `FK_Nacionalidad_Usuario` (`idNacionalidad`),
-  ADD KEY `FK_Rol_Usuario` (`idRol`);
-
---
--- Indices de la tabla `usuario_reserva`
---
-ALTER TABLE `usuario_reserva`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_Estado_Usuario_Reserva` (`idEstado`),
-  ADD KEY `FK_Usuario_Usuario_Reserva` (`idUsuario`),
-  ADD KEY `FK_Reserva_Usuario_Reserva` (`idReserva`);
-
---
--- Indices de la tabla `vehiculo`
---
-ALTER TABLE `vehiculo`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `U_Placa_Vehiculo` (`placa`),
-  ADD KEY `FK_Modelo_Vehiculo` (`idModelo`),
-  ADD KEY `FK_TipoVehiculo_Vehiculo` (`idTipoVehiculo`),
-  ADD KEY `FK_Propietario_Vehiculo` (`idPropietario`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `estado`
---
-ALTER TABLE `estado`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `marca`
---
-ALTER TABLE `marca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `modelo`
---
-ALTER TABLE `modelo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `nacionalidad`
---
-ALTER TABLE `nacionalidad`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `propietario`
---
-ALTER TABLE `propietario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `reserva`
---
-ALTER TABLE `reserva`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `rol`
---
-ALTER TABLE `rol`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `tipopropietario`
---
-ALTER TABLE `tipopropietario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `tipovehiculo`
---
-ALTER TABLE `tipovehiculo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `usuario_reserva`
---
-ALTER TABLE `usuario_reserva`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `vehiculo`
---
-ALTER TABLE `vehiculo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
