@@ -46,8 +46,7 @@
         //Obtener la información
         $data = json_decode(file_get_contents("php://input"), true);
         if (!empty($data)) {
-            if (!empty(insertUser($data))) 
-            {
+            if (!empty(insertUser($data))) {
                 echo showErrors(201, 'CREATED');
             } 
         } else {
