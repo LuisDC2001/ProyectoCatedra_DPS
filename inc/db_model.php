@@ -51,7 +51,7 @@
             } catch (Exception $ex) {
                 $this->dbh->rollback();
                 //echo "No se pudo ejecutar la consulta SQL: " . $ex->getMessage();
-                echo showErrors(500, "INTERNAL SERVER ERROR", $ex->getMessage());
+                echo showErrors(400, "BAD REQUEST", $ex->getMessage());
             }
             $this->closeConnection();
             return $affectedRows;
@@ -71,7 +71,7 @@
             } catch (Exception $ex) {
                 $this->closeConnection();
                 //echo "No se pudo ejecutar la consulta SQL: " . $ex->getMessage();
-                echo showErrors(500, "INTERNAL SERVER ERROR", $ex->getMessage());
+                echo showErrors(400, "BAD REQUEST", $ex->getMessage());
                 return null;
             }
         }
