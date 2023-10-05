@@ -33,7 +33,8 @@
             INSERT INTO usuario(correoElectronico, contrasena, nombre, apellido, fechaNacimiento, telefono, imagenPerfil, idNacionalidad, idRol) 
             VALUES (:correoElectronico, :contrasena, :nombre, :apellido, :fechaNacimiento, :telefono, :imagenPerfil, :idNacionalidad, :idRol)";
         $value = (validations($dataUser)) ? true : false ;
-        $dataUser['contrasena'] = password_hash($dataUser['contrasena'], PASSWORD_DEFAULT);
+        $dataUser['contrasena'] = hash('sha256', $dataUser['contrasena']); //Contraseña cifrada
+        $dataUser['fechaNacimiento'] = date_format(date_create($dataUser['fechaNacimiento']), 'Y-m-d'); //Formato de fecha de nacimiento
         $params[0] = (array) emptyStringToNull($dataUser);
         if ($value){
             return $dbModel->setTransactionQuery($query, $params);
