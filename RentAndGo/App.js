@@ -3,8 +3,10 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SplashScreen from "./screens/SplashScreen";
+import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import HomeScreen from "./screens/HomeScreen";
+import DetailsScreen from "./screens/DetailsScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
 import ReservationsScreen from "./screens/ReservationsScreen";
 import ForgotPassScreen from "./screens/ForgotPassScreen";
@@ -17,7 +19,7 @@ import GoogleScreen from "./screens/GoogleScreen";
 import { StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AppProvider } from "./AppContext";
-import SignInScreen from "./screens/SignInScreen";
+
 
 
 const Stack = createStackNavigator();
@@ -43,8 +45,7 @@ const HomeTab = () => {
 
             return <Icon name={iconName} size={size} color={color} />;
           },
-        })}
-        tabBarOptions={{
+
           activeTintColor: "blue", // Color del ícono activo
           inactiveTintColor: "gray", // Color del ícono inactivo
           style: {
@@ -53,7 +54,8 @@ const HomeTab = () => {
           labelStyle: {
             fontSize: 12, // Tamaño del nombre del botón
           },
-        }}
+        })}
+      
       >
         <Tab.Screen
           name="Inicio"
@@ -72,7 +74,6 @@ const App = () => {
   return (
     <AppProvider>
       <NavigationContainer>
-        {/* Place the ExpoStatusBar component here */}
         <StatusBar style="auto" />
 
         <Stack.Navigator initialRouteName="SplashScreen">
@@ -116,14 +117,21 @@ const App = () => {
             component={HomeTab}
             options={{ headerShown: false }}
           />
+
           <Stack.Screen 
-            name="Filter" 
-            component={FilterScreen} 
+            name="Details" 
+            component={DetailsScreen} 
             options={{ headerShown: false }}
           />
            <Stack.Screen 
             name="Google" 
             component={GoogleScreen} 
+            options={{ headerShown: false }}
+          />
+
+          <Stack.Screen 
+            name="Filter" 
+            component={FilterScreen} 
             options={{ headerShown: false }}
           />
 

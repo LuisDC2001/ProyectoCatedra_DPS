@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  TouchableWithoutFeedback,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome"; // Asegúrate de importar FontAwesome o la fuente de iconos que desees
+import Icon from "react-native-vector-icons/FontAwesome"; 
 import Carros from "../Carros";
 import { useAppContext } from '../AppContext';
 import { useNavigation } from '@react-navigation/native';
@@ -25,7 +26,7 @@ const HomeScreen = () => {
   );
 
   const handleSearch = () => {
-    // Aquí colocas la lógica de búsqueda
+    // lógica de búsqueda
     const filteredVehicles = Carros.filter((vehicle) =>
     vehicle.brand.toLowerCase().includes(searchText.toLowerCase()) ||
     vehicle.model.toLowerCase().includes(searchText.toLowerCase())
@@ -34,7 +35,12 @@ const HomeScreen = () => {
   };
 
   const handleFilterButtonPress = () => {
-    navigation.navigate('Filter'); // Asegúrate de navegar a la pantalla 'Filter'
+    navigation.navigate('Filter'); // navegar a la pantalla 'Filter'
+  };
+
+  const handleVehiclePress = (vehicleId) => {
+    // navegación a la pantalla "Details" 
+    navigation.navigate('Details', { vehicleId }); // pasar el identificador del vehículo
   };
   
   return (
@@ -70,6 +76,10 @@ const HomeScreen = () => {
       {/* ScrollView que contiene todos los vehicle containers */}
       <ScrollView>
         {filteredVehicles.map((vehicle) => (
+          <TouchableWithoutFeedback
+          key={vehicle.id}
+          onPress={() => handleVehiclePress(vehicle.id)}
+        >
           <View key={vehicle.id} style={styles.vehicleContainer}>
             <View style={styles.infoRow}>
               <Text>
@@ -96,6 +106,7 @@ const HomeScreen = () => {
               resizeMode="cover"
             />
           </View>
+          </TouchableWithoutFeedback>
         ))}
       </ScrollView>
     </View>

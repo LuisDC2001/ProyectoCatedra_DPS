@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 32,
-    fontFamily: 'Helvetica Neue',
+    fontFamily: 'Arial',
     fontWeight: 'bold',
     color: 'black',
   },
