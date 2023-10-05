@@ -1,8 +1,8 @@
 <?php
     // Archivos requeridos
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\var_global.php');
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\validations.php');
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\db_model.php');
+    require_once('C:\wamp64\htdocs\ProyectoCatedra_DPS\inc\var_global.php');
+    require_once('C:\wamp64\htdocs\ProyectoCatedra_DPS\inc\validations.php');
+    require_once('C:\wamp64\htdocs\ProyectoCatedra_DPS\inc\db_model.php');
 
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
