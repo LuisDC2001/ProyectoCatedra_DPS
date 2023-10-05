@@ -21,3 +21,11 @@
     composer require phpmailer/phpmailer
     ```
 5. Ahora se debería tener PHPMailer instalado y listo para ser usado en el proyecto.
+
+## Agregar ALERT TABLE
+
+- Se debe agregar el siguiente script en la base de datos para el funcionamiento de las APIs
+
+ALTER TABLE Usuario
+ADD verification_code VARCHAR(100) NULL;
+
