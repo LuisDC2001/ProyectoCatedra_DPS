@@ -8,13 +8,13 @@ import {
   Image,
   StyleSheet,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome"; // Asegúrate de importar FontAwesome o la fuente de iconos que desees
+import Icon from "react-native-vector-icons/FontAwesome"; 
 
 const ReservationsScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Esta es la página de reservaciones</Text>
-      {/* Add any other content you want for the FavoritesScreen */}
+      
     </View>
   );
 };

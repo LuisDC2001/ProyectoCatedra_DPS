@@ -161,9 +161,9 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   fechaButton: {
-    padding: 10, // Aumenta el espacio alrededor del botón
+    padding: 10, 
     backgroundColor: "white",
-    borderRadius: 8, // Agrega bordes redondeados al botón
+    borderRadius: 8, 
     marginTop: 15,
     marginRight: 15,
     width: 370,

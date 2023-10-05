@@ -74,7 +74,7 @@ const NewPass = () => {
 const styles = StyleSheet.create({
     root: {
         alignItems: 'left',
-        justifyContent: 'flex-start', //la sube
+        justifyContent: 'flex-start', 
         padding: 20,
         height: '100%',
         marginTop: 30,
