@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Picker } from "@react-native-picker/picker";
-import axios from 'axios';
+import axios from "axios";
 const Login = () => {
   {
     /*capturando valores*/
@@ -32,15 +32,33 @@ const Login = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isContraVisible, setContraVisible] = useState(false);
 
-
   const navigation = useNavigation();
 
   {
     /*eventos botones */
   }
-  const RegistroPress = () => {
-    navigation.navigate("SignIn");
-  };
+  const RegistroPress = async () => {
+    await fetch('http://192.168.1.14:80/ProyectoCatedra_DPS/api/user/register.php',{
+            method:'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({
+              "correoElectronico": correo,
+              "contrasena": contra,
+              "nombre": nombre,
+              "apellido": apellido,
+              "fechaNacimiento": fecha,
+              "telefono": numero,
+              "imagenPerfil": imagenPerfil,
+              "idNacionalidad": nacionalidadseleccinada,
+              "idRol": rol,
+            }) 
+        })
+
+        navigation.navigate("SignIn");
+};
 
   const SingInPress = () => {
     navigation.navigate("SignIn");
@@ -58,22 +76,31 @@ const Login = () => {
   };
 
   const confirmarFecha = (date) => {
-    const opciones = { year: "numeric", month: "long", day: "2-digit" };
-    guardarFecha(date.toLocaleDateString("es-ES", opciones));
+    const año = date.getFullYear();
+    const mes = date.getMonth() + 1;
+    const dia = date.getDate();
+  
+    // Formatea la fecha en "yyyy-MM-dd"
+    const fechaFormateada = `${año}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
+    guardarFecha(fechaFormateada);
     hideDatePicker();
   };
+  
+  
 
   useEffect(() => {
     // URL de tu API que devuelve la lista de países
-    const apiUrl = 'http://192.168.0.11:80/ProyectoCatedra_DPS/api/user/all.php';
+    const apiUrl =
+      "http://192.168.1.14:80/ProyectoCatedra_DPS/api/nationality/all.php";
 
-    axios.get(apiUrl)
-      .then(response => {
+    axios
+      .get(apiUrl)
+      .then((response) => {
         // Almacena la lista de países en el estado
         setNacionalidad(response.data);
       })
-      .catch(error => {
-        console.error('Error al obtener la lista de países:', error);
+      .catch((error) => {
+        console.error("Error al obtener la lista de países:", error);
       });
   }, []);
 
@@ -128,6 +155,8 @@ const Login = () => {
           headerTextIOS="Elige la fecha"
           cancelTextIOS="Cancelar"
           confirmTextIOS="Confirmar"
+          display="spinner" // Cambia a "spinner" para evitar el formato "3 de octubre de 2023"
+          displayFormat="YYYY-MM-DD" // Formato deseado: "yy-MM-dd"
         />
 
         <Text style={styles.texto3}>Nacionalidad</Text>
@@ -136,8 +165,12 @@ const Login = () => {
           onValueChange={(itemValue) => setNacionalidadseleccionada(itemValue)}
         >
           <Picker.Item label="Selecciona un país" value="" />
-          {nacionalidad.map(country => (
-            <Picker.Item key={country.id} label={country.nombre} value={country.id} />
+          {nacionalidad.map((country) => (
+            <Picker.Item
+              key={country.id}
+              label={country.nombre}
+              value={country.id}
+            />
           ))}
         </Picker>
 
