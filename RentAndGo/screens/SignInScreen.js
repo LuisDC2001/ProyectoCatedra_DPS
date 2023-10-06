@@ -13,7 +13,7 @@ const SignInScreen = () => {
     const navigation = useNavigation();
 
     const SignInPress = async() => {
-        await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS/api/user/login.php',{
+        await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/login.php',{
             method:'POST',
             headers:{
                 'Accept':'application/json',

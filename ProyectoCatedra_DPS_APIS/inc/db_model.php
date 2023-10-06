@@ -1,7 +1,7 @@
 <?php
     
     //Archivos requeridos
-    require_once('C:\wamp64\www\ProyectoCatedra_DPS\inc\validations.php');
+    require_once('C:\wamp64\www\ProyectoCatedra_DPS_APIS\inc\validations.php');
 
     class Model
     {

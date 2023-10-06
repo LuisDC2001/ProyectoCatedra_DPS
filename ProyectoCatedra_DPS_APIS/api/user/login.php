@@ -1,7 +1,7 @@
 <?php
     //Archivos requeridos
-    require_once('C:\wamp64\www\ProyectoCatedra_DPS\inc\validations.php'); //Cambiar por direccion local
-    require_once('C:\wamp64\www\ProyectoCatedra_DPS\inc\db_model.php'); //cambiar por direccion local
+    require_once('C:\wamp64\www\ProyectoCatedra_DPS_APIS\inc\validations.php'); //Cambiar por direccion local
+    require_once('C:\wamp64\www\ProyectoCatedra_DPS_APIS\inc\db_model.php'); //cambiar por direccion local
     
     //require_once('./inc/db_model.php');
     //require_once('./inc/validations.php.php');
