@@ -7,13 +7,14 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CustomInput from "../components/Input";
 import Button from "../components/Button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Picker } from "@react-native-picker/picker";
+import axios from 'axios';
 const Login = () => {
   {
     /*capturando valores*/
@@ -24,11 +25,13 @@ const Login = () => {
   const [apellido, setapellido] = useState("");
   const [numero, setnumero] = useState("");
   const [fecha, guardarFecha] = useState("");
-  const [nacionalidad, setNacionalidad] = useState("");
+  const [nacionalidad, setNacionalidad] = useState([]);
+  const [nacionalidadseleccinada, setNacionalidadseleccionada] = useState("");
   const [imagenPerfil, setimagenPerfil] = useState("");
   const [rol, setRol] = useState("1");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [isContraVisible, setContraVisible] = useState(false);
+
 
   const navigation = useNavigation();
 
@@ -59,6 +62,20 @@ const Login = () => {
     guardarFecha(date.toLocaleDateString("es-ES", opciones));
     hideDatePicker();
   };
+
+  useEffect(() => {
+    // URL de tu API que devuelve la lista de países
+    const apiUrl = 'http://192.168.0.11:80/ProyectoCatedra_DPS/api/user/all.php';
+
+    axios.get(apiUrl)
+      .then(response => {
+        // Almacena la lista de países en el estado
+        setNacionalidad(response.data);
+      })
+      .catch(error => {
+        console.error('Error al obtener la lista de países:', error);
+      });
+  }, []);
 
   return (
     <ScrollView>
@@ -114,15 +131,14 @@ const Login = () => {
         />
 
         <Text style={styles.texto3}>Nacionalidad</Text>
-        
         <Picker
-          selectedValue={nacionalidad}
-          onValueChange={(itemValue, itemIndex) =>
-            setNacionalidad(itemValue)
-          }
+          selectedValue={nacionalidadseleccinada}
+          onValueChange={(itemValue) => setNacionalidadseleccionada(itemValue)}
         >
-          <Picker.Item label="Gringo" value="1" />
-          <Picker.Item label="Peruano" value="2" />
+          <Picker.Item label="Selecciona un país" value="" />
+          {nacionalidad.map(country => (
+            <Picker.Item key={country.id} label={country.nombre} value={country.id} />
+          ))}
         </Picker>
 
         <Text style={styles.texto3}>Contraseña</Text>
@@ -161,9 +177,9 @@ const styles = StyleSheet.create({
     marginTop: 25,
   },
   fechaButton: {
-    padding: 10, 
+    padding: 10,
     backgroundColor: "white",
-    borderRadius: 8, 
+    borderRadius: 8,
     marginTop: 15,
     marginRight: 15,
     width: 370,
