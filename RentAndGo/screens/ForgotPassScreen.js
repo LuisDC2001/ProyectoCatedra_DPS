@@ -15,7 +15,24 @@ const ForgotPass = () => {
     
     }
 
-    const send = () => {
+    const send = async() => {
+        await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/recuperarpass.php',{
+            method:'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({"correoElectronico":correo})  
+        }).then(res=>res.json())
+        .then(resData=>{
+                alert(resData.message);
+                if(resData.usuario !== null){
+                    navigation.navigate('Verification');
+                }
+        });
+    }
+
+    const next =()=>{
         navigation.navigate('Verification');
     }
 
@@ -39,7 +56,7 @@ const ForgotPass = () => {
 
                 <Button 
                     text="Enviar Código"
-                    onPress={send}
+                    onPress={next}
                     type="PRIMARY"
                      />
             </View>
