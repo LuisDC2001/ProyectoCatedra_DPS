@@ -38,27 +38,42 @@ const Login = () => {
     /*eventos botones */
   }
   const RegistroPress = async () => {
-    await fetch('http://192.168.1.14:80/ProyectoCatedra_DPS/api/user/register.php',{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
+    try {
+        const response = await fetch('http://192.168.1.14:80/ProyectoCatedra_DPS/api/user/register.php', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              "correoElectronico": correo,
-              "contrasena": contra,
-              "nombre": nombre,
-              "apellido": apellido,
-              "fechaNacimiento": fecha,
-              "telefono": numero,
-              "imagenPerfil": imagenPerfil,
-              "idNacionalidad": nacionalidadseleccinada,
-              "idRol": rol,
-            }) 
-        })
+                "correoElectronico": correo,
+                "contrasena": contra,
+                "nombre": nombre,
+                "apellido": apellido,
+                "fechaNacimiento": fecha,
+                "telefono": numero,
+                "imagenPerfil": imagenPerfil,
+                "idNacionalidad": nacionalidadseleccinada,
+                "idRol": rol,
+            })
+        });
 
-        navigation.navigate("SignIn");
+        if (response.status === 201) {
+            // Registro exitoso
+            alert('Registro exitoso.');
+            navigation.navigate("SignIn");
+            
+        } else {
+            // Manejo de error
+            const responseData = await response.json();
+            alert(`Registro fallido: ${responseData.message}`);
+        }
+    } catch (error) {
+        // Errores de red
+        alert('Ocurrió un error al registrarse, pruebe más tarde:', error);
+    }
 };
+
 
   const SingInPress = () => {
     navigation.navigate("SignIn");
