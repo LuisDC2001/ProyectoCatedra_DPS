@@ -34,44 +34,37 @@ const Login = () => {
 
   const navigation = useNavigation();
 
+
   {
     /*eventos botones */
   }
   const RegistroPress = async () => {
-    try {
-        const response = await fetch('http://192.168.1.14:80/ProyectoCatedra_DPS/api/user/register.php', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "correoElectronico": correo,
-                "contrasena": contra,
-                "nombre": nombre,
-                "apellido": apellido,
-                "fechaNacimiento": fecha,
-                "telefono": numero,
-                "imagenPerfil": imagenPerfil,
-                "idNacionalidad": nacionalidadseleccinada,
-                "idRol": rol,
-            })
-        });
+    await fetch('http://192.168.1.14:80/ProyectoCatedra_DPS/api/user/register.php',{
+      method:'POST',
+      headers:{
+          'Accept':'application/json',
+          'Content-Type':'application/json'
+      },
+      body: JSON.stringify({"correoElectronico": correo,
+      "contrasena": contra,
+      "nombre": nombre,
+      "apellido": apellido,
+      "fechaNacimiento": fecha,
+      "telefono": numero,
+      "imagenPerfil": imagenPerfil,
+      "idNacionalidad": nacionalidadseleccinada,
+      "idRol": rol,})  
+  }).then(res=>res.json())
+  .then(resData=>{
+    if(resData.estado==="201"){
+      navigation.navigate('SignIn');
+  } 
+  else
+  {
+    alert(resData.mensajeReal);
+  }   
 
-        if (response.status === 201) {
-            // Registro exitoso
-            alert('Registro exitoso.');
-            navigation.navigate("SignIn");
-            
-        } else {
-            // Manejo de error
-            const responseData = await response.json();
-            alert(`Registro fallido: ${responseData.message}`);
-        }
-    } catch (error) {
-        // Errores de red
-        alert('Ocurrió un error al registrarse, pruebe más tarde:', error);
-    }
+  });
 };
 
 
