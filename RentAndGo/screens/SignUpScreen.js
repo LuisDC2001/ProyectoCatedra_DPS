@@ -26,7 +26,7 @@ const Login = () => {
   const [numero, setnumero] = useState("");
   const [fecha, guardarFecha] = useState("");
   const [nacionalidad, setNacionalidad] = useState([]);
-  const [nacionalidadseleccinada, setNacionalidadseleccionada] = useState("");
+  const [nacionalidadseleccionada, setNacionalidadseleccionada] = useState("");
   const [imagenPerfil, setimagenPerfil] = useState("");
   const [rol, setRol] = useState("1");
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -39,7 +39,28 @@ const Login = () => {
     /*eventos botones */
   }
   const RegistroPress = async () => {
-    await fetch('http://192.168.1.14:80/ProyectoCatedra_DPS/api/user/register.php',{
+
+    // Validación de campos
+  if (!correo || !contra || !nombre || !apellido || !fecha || !numero || !nacionalidadseleccionada) {
+    alert("Por favor, completa todos los campos.");
+    return;
+  }
+  const telefonoValido = /^[0-9]{8}$/.test(numero);
+  if (!telefonoValido) {
+    alert("Por favor, ingresa un número de teléfono válido (8 dígitos numéricos).");
+    return;
+  }
+  if(!/^[a-zA-Z]+$/.test(nombre)){
+    alert("Por favor ingrese solamente valores de texto")
+    return;
+  }
+  if(!/^[a-zA-Z]+$/.test(apellido)){
+    alert("Por favor ingrese solamente valores de texto")
+    return;
+  }
+
+
+    await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/register.php',{
       method:'POST',
       headers:{
           'Accept':'application/json',
@@ -52,7 +73,7 @@ const Login = () => {
       "fechaNacimiento": fecha,
       "telefono": numero,
       "imagenPerfil": imagenPerfil,
-      "idNacionalidad": nacionalidadseleccinada,
+      "idNacionalidad": nacionalidadseleccionada,
       "idRol": rol,})  
   }).then(res=>res.json())
   .then(resData=>{
@@ -99,7 +120,8 @@ const Login = () => {
   useEffect(() => {
     // URL de tu API que devuelve la lista de países
     const apiUrl =
-      "http://192.168.1.14:80/ProyectoCatedra_DPS/api/nationality/all.php";
+      "http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/all.php";
+     
 
     axios
       .get(apiUrl)
@@ -144,6 +166,7 @@ const Login = () => {
           setValue={setnumero}
           //teclado de numeros
           keyboardtype="phone-pad"
+         
         />
 
         <Text style={styles.texto3}>Fecha de Nacimiento</Text>
@@ -163,13 +186,13 @@ const Login = () => {
           headerTextIOS="Elige la fecha"
           cancelTextIOS="Cancelar"
           confirmTextIOS="Confirmar"
-          display="spinner" // Cambia a "spinner" para evitar el formato "3 de octubre de 2023"
-          displayFormat="YYYY-MM-DD" // Formato deseado: "yy-MM-dd"
+          display="spinner" 
+          displayFormat="YYYY-MM-DD"
         />
 
         <Text style={styles.texto3}>Nacionalidad</Text>
         <Picker
-          selectedValue={nacionalidadseleccinada}
+          selectedValue={nacionalidadseleccionada}
           onValueChange={(itemValue) => setNacionalidadseleccionada(itemValue)}
         >
           <Picker.Item label="Selecciona un país" value="" />

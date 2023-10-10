@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TextInput, StyleSheet, Image, Button, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput,StyleSheet, Image, Button, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Input = ({ value, setValue, placeholder, secureTextEntry, icononame, iconpassword, onPress, keyboardtype }) => {
