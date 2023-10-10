@@ -104,6 +104,8 @@ CREATE TABLE Usuario(
     fechaNacimiento DATE NOT NULL,
     telefono INT NOT NULL,
     imagenPerfil VARCHAR(250) NULL,
+    codigoVerificacion INT NOT NULL DEFAULT 0,
+    verificado BOOLEAN NOT NULL DEFAULT FALSE,
     idNacionalidad INT NOT NULL,
     idRol INT NOT NULL,
     fechaFila TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
