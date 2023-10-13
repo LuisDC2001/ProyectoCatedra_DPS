@@ -1,81 +1,85 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import Carros from "../Carros";
+import { useAppContext } from '../AppContext';
 
 const Details = ({ route }) => {
   // Obteniendo el identificador del vehículo de los parámetros de navegación
   const { vehicleId } = route.params;
+  
+  // Accede a los datos de la API desde el contexto
+  const { apiData } = useAppContext();
 
-  // Simula obtener los detalles del vehículo basados en el vehicleId
-  const vehicleDetails = obtenerDetallesDelVehiculoPorId(vehicleId);
+  // Busca el vehículo correspondiente en los datos de la API
+  const vehicleDetails = apiData.find((vehicle) => vehicle.vehiculo[0].id === vehicleId);
+
+  if (!vehicleDetails) {
+    // Si no se encuentra el vehículo, puedes mostrar un mensaje o manejar el caso de error según tus necesidades
+    return (
+      <View style={styles.container}>
+        <Text style={styles.brandModel}>Vehículo no encontrado</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
-      <Text
-        style={styles.brandModel}
-      >{`${vehicleDetails.brand} ${vehicleDetails.model}`}</Text>
+      <Text style={styles.brandModel}>
+        {`${vehicleDetails.vehiculo[0].marca} ${vehicleDetails.vehiculo[0].modelo}`}
+      </Text>
 
       <View style={styles.imageContainer}>
-        <Image
-          source={vehicleDetails.image}
-          style={styles.vehicleImage}
-          resizeMode="cover"
-        />
+      <Image
+                    style={{ width: "100%", height: 200 }}
+                    source={{ uri: vehicleDetails.vehiculo[0].imagen }}
+                  />
       </View>
 
       <Text style={styles.specs}>Especificaciones</Text>
       <View style={styles.detailsContainer}>
         <Text style={styles.info}>
           <Text style={styles.title}>Año: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.year}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].anio}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Transmisión: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.transmission}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].transmision}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Tipo de carro: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.type}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].tipo}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Pasajeros: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.passengers}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].pasajeros}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Motor: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.engine}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].motor}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Tipo de gasolina: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.fuel}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].gasolina}</Text>
         </Text>
       </View>
 
       <View style={styles.leftContainer}>
-    <Text style={styles.preciotext}>Precio:</Text>
-  </View>
-  <View style={styles.middleContainer}>
-    
-    <Text>
-                <Text style={{ color: "blue", fontSize: 32,  }}>${vehicleDetails.price}</Text>
-                <Text style={{ fontSize: 28 }}>/ día</Text>
-              </Text>
-  </View>
-  <View style={styles.rightContainer}>
-    <TouchableOpacity style={styles.reserveButton}>
-      <Text style={styles.buttonText}>Reservar</Text>
-    </TouchableOpacity>
-  </View>
-
+        <Text style={styles.preciotext}>Precio:</Text>
+      </View>
+      <View style={styles.middleContainer}>
+        <Text>
+          <Text style={{ color: "blue", fontSize: 32 }}>
+            ${vehicleDetails.precioDia}
+          </Text>
+          <Text style={{ fontSize: 28 }}>/ día</Text>
+        </Text>
+      </View>
+      <View style={styles.rightContainer}>
+        <TouchableOpacity style={styles.reserveButton}>
+          <Text style={styles.buttonText}>Reservar</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
-};
-
-// Función para obtener los detalles del vehículo por su identificador
-const obtenerDetallesDelVehiculoPorId = (vehicleId) => {
-  // Simula la obtención de datos de algún lugar (por ejemplo, una base de datos)
-  const vehicleDetails = Carros.find((vehicle) => vehicle.id === vehicleId);
-  return vehicleDetails || {}; // Retorna un objeto vacío si no se encuentra el vehículo
 };
 
 const styles = StyleSheet.create({

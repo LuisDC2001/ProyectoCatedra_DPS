@@ -6,59 +6,63 @@ import {
   Image,
   StyleSheet,
   TouchableWithoutFeedback,
+  ActivityIndicator,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
-import Carros from "../Carros";
-import { useAppContext } from '../AppContext';
-import { useNavigation } from '@react-navigation/native';
-
+import { useAppContext } from "../AppContext";
+import { useNavigation } from "@react-navigation/native";
 
 const FavoritesScreen = () => {
-  const { favoriteVehicles } = useAppContext();
-
-  // Filtrar los vehículos favoritos
-  const favoriteCars = Carros.filter((vehicle) => favoriteVehicles.includes(vehicle.id));
+  const { favoriteVehicles, apiData, isLoading } = useAppContext();
+  const navigation = useNavigation();
 
   const handleVehiclePress = (vehicleId) => {
-    // navegación a la pantalla "Details" aquí
-    navigation.navigate('Details', { vehicleId }); // pasar el identificador del vehículo
+    // Navegación a la pantalla "Details" aquí
+    navigation.navigate("Details", { vehicleId }); // Pasar el identificador del vehículo
   };
 
-  const navigation = useNavigation();
-  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Vehículos Favoritos</Text>
-      <ScrollView>
-        {favoriteCars.map((vehicle) => (
-          <TouchableWithoutFeedback
-          key={vehicle.id}
-          onPress={() => handleVehiclePress(vehicle.id)}
-        >
-          <View key={vehicle.id} style={styles.vehicleContainer}>
-            <View style={styles.infoRow}>
-              <Text>
-                <Text style={styles.infoLabelBold}>{vehicle.brand}</Text>
-                <Text style={{ fontSize: 20 }}> {vehicle.model}</Text>
-              </Text>
-            </View>
-            <View style={styles.infoRow}>
-              <Text>
-                <Text style={{ color: "blue", fontSize: 26 }}>
-                  ${vehicle.price}
-                </Text>
-                <Text style={{ fontSize: 20 }}>/ día</Text>
-              </Text>
-            </View>
-            <Image
-              source={vehicle.image}
-              style={styles.vehicleImage}
-              resizeMode="cover"
-            />
-          </View>
-          </TouchableWithoutFeedback>
-        ))}
-      </ScrollView>
+      {isLoading ? (
+        <ActivityIndicator size="large" color="blue" />
+      ) : (
+        <ScrollView>
+          {apiData
+            .filter((rent) => favoriteVehicles.includes(rent.vehiculo[0].id))
+            .map((rent) => (
+              <TouchableWithoutFeedback
+                key={rent.vehiculo[0].id} // Agrega una clave única
+                onPress={() => handleVehiclePress(rent.vehiculo[0].id)}
+              >
+                <View key={rent.vehiculo[0].id} style={styles.vehicleContainer}>
+                  <View style={styles.infoRow}>
+                    <Text>
+                      <Text style={styles.infoLabelBold}>
+                        {rent.vehiculo[0].marca}
+                      </Text>
+                      <Text style={{ fontSize: 20 }}>
+                        {" "}
+                        {rent.vehiculo[0].modelo}
+                      </Text>
+                    </Text>
+                  </View>
+                  <View style={styles.infoRow}>
+                    <Text>
+                      <Text style={{ color: "blue", fontSize: 26 }}>
+                        ${rent.precioDia}
+                      </Text>
+                      <Text style={{ fontSize: 20 }}>/ día</Text>
+                    </Text>
+                  </View>
+                  <Image
+                    style={{ width: "100%", height: 200 }}
+                    source={{ uri: rent.vehiculo[0].imagen }}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+            ))}
+        </ScrollView>
+      )}
     </View>
   );
 };
