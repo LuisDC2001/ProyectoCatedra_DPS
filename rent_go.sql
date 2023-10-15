@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 01-10-2023 a las 04:36:22
+-- Tiempo de generación: 15-10-2023 a las 18:27:30
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -20,6 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `rent_go`
 --
+
 DROP DATABASE IF EXISTS `rent_go`;
 CREATE DATABASE IF NOT EXISTS `rent_go` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci;
 USE `rent_go`;
@@ -30,6 +31,7 @@ USE `rent_go`;
 -- Estructura de tabla para la tabla `estado`
 --
 
+DROP TABLE IF EXISTS `estado`;
 CREATE TABLE IF NOT EXISTS `estado` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
@@ -43,12 +45,23 @@ CREATE TABLE IF NOT EXISTS `estado` (
 -- Estructura de tabla para la tabla `marca`
 --
 
+DROP TABLE IF EXISTS `marca`;
 CREATE TABLE IF NOT EXISTS `marca` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `marca`
+--
+
+INSERT INTO `marca` (`id`, `nombre`, `fechaFila`) VALUES
+(1, 'Toyota', '2023-10-05 14:37:26'),
+(2, 'Honda', '2023-10-05 14:37:26'),
+(3, 'Hyundai', '2023-10-05 14:37:26'),
+(4, 'Kia', '2023-10-05 14:37:26');
 
 -- --------------------------------------------------------
 
@@ -56,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `marca` (
 -- Estructura de tabla para la tabla `modelo`
 --
 
+DROP TABLE IF EXISTS `modelo`;
 CREATE TABLE IF NOT EXISTS `modelo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
@@ -63,7 +77,18 @@ CREATE TABLE IF NOT EXISTS `modelo` (
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `FK_Marca_Modelo` (`idMarca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `modelo`
+--
+
+INSERT INTO `modelo` (`id`, `nombre`, `idMarca`, `fechaFila`) VALUES
+(1, 'Corolla', 1, '2023-10-05 14:39:53'),
+(2, 'Rav4', 1, '2023-10-05 14:39:53'),
+(3, 'Civic', 2, '2023-10-05 14:39:53'),
+(4, 'Accent', 3, '2023-10-05 14:39:53'),
+(5, 'Soul', 4, '2023-10-05 14:39:53');
 
 -- --------------------------------------------------------
 
@@ -71,19 +96,21 @@ CREATE TABLE IF NOT EXISTS `modelo` (
 -- Estructura de tabla para la tabla `nacionalidad`
 --
 
+DROP TABLE IF EXISTS `nacionalidad`;
 CREATE TABLE IF NOT EXISTS `nacionalidad` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `nacionalidad`
 --
 
 INSERT INTO `nacionalidad` (`id`, `nombre`, `fechaFila`) VALUES
-(1, 'Salvadoreño', '2023-10-01 02:34:31');
+(1, 'Salvadoreño', '2023-10-01 02:34:31'),
+(2, 'Hondureño', '2023-10-02 03:05:46');
 
 -- --------------------------------------------------------
 
@@ -91,6 +118,7 @@ INSERT INTO `nacionalidad` (`id`, `nombre`, `fechaFila`) VALUES
 -- Estructura de tabla para la tabla `propietario`
 --
 
+DROP TABLE IF EXISTS `propietario`;
 CREATE TABLE IF NOT EXISTS `propietario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) DEFAULT NULL,
@@ -104,7 +132,16 @@ CREATE TABLE IF NOT EXISTS `propietario` (
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `FK_TipoPropietario_Propietario` (`idTipoPropietario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `propietario`
+--
+
+INSERT INTO `propietario` (`id`, `nombre`, `apellido`, `razonSocial`, `nombreComercial`, `correoElectronico`, `telefono`, `fechaNacimiento`, `idTipoPropietario`, `fechaFila`) VALUES
+(1, 'Javier', 'de la O', NULL, NULL, 'javier.o@gmail.com', 74851203, '1999-12-04', 1, '2023-10-05 14:35:37'),
+(2, 'Ernesto', 'Orellana', NULL, NULL, 'fer.orellana@gmail.com', 77778888, '2000-10-04', 1, '2023-10-05 14:35:37'),
+(3, 'Erika', 'Acuña', NULL, NULL, 'erika.acuña@gmail.com', 62203645, '2000-01-10', 1, '2023-10-05 14:36:31');
 
 -- --------------------------------------------------------
 
@@ -112,6 +149,7 @@ CREATE TABLE IF NOT EXISTS `propietario` (
 -- Estructura de tabla para la tabla `reserva`
 --
 
+DROP TABLE IF EXISTS `reserva`;
 CREATE TABLE IF NOT EXISTS `reserva` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cantidadDias` int(11) NOT NULL,
@@ -127,7 +165,15 @@ CREATE TABLE IF NOT EXISTS `reserva` (
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `FK_Vehiculo_Reserva` (`idVehiculo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `reserva`
+--
+
+INSERT INTO `reserva` (`id`, `cantidadDias`, `precioDia`, `precioDiaExtra`, `porcentajeComision`, `descripcion`, `lugarEntrega`, `fechaEntrega`, `lugarDevolucion`, `disponible`, `idVehiculo`, `fechaFila`) VALUES
+(1, 10, 7.50, 10.00, 10.00, NULL, 'Avenida España, San Salvador', '2023-10-30 08:30:00', 'Avenida España, San Salvador', 1, 3, '2023-10-05 14:51:44'),
+(2, 15, 6.25, 7.50, 8.00, 'Carro para 6 personas máximo, con seguro y poco kilometraje', 'Boulevard del Ejército, Soyapango', '2023-11-20 16:30:00', 'Boulevard del Ejército, Soyapango', 1, 2, '2023-10-05 14:51:44');
 
 -- --------------------------------------------------------
 
@@ -135,6 +181,7 @@ CREATE TABLE IF NOT EXISTS `reserva` (
 -- Estructura de tabla para la tabla `rol`
 --
 
+DROP TABLE IF EXISTS `rol`;
 CREATE TABLE IF NOT EXISTS `rol` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
@@ -156,12 +203,21 @@ INSERT INTO `rol` (`id`, `nombre`, `fechaFila`) VALUES
 -- Estructura de tabla para la tabla `tipopropietario`
 --
 
+DROP TABLE IF EXISTS `tipopropietario`;
 CREATE TABLE IF NOT EXISTS `tipopropietario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tipopropietario`
+--
+
+INSERT INTO `tipopropietario` (`id`, `nombre`, `fechaFila`) VALUES
+(1, 'Natural', '2023-10-05 14:32:19'),
+(2, 'Jurídica', '2023-10-05 14:32:19');
 
 -- --------------------------------------------------------
 
@@ -169,12 +225,21 @@ CREATE TABLE IF NOT EXISTS `tipopropietario` (
 -- Estructura de tabla para la tabla `tipovehiculo`
 --
 
+DROP TABLE IF EXISTS `tipovehiculo`;
 CREATE TABLE IF NOT EXISTS `tipovehiculo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(50) NOT NULL,
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `tipovehiculo`
+--
+
+INSERT INTO `tipovehiculo` (`id`, `nombre`, `fechaFila`) VALUES
+(1, 'Sedan', '2023-10-05 14:42:23'),
+(2, 'SUV', '2023-10-05 14:42:23');
 
 -- --------------------------------------------------------
 
@@ -182,6 +247,7 @@ CREATE TABLE IF NOT EXISTS `tipovehiculo` (
 -- Estructura de tabla para la tabla `usuario`
 --
 
+DROP TABLE IF EXISTS `usuario`;
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `correoElectronico` varchar(100) NOT NULL,
@@ -198,7 +264,30 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   UNIQUE KEY `U_CorreoElectronico_Usuario` (`correoElectronico`),
   KEY `FK_Nacionalidad_Usuario` (`idNacionalidad`),
   KEY `FK_Rol_Usuario` (`idRol`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id`, `correoElectronico`, `contrasena`, `nombre`, `apellido`, `fechaNacimiento`, `telefono`, `imagenPerfil`, `idNacionalidad`, `idRol`, `fechaFila`) VALUES
+(3, 'fernandobonilla875@gmail.com', '$2y$10$p/7G0/SNubrBOeTxEGS6vuiUdO/xk7YJrNmwi9N9Zyu9GVhzvukMm', 'Fernando', 'Bonilla', '2001-10-16', 76684815, NULL, 1, 1, '2023-10-01 02:43:52'),
+(11, 'fernandobonilla@gmail.com', '$2y$10$Ew2cM5HN4qQOHjGRZ6TiBeam3aOg8XHWAXA7Jdz5uXLpf0lX2LnHi', 'Fernando', 'Orellana', '2001-10-16', 76684815, NULL, 1, 1, '2023-10-01 16:31:05'),
+(12, 'fernandoorellana@gmail.com', '$2y$10$/5VzxGlJIBX7iHfIXIzqOORVY93Fnl.zB345raqClYLp6MgrVzM8G', 'Fernando', 'Orellana', '2001-10-16', 714589712, NULL, 1, 1, '2023-10-01 16:32:34'),
+(13, 'fernandoorellana@hotmail.com', '$2y$10$ApOcIBgMcw2j3RvfOtN3Uu3f0/cDig9a/W2V6J7mORHlGzJUWDAqa', 'Fernando', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-01 16:44:20'),
+(16, 'john(.doe)@exa//mple.com', '$2y$10$Pggm7Zjmk90KUJJGso0/KuG.gMEj5QzAHL3HtDnMjtNkODBAdsvP.', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-01 17:16:22'),
+(17, 'john.doe@gm//ail.com', '$2y$10$EAaKJ/.HHxdPuLDGAeU0P.mY8VB7Yoef0gtYINsp1wsRePC6kLp.u', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-01 17:40:23'),
+(18, 'john.doe\'\'@gmail.com', '$2y$10$8LMJl8J8AgI4crUMg5HAoejH97P5Kp3yQFz9O1MBiuhwlPJPpJfSm', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-01 17:43:45'),
+(20, 'john.orellana123@gmail.com', '$2y$10$AnRW4F/wzc2CDALa613ZXuzYwSz.8aRSUNTfZ3SbdCzrzLmnV/FmO', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-01 17:46:51'),
+(22, 'john.brellana123@gmail//.com', '$2y$10$CzV2s4RM.Vk91VG1pJXnZe4qmc8BHfIEHhmPIy8wpa1WvqOstTpdW', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 00:34:09'),
+(25, 'juanhernandez@gmail.com', '$2y$10$uP.uFT3wJZKdpkC/UpsKGecbj.lsUWCGV0Q6qCxHZuELFclkUXaPa', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:05:57'),
+(27, 'juan.hernandez@gmail.com', '$2y$10$WKdR6PHTlr0eow1bxuuftuCqecJHiWHkDuDdKi.RTB9nodkB4xjn2', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:06:30'),
+(28, 'juan.hernandez123@gmail.com', '$2y$10$GYp5tlrbAvjTpISQByq12uCuAGhvdOYC3x.0fvuIGNo9v5qUvS/ae', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:08:51'),
+(29, 'juanhernandez123@gmail.com', '$2y$10$fjuJ2yRcAHMVb6HNREeOmOxnqa7xTb9BF3G7LbLuUUQmkYxct.uA6', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:09:10'),
+(30, 'franhernandez123@gmail.com', '$2y$10$1SdU9nojfLOpBusZlGL2dOCS7EfZmBC1HfXFdsxY00oQB4xoGS7Na', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:16:23'),
+(31, 'fran.hernandez123@gmail.com', '$2y$10$xHgafm7twte/X6sDmaPqhuDDH.JFT02mxU/TONGxru2Ov.aY5sSM6', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:29:33'),
+(32, 'francisco.hernandez123@gmail.com', 'b50c223392eaf1241f0c6ee672a21111dfb315fbed52c6c816e4d8498c303d0b', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-05 14:02:32'),
+(34, 'f.hernandez123@gmail.com', 'b50c223392eaf1241f0c6ee672a21111dfb315fbed52c6c816e4d8498c303d0b', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-05 15:06:21');
 
 -- --------------------------------------------------------
 
@@ -206,6 +295,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 -- Estructura de tabla para la tabla `usuario_reserva`
 --
 
+DROP TABLE IF EXISTS `usuario_reserva`;
 CREATE TABLE IF NOT EXISTS `usuario_reserva` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fechaReserva` datetime NOT NULL,
@@ -228,12 +318,17 @@ CREATE TABLE IF NOT EXISTS `usuario_reserva` (
 -- Estructura de tabla para la tabla `vehiculo`
 --
 
+DROP TABLE IF EXISTS `vehiculo`;
 CREATE TABLE IF NOT EXISTS `vehiculo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `year` int(11) NOT NULL,
   `color` varchar(100) DEFAULT NULL,
   `placa` varchar(10) NOT NULL,
   `imagen` varchar(250) NOT NULL,
+  `transmision` varchar(100) NOT NULL,
+  `pasajeros` int(11) NOT NULL,
+  `motor` varchar(50) NOT NULL,
+  `gasolina` varchar(50) NOT NULL,
   `idModelo` int(11) NOT NULL,
   `idTipoVehiculo` int(11) NOT NULL,
   `idPropietario` int(11) NOT NULL,
@@ -243,7 +338,16 @@ CREATE TABLE IF NOT EXISTS `vehiculo` (
   KEY `FK_Modelo_Vehiculo` (`idModelo`),
   KEY `FK_TipoVehiculo_Vehiculo` (`idTipoVehiculo`),
   KEY `FK_Propietario_Vehiculo` (`idPropietario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `vehiculo`
+--
+
+INSERT INTO `vehiculo` (`id`, `year`, `color`, `placa`, `imagen`, `transmision`, `pasajeros`, `motor`, `gasolina`, `idModelo`, `idTipoVehiculo`, `idPropietario`, `fechaFila`) VALUES
+(1, 2018, 'Azul', 'P195A5', 'https://drive.google.com/uc?export=view&id=1vMvF4QIrOzdWaiC0XGrR_OxVRZ8T3vpi', 'Automatica', 5, '1.8 litros', 'Regular', 1, 1, 1, '2023-10-15 16:25:58'),
+(2, 2021, 'Gris', 'P121097', 'https://drive.google.com/uc?export=view&id=1HZjRbtR5kY5xSxT7V3d6waTG-XOfmgPc', 'Automatica', 5, '1.8 litros', 'Regular', 2, 2, 2, '2023-10-15 16:25:58'),
+(3, 2018, 'Verde', 'P979D1C', '', '', 0, '', '', 5, 1, 3, '2023-10-05 14:45:58');
 
 --
 -- Restricciones para tablas volcadas
