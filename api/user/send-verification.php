@@ -1,91 +1,91 @@
 <?php
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\var_global.php');
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\validations.php');
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\db_model.php');
+// Importar las bibliotecas y archivos necesarios
+require_once '../vendor/autoload.php';
 
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Method: POST');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Authorization, X-Request-With');
+require_once('../inc/validations.php');
+require_once('../inc/db_model.php');
 
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
+// IMportar las clases necesarios de PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
-    require_once 'path/to/PHPMailer/src/Exception.php';
-    require_once 'path/to/PHPMailer/src/PHPMailer.php';
-    require_once 'path/to/PHPMailer/src/SMTP.php';
+// Función para verificar si el método HTTP es el esperado
+function allowedMethod($method) {
+    return $_SERVER["REQUEST_METHOD"] === $method;
+}
 
-    require_once 'config.php';
+// Configuración de encabezados
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+header('Access-Control-Allow-Method: POST');
+header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Authorization, X-Request-With');
 
-    function sendVerificationEmail($email) {
-        $mail = new PHPMailer(true);
+// Función para enviar el email de verificación
+function sendVerificationEmail($email, $verificationCode) {
+    $verificationLink = "http://localhost/RentAndGo/api/user/verify.php?code=$verificationCode";
 
-        try {
-            // Configuración del servidor
-            $mail->SMTPDebug = 2;                                 
-            $mail->isSMTP();                                      
-            $mail->Host       = SMTP_SERVER;             
-            $mail->SMTPAuth   = true;                             
-            $mail->Username   = SMTP_USER;         
-            $mail->Password   = SMTP_PASS;                     
-            $mail->SMTPSecure = 'tls';                            
-            $mail->Port       = 587;                              
+    $mail = new PHPMailer(true);
 
-            // Recipientes
-            $mail->setFrom(SMTP_USER, 'Nombre de la aplicación');
-            $mail->addAddress($email);
+    try {
+        // Configuración del servidor (ajusta estos valores según tu configuración)
+        $mail->isSMTP();
+        $mail->Host = 'smtp.example.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'your-email@example.com';
+        $mail->Password = 'your_password';
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
+        $mail->Port = 587;
 
-            // Contenido
-            $mail->isHTML(true);                                  
-            $mail->Subject = 'Verificación de correo electrónico';
-            $verificationCode = bin2hex(random_bytes(50)); // Genera un código de verificación.
-            $verificationLink = "https://tudominio.com/verify.php?code=$verificationCode"; 
-            $mail->Body    = "Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: <a href=\"$verificationLink\">$verificationLink</a>";
-            $mail->AltBody = "Por favor, copia y pega el siguiente enlace en tu navegador para verificar tu correo electrónico: $verificationLink";
+        // Configurar remitente y destinatario
+        $mail->setFrom('from@example.com', 'Mailer');
+        $mail->addAddress($email);
 
-            $mail->send();
-    
-            // Después de generar el código de verificación
-            $verificationCode = bin2hex(random_bytes(50));
+        // Configurar el contenido del correo
+        $mail->isHTML(true);
+        $mail->Subject = 'Verificación de correo electrónico';
+        $mail->Body = "Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: <a href=\"$verificationLink\">$verificationLink</a>";
 
-            // Guardar el código en la base de datos
-            $query = "UPDATE Usuario SET verification_code = :verificationCode WHERE correoElectronico = :email";
-            $params = [
-                "verificationCode" => $verificationCode,
-                "email" => $email
-            ];
-            $result = $dbModel->executeQuery($query, $params);
-
-            if (!$result) {
-                // Manejar error
-                echo "Hubo un error al guardar el código de verificación en la base de datos.";
-            }
-
-            return true;
-        } catch (Exception $e) {
-            return false;
-        }
+        $mail->send();
+        return true;
+    } catch (Exception $e) {
+        // Si hay un errro al enviar el correo, devolver el mensaje de error
+        return "Error de PHPMailer: " . $mail->ErrorInfo;
     }
+}
 
-    if (allowedMethod('POST')) {
-        $data = json_decode(file_get_contents("php://input"), true);
-        if (!empty($data)) {
-            $email = $data['email'];
-            $dbModel = new Model();
-            $query = "SELECT * FROM usuario WHERE correoElectronico = :email";
-            $user = $dbModel->getQuery($query, ["email" => $email]);
+// Si el método HTTP es POST
+if (allowedMethod('POST')) {
+    $data = json_decode(file_get_contents("php://input"), true);
+    // Si se recibión información
+    if (!empty($data)) {
+        $email = $data['email'];
+        $dbModel = new Model();
+        // Buscar el usuario con el email proporcionado
+        $query = "SELECT * FROM Usuario WHERE correoElectronico = :email";
+        $user = $dbModel->getQuery($query, ["email" => $email]);
 
-            if (!empty($user)) {
-                if (!sendVerificationEmail($email)) {
-                    echo showErrors(500, 'INTERNAL SERVER ERROR', "No se pudo enviar el correo.");
-                } else {
-                    echo json_encode(["message" => "Verification email sent."]);
-                }
+        // Si se encontró el usuario
+        if (!empty($user)) {
+            $verificationCode = bin2hex(random_bytes(50));
+            $sendResult = sendVerificationEmail($email, $verificationCode);
+            // Si el correo se envió correctamente
+            if ($sendResult === true) {
+                // Actualizar el código de verificación del usuario en la base de datos
+                $query = "UPDATE Usuario SET verification_code = :verificationCode WHERE correoElectronico = :email";
+                $params = ["verificationCode" => $verificationCode, "email" => $email];
+                $dbModel->setTransactionQuery([$query], [$params]);
+                echo json_encode(["message" => "Verification email sent."]);
             } else {
-                echo showErrors(404, 'NOT FOUND', 'No se encontró el usuario con el correo especificado.');
+                // Si hubo un error al enviar el correo
+                echo showErrors(500, 'INTERNAL SERVER ERROR', $sendResult);
             }
         } else {
-            echo showErrors(400, 'BAD REQUEST', 'No se ha enviado información o no es aceptado el formato en que se envió');
+            // Si no se encontró el usuario con el correo proporcionado
+            echo showErrors(404, 'NOT FOUND', 'No se encontró el usuario con el correo especificado.');
         }
+    } else {
+        // Si no se recibió información o el formato es incorrecto
+        echo showErrors(400, 'BAD REQUEST', 'No se ha enviado información o no es aceptado el formato en que se envió');
     }
+}
 ?>

@@ -1,31 +1,45 @@
-### Carpeta `api`
+### Configuración de APIs google-login y send-verification
 
-- **config.php**: Archivo de configuración que contiene las credenciales para la base de datos y el servidor SMTP. Es importante configurar correctamente los valores de SMTP para garantizar el envío de correos electrónicos.
+#### Estructura de carpetas
 
-### Carpeta `user`
+- **api/config.php**: 
+  - Archivo de configuración que contiene las credenciales para la base de datos y el servidor SMTP.
+  - Es esencial configurar correctamente los valores de SMTP para garantizar el envío de correos electrónicos.
 
-- **google-login.php**: Este archivo permite a los usuarios iniciar sesión mediante Google. Si el usuario ya está registrado en nuestra base de datos, se devuelve su información; de lo contrario, se registra en la base de datos.
-  
-- **send-verification.php**: Una vez que el usuario se ha registrado o iniciado sesión, este archivo se encarga de enviar un correo electrónico de verificación a la dirección de correo del usuario. Utiliza PHPMailer para enviar correos y requiere que el archivo `config.php` esté correctamente configurado.
+#### Carpeta `user`
 
-## Cómo Usar
+- **user/google-login.php**: 
+  - Permite a los usuarios iniciar sesión mediante Google.
+  - Si el usuario ya está registrado en la base se de datos, se devuelve su información; si no, se registra.
+
+- **user/send-verification.php**: 
+  - Envía un correo electrónico de verificación a la dirección de correo del usuario después de registrarse o iniciar sesión.
+  - Utiliza PHPMailer para enviar correos.
+  - Requiere que el archivo `config.php` esté correctamente configurado.
+
+#### Instrucciones
 
 1. Clona el repositorio a tu máquina local.
-2. Navega a la carpeta `api` y configura `config.php` con tus credenciales.
+2. Navega a la carpeta `api` y ajusta `config.php` con tus credenciales.
 
-### Instalación de Composer y PHPMailer
+# Instalando Composer
 
-3. Antes de poder usar PHPMailer, se necesita tener Composer instalado. Seguir los pasos en el siguiente enlace [instrucciones de instalación](https://getcomposer.org/download/).
-4. Una vez que se haya instalado Composer, navega a la carpeta raíz de tu proyecto y ejecuta el siguiente comando para instalar PHPMailer:
-    ```bash
-    composer require phpmailer/phpmailer
-    ```
-5. Ahora se debería tener PHPMailer instalado y listo para ser usado en el proyecto.
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php
+php -r "unlink('composer-setup.php');"
 
-## Agregar ALERT TABLE
+# Instalando PHPMailer y Google API Client
 
-- Se debe agregar el siguiente script en la base de datos para el funcionamiento de las APIs
+composer require phpmailer/phpmailer google/apiclient:^2.0
 
-ALTER TABLE Usuario
-ADD verification_code VARCHAR(100) NULL;
+# Configurando WampServer para SMTP local
 
+PHP_INI_PATH="/path/to/your/php.ini"
+sed -i 's/SMTP = .*/SMTP = localhost/' $PHP_INI_PATH
+sed -i 's/smtp_port = .*/smtp_port = 25/' $PHP_INI_PATH
+
+Reinicia WampServer para aplicar los cambios.
+
+# Insertando columna requerida en la base de datos
+
+ALTER TABLE Usuario ADD verification_code VARCHAR(100) NULL;
