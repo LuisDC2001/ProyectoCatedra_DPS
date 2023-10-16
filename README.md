@@ -55,3 +55,4 @@ El proyecto se encuentra bajo la licencia Creative Commons, la forma en la que l
   
   •	Link de drive con las manuales de usuario y tecnicos : https://drive.google.com/drive/folders/16T3UvJ2C6CRczAn_w3q-oUZRY8fhddgi
 
+  •	Link video demostración segunda entrega: https://drive.google.com/file/d/193eHiR-UfOyaXyFRYT4epXYS0UhVKboH/view?usp=sharing
