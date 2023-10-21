@@ -77,14 +77,15 @@ const Login = () => {
       "idRol": rol,})  
   }).then(res=>res.json())
   .then(resData=>{
-    if(resData.estado==="201"){
-      navigation.navigate('SignIn');
-  } 
-  else
-  {
-    alert(resData.mensajeReal);
-  }   
-
+          //alert(resData.mensaje);
+          if(resData.mensaje==="CREATED"){
+              navigation.navigate('SignIn');
+          }
+          else
+          {
+            alert(resData.mensajeReal);
+            //navigation.navigate('SignIn');
+          }
   });
 };
 
