@@ -16,9 +16,11 @@ import VerificationScreen from "./screens/VerificationScreen";
 import NewPassScreen from "./screens/NewPassScreen";
 import PassChangedScreen from './screens/PassChangedScreen'
 import GoogleScreen from "./screens/GoogleScreen";
+import EditAccount from './screens/EditAccount';
 import { StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AppProvider } from "./AppContext";
+
 
 
 
@@ -62,9 +64,9 @@ const HomeTab = () => {
           component={HomeScreen}
           options={{ headerShown: false }}
         />
-        <Tab.Screen name="Favoritos" component={FavoritesScreen} />
-        <Tab.Screen name="Reservas" component={ReservationsScreen} />
-        <Tab.Screen name="Cuenta" component={AccountScreen} />
+        <Tab.Screen name="Favoritos" component={FavoritesScreen} options={{ headerShown: false }} />
+        <Tab.Screen name="Reservas" component={ReservationsScreen} options={{ headerShown: false }} />
+        <Tab.Screen name="Cuenta" component={EditAccount} options={{ headerShown: false }} />
       </Tab.Navigator>
     </AppProvider>
   );
