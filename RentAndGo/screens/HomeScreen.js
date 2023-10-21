@@ -17,8 +17,8 @@ import axios from "axios";
 const HomeScreen = () => {
   const { favoriteVehicles, toggleFavorite } = useAppContext();
   const [searchText, setSearchText] = useState("");
-  const [apiData, setApiData] = useState([]); // State to store API data
-  const [searchResults, setSearchResults] = useState([]); // State for search results
+  const [apiData, setApiData] = useState([]); 
+  const [searchResults, setSearchResults] = useState([]); 
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -59,10 +59,10 @@ const HomeScreen = () => {
         <View style={styles.searchInputContainer}>
         <TextInput
             style={styles.searchInput}
-            placeholder="Search for a car"
+            placeholder="Buscar vehiculo"
             value={searchText}
-            onChangeText={(text) => setSearchText(text)} // Update searchText on input change
-            onEndEditing={handleSearch} // Call handleSearch when the user finishes input
+            onChangeText={(text) => setSearchText(text)} 
+            onEndEditing={handleSearch} 
           />
           <TouchableOpacity style={styles.searchIcon} onPress={handleSearch}>
             <Icon name="search" size={24} color="black" />
@@ -75,7 +75,7 @@ const HomeScreen = () => {
           <Icon name="sliders" size={24} color="black" />
         </TouchableOpacity>
       </View>
-      <Text style={styles.title}>Available Vehicles</Text>
+      <Text style={styles.title}>Vehiculos Disponibles</Text>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {searchText
           ? searchResults.map((rent) => (

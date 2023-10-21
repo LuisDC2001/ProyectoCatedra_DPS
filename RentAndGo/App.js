@@ -66,7 +66,7 @@ const HomeTab = () => {
         />
         <Tab.Screen name="Favoritos" component={FavoritesScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Reservas" component={ReservationsScreen} options={{ headerShown: false }} />
-        <Tab.Screen name="Cuenta" component={EditAccount} options={{ headerShown: false }} />
+        <Tab.Screen name="Cuenta" component={AccountScreen} options={{ headerShown: false }} />
       </Tab.Navigator>
     </AppProvider>
   );
@@ -134,6 +134,11 @@ const App = () => {
           <Stack.Screen 
             name="Filter" 
             component={FilterScreen} 
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen 
+            name="Edit" 
+            component={EditAccount} 
             options={{ headerShown: false }}
           />
 
