@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import ReadInput from '../components/ReadInput';
 import Button from '../components/Button';
 import Icon from "react-native-vector-icons/FontAwesome";
-
+import { useNavigation } from "@react-navigation/native";
 
 
 const Edit = () => {
@@ -15,6 +15,7 @@ const Edit = () => {
     const [numero, setnumero] = useState('');
     const [fecha, guardarFecha] = useState("");
     const [isContraVisible, setContraVisible] = useState(false);
+    const navigation = useNavigation();
 
 
     const RegistroPress = () => {
@@ -22,7 +23,7 @@ const Edit = () => {
     }
 
     const goback = () => {
-        console.warn("Regresar")
+        navigation.goBack();
     }
 
     const cambiarcontra = () => {
