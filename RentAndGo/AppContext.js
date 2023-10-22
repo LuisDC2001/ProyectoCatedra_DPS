@@ -10,7 +10,7 @@ export const AppProvider = ({ children }) => {
   // Función para cargar los datos de la API
   const fetchDataFromApi = async () => {
     try {
-      const response = await fetch("http://192.168.1.14:80/ProyectoCatedra_DPS/api/rent/all.php");
+      const response = await fetch("http://192.168.0.13:80/ProyectoCatedra_DPS/api/rent/all.php");
       const data = await response.json();
       setApiData(data);
       setIsLoading(false); // Cuando los datos se carguen, establece isLoading en false

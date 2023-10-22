@@ -18,6 +18,7 @@ import PassChangedScreen from './screens/PassChangedScreen'
 import GoogleScreen from "./screens/GoogleScreen";
 import EditAccount from './screens/EditAccount';
 import ReservationsConfirm from "./screens/ReservationsConfirmScreen";
+import DateRangePicker from './screens/CalendarScreen';
 import { StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AppProvider } from "./AppContext";
@@ -140,6 +141,11 @@ const App = () => {
           <Stack.Screen 
             name="Edit" 
             component={EditAccount} 
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen 
+            name="DateRangePicker" 
+            component={DateRangePicker} 
             options={{ headerShown: false }}
           />
           <Stack.Screen 

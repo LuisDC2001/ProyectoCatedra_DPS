@@ -17,7 +17,7 @@ const Details = ({ route }) => {
   const vehicleDetails = apiData.find((vehicle) => vehicle.vehiculo[0].id === vehicleId);
 
   const ReservationsConfirm = () => {
-    navigation.navigate('ReservationsConfirm');
+    navigation.navigate('DateRangePicker');
   }
 
   if (!vehicleDetails) {

@@ -28,7 +28,7 @@ const HomeScreen = () => {
   const fetchDataFromApi = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.1.14:80/ProyectoCatedra_DPS/api/rent/all.php"
+        "http://192.168.0.13:80/ProyectoCatedra_DPS/api/rent/all.php"
       );
       setApiData(response.data);
     } catch (error) {
@@ -239,4 +239,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default HomeScreen;
