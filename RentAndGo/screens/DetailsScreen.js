@@ -16,8 +16,8 @@ const Details = ({ route }) => {
   // Busca el vehículo correspondiente en los datos de la API
   const vehicleDetails = apiData.find((vehicle) => vehicle.vehiculo[0].id === vehicleId);
 
-  const ReservationsConfirm = () => {
-    navigation.navigate('DateRangePicker');
+  const ReservationsConfirm = (precioDia) => {
+    navigation.navigate('DateRangePicker', { precioDia });
   }
 
   if (!vehicleDetails) {
@@ -76,13 +76,13 @@ const Details = ({ route }) => {
       <View style={styles.middleContainer}>
         <Text>
           <Text style={{ color: "blue", fontSize: 32 }}>
-            ${vehicleDetails.precioDia}
+            {vehicleDetails.precioDia}
           </Text>
           <Text style={{ fontSize: 28 }}>/ día</Text>
         </Text>
       </View>
       <View style={styles.rightContainer}>
-        <TouchableOpacity style={styles.reserveButton} onPress={ReservationsConfirm}>
+        <TouchableOpacity style={styles.reserveButton} onPress={() => ReservationsConfirm(vehicleDetails.precioDia)}>
           <Text style={styles.buttonText}>Reservar</Text>
         </TouchableOpacity>
       </View>

@@ -4,7 +4,10 @@ import { Calendar } from 'react-native-calendars';
 import Button from '../components/Button';
 import { useNavigation } from '@react-navigation/native';
 
-const DateRangePicker = () => {
+const DateRangePicker = ({ route }) => {
+
+    const { precioDia } = route.params;
+
     const navigation = useNavigation();
 
     const goback = () => {
@@ -57,13 +60,13 @@ const DateRangePicker = () => {
                     }}
                 />
             </View>
-            <View style={styles.selectedDatesContainer}>
-                {selectedStartDate && <Text>Fecha de inicio: {selectedStartDate}</Text>}
-                {selectedEndDate && <Text>Fecha de fin: {selectedEndDate}</Text>}
-                {selectedStartDate && selectedEndDate && (
-                    <Text>Diferencia en días: {calculateDateDifference()} días</Text>
-                )}
-            </View>
+            
+    
+           <Text>
+           <Text style={{ color: "gray", fontSize: 28 }}>     Precio:  </Text>
+            <Text style={{ color: "blue", fontSize: 32 }}>${precioDia * calculateDateDifference()}</Text>
+           </Text>
+            
             <TouchableOpacity style={styles.reserveButton} onPress={reservar}>
                 <Text style={styles.buttonText}>Reservar</Text>
             </TouchableOpacity>
@@ -79,7 +82,8 @@ const styles = StyleSheet.create({
     calendarContainer: {
         width: 400,
         backgroundColor: 'white',
-        marginTop: 25
+        marginTop: 25,
+        marginBottom: 25,
     },
     texto: {
         fontSize: 25,
