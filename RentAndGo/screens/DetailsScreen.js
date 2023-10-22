@@ -1,8 +1,12 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useAppContext } from '../AppContext';
+import { useNavigation } from '@react-navigation/native';
+import ReservationsConfirm from "./ReservationsConfirmScreen";
 
 const Details = ({ route }) => {
+
+  const navigation = useNavigation();
   // Obteniendo el identificador del vehículo de los parámetros de navegación
   const { vehicleId } = route.params;
   
@@ -11,6 +15,10 @@ const Details = ({ route }) => {
 
   // Busca el vehículo correspondiente en los datos de la API
   const vehicleDetails = apiData.find((vehicle) => vehicle.vehiculo[0].id === vehicleId);
+
+  const ReservationsConfirm = () => {
+    navigation.navigate('ReservationsConfirm');
+  }
 
   if (!vehicleDetails) {
     // Si no se encuentra el vehículo, puedes mostrar un mensaje o manejar el caso de error según tus necesidades
@@ -74,7 +82,7 @@ const Details = ({ route }) => {
         </Text>
       </View>
       <View style={styles.rightContainer}>
-        <TouchableOpacity style={styles.reserveButton}>
+        <TouchableOpacity style={styles.reserveButton} onPress={ReservationsConfirm}>
           <Text style={styles.buttonText}>Reservar</Text>
         </TouchableOpacity>
       </View>
