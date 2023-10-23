@@ -19,6 +19,7 @@ import GoogleScreen from "./screens/GoogleScreen";
 import EditAccount from './screens/EditAccount';
 import ReservationsConfirm from "./screens/ReservationsConfirmScreen";
 import DateRangePicker from './screens/CalendarScreen';
+import Confirm from "./screens/ConfirmScreen";
 import { StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AppProvider } from "./AppContext";
@@ -151,6 +152,11 @@ const App = () => {
           <Stack.Screen 
             name="ReservationsConfirm" 
             component={ReservationsConfirm} 
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen 
+            name="Confirm" 
+            component={Confirm} 
             options={{ headerShown: false }}
           />
 

@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 
 const DateRangePicker = ({ route }) => {
 
-    const { precioDia } = route.params;
+    const { vehicleDetails } = route.params;
 
     const navigation = useNavigation();
 
@@ -14,7 +14,16 @@ const DateRangePicker = ({ route }) => {
         navigation.goBack();
     }
     const reservar = () => {
-        console.warn("Cambiar contraseña")
+
+        navigation.navigate('Confirm', {
+            reservationData: {
+              vehicleDetails: vehicleDetails, // Asegúrate de tener esta propiedad
+              fechaInicio: selectedStartDate, // Agrega la fecha de inicio
+              fechaFin: selectedEndDate, // Agrega la fecha de fin
+              precioTotal: vehicleDetails.precioDia * calculateDateDifference(), // Calcula el precio total
+            }
+          });
+          
     }
 
 
@@ -64,7 +73,7 @@ const DateRangePicker = ({ route }) => {
     
            <Text>
            <Text style={{ color: "gray", fontSize: 28 }}>     Precio:  </Text>
-            <Text style={{ color: "blue", fontSize: 32 }}>${precioDia * calculateDateDifference()}</Text>
+            <Text style={{ color: "blue", fontSize: 32 }}>${vehicleDetails.precioDia * calculateDateDifference()}</Text>
            </Text>
             
             <TouchableOpacity style={styles.reserveButton} onPress={reservar}>
