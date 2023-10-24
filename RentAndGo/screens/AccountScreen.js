@@ -1,16 +1,45 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
 import Edit from "./EditAccount";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const FilterScreen = () => {
   const navigation = useNavigation();
 
+  const [usuarioCorreo, setUsuarioCorreo] = useState("");
   const editOnPress = () => {
     navigation.navigate("Edit");
   };
+  const getUsuarioCorreoFromStorage = async () => {
+    try {
+      const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
+      if (usuarioCorreo) {
+        setUsuarioCorreo(usuarioCorreo);
+      }
+    } catch (error) {
+      console.error('Error al obtener el correo del usuario desde AsyncStorage:', error);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      // Elimina la información de la sesión al presionar el botón "Cerrar Sesión"
+      await AsyncStorage.removeItem('usuarioCorreo');
+      navigation.navigate('SignIn'); 
+    } catch (error) {
+      console.error('Error al cerrar la sesión:', error);
+    }
+  };
+
+  useEffect(() => {
+    getUsuarioCorreoFromStorage();
+  }, []);
+
+
 
   return (
     <View style={styles.container}>
@@ -50,16 +79,24 @@ const FilterScreen = () => {
         </Text>
         <Text style={styles.reservas}>
           <Text style={styles.detalles_bold}> Correo Electronico: </Text>
-          <Text style={styles.detalles_light}>Insertar correo aqui</Text>
+          <Text style={styles.detalles_light}>{usuarioCorreo}</Text>
         </Text>
       </View>
-
       <TouchableOpacity onPress={editOnPress}>
         <Text style={styles.edit}>
           <Icon name="pencil" size={24} color="#4D4DFF" alignItems="right"/>
           <Text style={styles.text}> Editar perfil</Text>
         </Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={logout}>
+      <Text style={styles.edit}>
+          <Icon name="close" size={24} color="#4D4DFF" alignItems="center"/>
+          <Text style={styles.text}> Cerrar Sesión</Text>
+        </Text>
+      </TouchableOpacity>
+
+      
+
     </View>
   );
 };
@@ -143,6 +180,8 @@ const styles = StyleSheet.create({
     marginBottom: 150,
     color: "#4D4DFF",
   },
+  
+ 
 });
 
 export default FilterScreen;

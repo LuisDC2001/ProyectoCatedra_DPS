@@ -17,10 +17,10 @@ const DateRangePicker = ({ route }) => {
 
         navigation.navigate('Confirm', {
             reservationData: {
-              vehicleDetails: vehicleDetails, // Asegúrate de tener esta propiedad
-              fechaInicio: selectedStartDate, // Agrega la fecha de inicio
-              fechaFin: selectedEndDate, // Agrega la fecha de fin
-              precioTotal: vehicleDetails.precioDia * calculateDateDifference(), // Calcula el precio total
+              vehicleDetails: vehicleDetails, 
+              fechaInicio: selectedStartDate, 
+              fechaFin: selectedEndDate,
+              precioTotal: vehicleDetails.precioDia * calculateDateDifference(),
             }
           });
           

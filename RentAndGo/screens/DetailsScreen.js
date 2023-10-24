@@ -9,7 +9,7 @@ const Details = ({ route }) => {
   const navigation = useNavigation();
   // Obteniendo el identificador del vehículo de los parámetros de navegación
   const { vehicleId } = route.params;
-  
+
   // Accede a los datos de la API desde el contexto
   const { apiData } = useAppContext();
 
@@ -38,10 +38,10 @@ const Details = ({ route }) => {
       </Text>
 
       <View style={styles.imageContainer}>
-      <Image
-                    style={{ width: "100%", height: 200 }}
-                    source={{ uri: vehicleDetails.vehiculo[0].imagen }}
-                  />
+        <Image
+          style={{ width: "100%", height: 200 }}
+          source={{ uri: vehicleDetails.vehiculo[0].imagen }}
+        />
       </View>
 
       <Text style={styles.specs}>Especificaciones</Text>
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     paddingLeft: 9,
     paddingRight: 9,
     paddingTop: 9,
-    marginBottom:30,
+    marginBottom: 30,
   },
   title: {
     fontSize: 20,
@@ -144,16 +144,16 @@ const styles = StyleSheet.create({
   },
   preciotext:
   {
-    marginTop:15,
-    fontSize:28,
-    color:"gray",
+    marginTop: 15,
+    fontSize: 28,
+    color: "gray",
   },
   reserveButton: {
     padding: 10, // Aumenta el espacio alrededor del botón
     backgroundColor: '#4D4DFF',
     borderRadius: 8, // Agrega bordes redondeados al botón
     marginTop: 25,
-    marginRight:30,
+    marginRight: 30,
     width: 200,
     height: 65,
   },
