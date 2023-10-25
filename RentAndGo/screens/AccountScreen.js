@@ -28,7 +28,7 @@ const FilterScreen = () => {
   const logout = async () => {
     try {
       // Elimina la información de la sesión al presionar el botón "Cerrar Sesión"
-      await AsyncStorage.removeItem('usuarioCorreo');
+      
       navigation.navigate('SignIn'); 
     } catch (error) {
       console.error('Error al cerrar la sesión:', error);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -9,20 +9,50 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useAppContext } from "../AppContext";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from "@react-navigation/native";
 
 const FavoritesScreen = () => {
-  const { favoriteVehicles, apiData, isLoading } = useAppContext();
+  const { favoriteVehicles, apiData, isLoading, toggleFavorite } = useAppContext();
   const navigation = useNavigation();
+  const [usuarioCorreo, setUsuarioCorreo] = useState("");
 
   const handleVehiclePress = (vehicleId) => {
-    // Navegación a la pantalla "Details" aquí
-    navigation.navigate("Details", { vehicleId }); // Pasar el identificador del vehículo
+    navigation.navigate("Details", { vehicleId });
   };
+  const saveFavoriteVehiclesToStorage = async () => {
+    try {
+      await AsyncStorage.setItem(`favoriteVehicles-${usuarioCorreo}`, JSON.stringify(favoriteVehicles));
+      console.log('Favoritos guardados con éxito para el usuario: ' + usuarioCorreo);
+      console.log('IDs de carros agregados a favoritos:', favoriteVehicles);
+    } catch (error) {
+      console.error('Error al guardar favoritos en AsyncStorage:', error);
+    }
+  };
+  useEffect(() => {
+    saveFavoriteVehiclesToStorage();
+  }, [favoriteVehicles]);
+
+  useEffect(() => {
+    getUsuarioCorreoFromStorage();
+  }, []);
+  const getUsuarioCorreoFromStorage = async () => {
+    try {
+      const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
+      if (usuarioCorreo) {
+        setUsuarioCorreo(usuarioCorreo);
+      }
+    } catch (error) {
+      console.error('Error al obtener el correo del usuario desde AsyncStorage:', error);
+    }
+  };
+
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Vehículos Favoritos</Text>
+      <Text style={styles.usuarioCorreo}>Correo del Usuario: {usuarioCorreo}</Text>
+
       {isLoading ? (
         <ActivityIndicator size="large" color="blue" />
       ) : (
@@ -31,10 +61,10 @@ const FavoritesScreen = () => {
             .filter((rent) => favoriteVehicles.includes(rent.vehiculo[0].id))
             .map((rent) => (
               <TouchableWithoutFeedback
-                key={rent.vehiculo[0].id} // Agrega una clave única
+                key={rent.vehiculo[0].id}
                 onPress={() => handleVehiclePress(rent.vehiculo[0].id)}
               >
-                <View key={rent.vehiculo[0].id} style={styles.vehicleContainer}>
+                <View style={styles.vehicleContainer}>
                   <View style={styles.infoRow}>
                     <Text>
                       <Text style={styles.infoLabelBold}>
