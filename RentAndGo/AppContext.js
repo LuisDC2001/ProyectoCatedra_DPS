@@ -1,5 +1,5 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useState, useContext, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const AppContext = createContext();
 
@@ -7,11 +7,34 @@ export const AppProvider = ({ children }) => {
   const [favoriteVehicles, setFavoriteVehicles] = useState([]);
   const [apiData, setApiData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [usuarioCorreo, setUsuarioCorreo] = useState("");
+
+  useEffect(() => {
+    getUsuarioCorreoFromStorage();
+  }, []);
+
+  const getUsuarioCorreoFromStorage = async () => {
+    try {
+      const usuarioCorreo = await AsyncStorage.getItem("usuarioCorreo");
+      if (usuarioCorreo) {
+        setUsuarioCorreo(usuarioCorreo);
+        // Cargar favoritos del usuario actual
+        getFavoriteVehiclesFromStorage(usuarioCorreo);
+      }
+    } catch (error) {
+      console.error(
+        "Error al obtener el correo del usuario desde AsyncStorage:",
+        error
+      );
+    }
+  };
 
   // Función para cargar los datos de la API
   const fetchDataFromApi = async () => {
     try {
-      const response = await fetch("http://192.168.0.13:80/ProyectoCatedra_DPS/api/rent/all.php");
+      const response = await fetch(
+        "http://192.168.1.14:80/ProyectoCatedra_DPS/api/rent/all.php"
+      );
       const data = await response.json();
       setApiData(data);
       setIsLoading(false);
@@ -36,35 +59,40 @@ export const AppProvider = ({ children }) => {
   };
 
   const saveFavoriteVehiclesToStorage = async () => {
-    try {
-      await AsyncStorage.setItem('favoriteVehicles', JSON.stringify(favoriteVehicles));
-      console.log('Favoritos guardados con éxito');
-    } catch (error) {
-      console.error('Error al guardar favoritos en AsyncStorage:', error);
+    if (usuarioCorreo && favoriteVehicles.length > 0) {
+      try {
+        await AsyncStorage.setItem(
+          `favoriteVehicles_${usuarioCorreo}`,
+          JSON.stringify(favoriteVehicles)
+        );
+        console.log("Favoritos guardados con éxito");
+      } catch (error) {
+        console.error("Error al guardar favoritos en AsyncStorage:", error);
+      }
     }
   };
 
-  const getFavoriteVehiclesFromStorage = async () => {
+  const getFavoriteVehiclesFromStorage = async (userCorreo) => {
     try {
-      const storedFavorites = await AsyncStorage.getItem('favoriteVehicles');
+      const storedFavorites = await AsyncStorage.getItem(
+        `favoriteVehicles_${userCorreo}`
+      );
       if (storedFavorites) {
         setFavoriteVehicles(JSON.parse(storedFavorites));
       }
     } catch (error) {
-      console.error('Error al obtener favoritos desde AsyncStorage:', error);
+      console.error("Error al obtener favoritos desde AsyncStorage:", error);
     }
   };
 
   useEffect(() => {
-    getFavoriteVehiclesFromStorage();
-  }, []);
-
-  useEffect(() => {
     saveFavoriteVehiclesToStorage();
-  }, [favoriteVehicles]);
+  }, [favoriteVehicles, usuarioCorreo]);
 
   return (
-    <AppContext.Provider value={{ favoriteVehicles, toggleFavorite, apiData, isLoading }}>
+    <AppContext.Provider
+      value={{ favoriteVehicles, toggleFavorite, apiData, isLoading }}
+    >
       {children}
     </AppContext.Provider>
   );

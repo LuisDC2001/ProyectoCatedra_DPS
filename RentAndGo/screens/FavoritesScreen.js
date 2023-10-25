@@ -20,18 +20,7 @@ const FavoritesScreen = () => {
   const handleVehiclePress = (vehicleId) => {
     navigation.navigate("Details", { vehicleId });
   };
-  const saveFavoriteVehiclesToStorage = async () => {
-    try {
-      await AsyncStorage.setItem(`favoriteVehicles-${usuarioCorreo}`, JSON.stringify(favoriteVehicles));
-      console.log('Favoritos guardados con éxito para el usuario: ' + usuarioCorreo);
-      console.log('IDs de carros agregados a favoritos:', favoriteVehicles);
-    } catch (error) {
-      console.error('Error al guardar favoritos en AsyncStorage:', error);
-    }
-  };
-  useEffect(() => {
-    saveFavoriteVehiclesToStorage();
-  }, [favoriteVehicles]);
+
 
   useEffect(() => {
     getUsuarioCorreoFromStorage();
