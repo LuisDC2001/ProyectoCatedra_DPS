@@ -23,6 +23,8 @@ $client->setRedirectUri('http://localhost/RentAndGo/api/user/google-login.php');
 $client->addScope(['profile', 'email']);
 
 $email = "";
+$nombre = "";
+$apellido = "ApellidoTemp"; // Valor temporal para apellido
 
 // Si se recibe un código desde Google
 if (isset($_GET['code'])) {
@@ -32,8 +34,9 @@ if (isset($_GET['code'])) {
     $google_oauth = new Google_Service_Oauth2($client);
     $google_account_info = $google_oauth->userinfo->get();
     $email = $google_account_info->email;
+    $nombre = $google_account_info->givenName;
+    $apellido = $google_account_info->familyName ?? "ApellidoTemp";
 
-    // Devolver la información de la cuenta de Google
     echo json_encode($google_account_info);
     exit;
 }
@@ -45,7 +48,6 @@ if (allowedMethod('POST')) {
     print_r($data);
     echo "\n";
 
-    // Si se recibió información
     if (!empty($data)) {
         $email = $data['email'];
 
@@ -53,29 +55,29 @@ if (allowedMethod('POST')) {
         $query = "SELECT * FROM usuario WHERE correoElectronico = :email";
         $user = $dbModel->getQuery($query, ["email" => $email]);
 
-        // Si el usuario ya existe en la base de datos
         if (!empty($user)) {
             echo json_encode($user);
         } else {
-            // Si el usuario no existe, se intenta insertar
             $defaultNacionalidad = 1;
             $defaultRol = 1;
+            $tempPassword = password_hash("TempPassword123!", PASSWORD_DEFAULT);
 
-            $query = "INSERT INTO usuario(correoElectronico, fechaNacimiento, telefono, idNacionalidad, idRol) 
-                      VALUES (:email, '1990-01-01', '1234567890', :defaultNacionalidad, :defaultRol)"; //Se insertan valors de nacimiento y número telefonico para no dejar vacios los campos en la base de datos
+            $query = "INSERT INTO usuario(nombre, apellido, correoElectronico, contrasena, fechaNacimiento, telefono, idNacionalidad, idRol) 
+                      VALUES (:nombre, :apellido, :email, :password, '1990-01-01', '1234567890', :defaultNacionalidad, :defaultRol)";
             $params = [
+                "nombre" => $nombre,
+                "apellido" => $apellido,
                 "email" => $email,
+                "password" => $tempPassword,
                 "defaultNacionalidad" => $defaultNacionalidad,
                 "defaultRol" => $defaultRol
             ];
 
             $affectedRows = $dbModel->setTransactionQuery([$query], [$params]);
             
-            // Si se insertó el usuario correctamente
             if ($affectedRows && isset($affectedRows[0]) && $affectedRows[0] > 0) {
                 echo json_encode(["status" => "User inserted successfully"]);
             } else {
-                // Si hubo un error al insertar el usuario
                 echo json_encode([
                     "status" => "Failed to insert user",
                     "details" => "No rows were affected. Check the query and parameters.",
@@ -85,8 +87,11 @@ if (allowedMethod('POST')) {
             }
         }
     } else {
-        // Si no recibió la información o el formato es incorrecto
-        echo showErrors(400, 'BAD REQUEST', 'No se ha enviado información o no es aceptado el formato en que se envió');
+        echo json_encode([
+            "error" => 400,
+            "mensajeError" => "BAD REQUEST",
+            "mensajeErrorReal" => "No se ha enviado información o no es aceptado el formato en que se envió"
+        ]);
     }
 }
 ?>
