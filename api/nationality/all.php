@@ -1,12 +1,7 @@
 <?php 
     //Archivos requeridos
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\var_global.php');
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\validations.php');
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\db_model.php');
-
-    //require_once('./inc/db_model.php');
-    //require_once('./inc/validations.php.php');
-    //require_once('./inc/var_global.php.php');
+    require_once('../../inc/db_model.php');
+    require_once('../../inc/validations.php');
 
     //Parámetros de cabecera
     header('Access-Control-Allow-Origin: *');

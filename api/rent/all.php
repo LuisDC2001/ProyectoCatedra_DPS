@@ -1,12 +1,7 @@
 <?php 
     //Archivos requeridos
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\var_global.php');
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\validations.php');
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\db_model.php');
-
-    //require_once('./inc/db_model.php');
-    //require_once('./inc/validations.php.php');
-    //require_once('./inc/var_global.php.php');
+    require_once('../../inc/db_model.php');
+    require_once('../../inc/validations.php');
 
     //Parámetros de cabecera
     header('Access-Control-Allow-Origin: *');
@@ -29,7 +24,7 @@
         foreach ($rent as $key => $value) {
             $idVehiculo = $rent[$key]['idVehiculo'];
             $query = "
-                SELECT ma.nombre AS marca, mo.nombre AS modelo, tv.nombre AS tipo, v.year AS año, v.color, v.placa, v.imagen, v.idPropietario
+                SELECT ma.nombre AS marca, mo.nombre AS modelo, tv.nombre AS tipo, v.year AS año, v.color, v.placa, v.imagen, v.transmision, v.pasajeros, v.motor, v.gasolina, v.idPropietario
                 FROM vehiculo AS v
                      JOIN modelo mo ON v.idModelo = mo.id
                      JOIN marca ma ON mo.idMarca = ma.id

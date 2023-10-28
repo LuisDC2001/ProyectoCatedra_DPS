@@ -1,8 +1,7 @@
 <?php
-    
     //Archivos requeridos
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\var_global.php');
-    require_once('C:\xampp\htdocs\ProyectoCatedra_DPS\inc\validations.php');
+    require_once('validations.php');
+    require_once('var_global.php');
 
     class Model
     {
