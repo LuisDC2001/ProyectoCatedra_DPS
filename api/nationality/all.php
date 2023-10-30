@@ -15,7 +15,8 @@
         $query = "
             SELECT n.id, n.nombre
             FROM nacionalidad AS n
-            ORDER BY nombre";
+            WHERE n.fechaFila <= NOW()
+            ORDER BY n.nombre";
         return $dbModel->getQuery($query);
     }
 

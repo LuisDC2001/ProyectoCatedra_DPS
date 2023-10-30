@@ -45,16 +45,27 @@
 
     //Función para validar formato de correo
     function validateEmail($email){
-        $emailSanitized = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
-        if (filter_var($emailSanitized, FILTER_VALIDATE_EMAIL) == false) {
-            echo showErrors(400, 'BAD REQUEST', 'El correo electrónico ingresado es inválido');
-            return false;
+        $emailSanitized = preg_replace('/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/', '', $email);
+        $value = $emailSanitized;
+        if (!preg_match("/^(?!.*[^a-zA-Z0-9]{2})[a-zA-Z0-9+.-_]+(-[a-zA-Z0-9]+)*@([a-zA-Z0-9](?:[a-zA-Z0-9-]{1,60}[a-zA-Z0-9])?\.)+[a-zA-Z0-9]{2,}$/", $emailSanitized)) {
+            $value = false;
         }
-        return $emailSanitized;
+        else {
+            $domain = explode('@', $emailSanitized)[1];
+            $domain = preg_replace("/[^A-Za-z0-9-.]/", "", $domain);
+            if (!checkdnsrr($domain, 'MX')) {
+                $value = false;
+            }
+        }
+        if (!$value) {
+            echo showErrors(400, 'BAD REQUEST', 'El correo electrónico ingresado es inválido');
+        }
+        return $value;
     }
 
     //Función para validar contraseña
     function validatePassword($password){
+        $value = $password;
         //Condiciones
         $conditions = array(
             '[A-Z]', /* Mínimo una letra mayúscula */
@@ -62,16 +73,30 @@
             '[0-9]', /* Mínimo un número */
             '\W',    /* Mínimo un carácter no alfanumérico*/
         );
-        if (strlen($password)<=5) /* Longitud mayor a 5 */ {
-            echo showErrors(400, 'BAD REQUEST', 'La contraseña no cumple con los requisitos mínimos');
-            return false;
+        if (strlen($password) <= 5) /* Longitud mayor a 5 */ {
+            $value = false;
         }
         foreach ($conditions as $con) {
             if (!preg_match("/$con/", $password)) {
-                echo showErrors(400, 'BAD REQUEST', 'La contraseña no cumple con los requisitos mínimos');
-                return false;
+                $value = false;
             }
         }
-        return $password;
+        if (!$value) {
+            echo showErrors(400, 'BAD REQUEST', 'La contraseña no cumple con los requisitos mínimos');
+        }
+        return $value;
+    }
+
+    //Función para eliminar los datos innecesarios de un array
+    function removeKeysOfArray($array, $keys){
+        foreach ($array as $arrayKey => $value) {
+            $subArray = [$array[$arrayKey]];
+            foreach ($keys as $key) {
+                if (!array_key_exists($key, $subArray)) {
+                    unset($array[$arrayKey]);
+                }
+            }    
+        }
+        return $array;
     }
 ?>
