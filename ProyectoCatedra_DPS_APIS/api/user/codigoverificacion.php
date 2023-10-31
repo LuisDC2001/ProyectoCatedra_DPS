@@ -33,8 +33,6 @@
         }
     }
 
-   
-
    // Validación de método
    $requestMethod = $_SERVER["REQUEST_METHOD"];
    if ($requestMethod == 'POST') {

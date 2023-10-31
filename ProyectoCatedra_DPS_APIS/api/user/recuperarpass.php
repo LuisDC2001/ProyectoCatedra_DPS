@@ -43,7 +43,7 @@ require 'PHPMailer/src/SMTP.php';
             $mail = new PHPMailer(true);
                 try {
                 //Server settings
-                $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
+                $mail->SMTPDebug = 0;                                       //Enable verbose debug output
                 $mail->isSMTP();                                            //Send using SMTP
                 $mail->Host       = 'smtp.gmail.com';                       //Set the SMTP server to send through
                 $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
@@ -67,7 +67,7 @@ require 'PHPMailer/src/SMTP.php';
                     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 }
             $_SESSION['correoElectronico']=$email;
-            return $result;
+            return $result2;
          }else{
             //No se actualizo la informacion
             return null;

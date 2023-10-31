@@ -18,7 +18,7 @@
     $dbModel = new Model();
     $pass_hash = hash('sha256', $pass);
     $query = "
-    SELECT `nombre`,`apellido`,`fechaNacimiento`,`telefono` FROM `usuario` WHERE `correoElectronico`=:correoElectronico AND `contrasena`=:contrasena ";
+    SELECT `nombre`,`apellido`,`fechaNacimiento`,`telefono`,`correoElectronico` FROM `usuario` WHERE `correoElectronico`=:correoElectronico AND `contrasena`=:contrasena ";
         $result= $dbModel->getQuery($query,['correoElectronico'=>$email,'contrasena'=>$pass_hash]);
     if (!empty($result)) {
         // Contraseña válida
