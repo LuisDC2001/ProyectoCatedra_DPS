@@ -27,7 +27,7 @@ const NewPass = () => {
             body: JSON.stringify({"contrasena":contra,"confcontrasena":contranueva})  
         }).then(res=>res.json())
         .then(resData=>{
-                alert(resData.message);
+                //alert(resData.message);
                 if(resData.message==="Se ha actualizado la contraseña"){
                     navigation.navigate('PassChanged');
                 }
@@ -87,7 +87,7 @@ const NewPass = () => {
 const styles = StyleSheet.create({
     root: {
         alignItems: 'left',
-        justifyContent: 'flex-start', //la sube
+        justifyContent: 'flex-start', 
         padding: 20,
         height: '100%',
         marginTop: 30,

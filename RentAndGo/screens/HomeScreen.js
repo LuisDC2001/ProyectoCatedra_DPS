@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -9,105 +9,174 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
 } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome"; 
-import Carros from "../Carros";
-import { useAppContext } from '../AppContext';
-import { useNavigation } from '@react-navigation/native';
+import Icon from "react-native-vector-icons/FontAwesome";
+import { useAppContext } from "../AppContext";
+import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 
 const HomeScreen = () => {
   const { favoriteVehicles, toggleFavorite } = useAppContext();
-  const [searchText, setSearchText] = useState(""); // Estado para el texto de búsqueda
+  const [searchText, setSearchText] = useState("");
+  const [apiData, setApiData] = useState([]); 
+  const [searchResults, setSearchResults] = useState([]); 
   const navigation = useNavigation();
-  
-  // Función para filtrar los vehículos según el texto de búsqueda
-  const filteredVehicles = Carros.filter((vehicle) =>
-  vehicle.brand.toLowerCase().includes(searchText.toLowerCase()) ||
-  vehicle.model.toLowerCase().includes(searchText.toLowerCase())
-  );
 
+  useEffect(() => {
+    fetchDataFromApi();
+  }, []);
+
+  const fetchDataFromApi = async () => {
+    try {
+      const response = await axios.get(
+        "http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/rent/all.php"
+      );
+      setApiData(response.data);
+    } catch (error) {
+      console.error("Error fetching data from the API:", error);
+    }
+  };
   const handleSearch = () => {
-    // lógica de búsqueda
-    const filteredVehicles = Carros.filter((vehicle) =>
-    vehicle.brand.toLowerCase().includes(searchText.toLowerCase()) ||
-    vehicle.model.toLowerCase().includes(searchText.toLowerCase())
+    const filteredVehicles = apiData.filter((rent) =>
+      rent.vehiculo[0].marca.toLowerCase().includes(searchText.toLowerCase()) ||
+      rent.vehiculo[0].modelo.toLowerCase().includes(searchText.toLowerCase())
     );
     setSearchResults(filteredVehicles);
   };
 
+
   const handleFilterButtonPress = () => {
-    navigation.navigate('Filter'); // navegar a la pantalla 'Filter'
+    navigation.navigate("Filter");
   };
 
   const handleVehiclePress = (vehicleId) => {
-    // navegación a la pantalla "Details" 
-    navigation.navigate('Details', { vehicleId }); // pasar el identificador del vehículo
+    navigation.navigate("Details", { vehicleId });
   };
-  
+
+
   return (
     <View style={styles.container}>
-      {/* Barra de búsqueda con icono de lupa */}
       <View style={styles.searchContainer}>
         <View style={styles.searchInputContainer}>
-          <TextInput
+        <TextInput
             style={styles.searchInput}
-            placeholder="Buscar carro"
+            placeholder="Buscar vehiculo"
             value={searchText}
-            onChangeText={(text) => setSearchText(text)}
+            onChangeText={(text) => setSearchText(text)} 
+            onEndEditing={handleSearch} 
           />
-          <TouchableOpacity style={styles.searchIcon}>
+          <TouchableOpacity style={styles.searchIcon} onPress={handleSearch}>
             <Icon name="search" size={24} color="black" />
           </TouchableOpacity>
         </View>
-
         <TouchableOpacity
-        style={styles.filterButton}
-        onPress={handleFilterButtonPress}
-      >
-         <Icon name="sliders" size={24} color="black" />
-
-      </TouchableOpacity>
-
-      </View>
-
-
-      {/* Título "Vehículos disponibles" */}
-      <Text style={styles.title}>Vehículos disponibles</Text>
-
-      {/* ScrollView que contiene todos los vehicle containers */}
-      <ScrollView>
-        {filteredVehicles.map((vehicle) => (
-          <TouchableWithoutFeedback
-          key={vehicle.id}
-          onPress={() => handleVehiclePress(vehicle.id)}
+          style={styles.filterButton}
+          onPress={handleFilterButtonPress}
         >
-          <View key={vehicle.id} style={styles.vehicleContainer}>
-            <View style={styles.infoRow}>
-              <Text>
-                <Text style={styles.infoLabelBold}>{vehicle.brand}</Text>
-                <Text style={{ fontSize: 20 }}> {vehicle.model}</Text>
-              </Text>
-              <TouchableOpacity onPress={() => toggleFavorite(vehicle.id)}>
-                <Icon
-                  name={favoriteVehicles.includes(vehicle.id) ? "heart" : "heart-o"}
-                  size={24}
-                  color={favoriteVehicles.includes(vehicle.id) ? "blue" : "black"}
-                />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.infoRow}>
-              <Text>
-                <Text style={{ color: "blue", fontSize: 26 }}>${vehicle.price}</Text>
-                <Text style={{ fontSize: 20 }}>/ día</Text>
-              </Text>
-            </View>
-            <Image
-              source={vehicle.image}
-              style={styles.vehicleImage}
-              resizeMode="cover"
-            />
-          </View>
-          </TouchableWithoutFeedback>
-        ))}
+          <Icon name="sliders" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
+      <Text style={styles.title}>Vehiculos Disponibles</Text>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        {searchText
+          ? searchResults.map((rent) => (
+              <TouchableWithoutFeedback
+                key={rent.vehiculo[0].id}
+                onPress={() => handleVehiclePress(rent.vehiculo[0].id)}
+              >
+                <View style={styles.vehicleContainer}>
+                  <View style={styles.infoRow}>
+                    <Text>
+                      <Text style={styles.infoLabelBold}>
+                        {rent.vehiculo[0].marca}
+                      </Text>
+                      <Text style={{ fontSize: 20 }}>
+                        {" "}
+                        {rent.vehiculo[0].modelo}
+                      </Text>
+                    </Text>
+                    <TouchableOpacity
+                      // Utiliza toggleFavoriteById para gestionar los favoritos individualmente
+                      onPress={() => toggleFavorite(rent.vehiculo[0].id)}
+                    >
+                      <Icon
+                        name={
+                          favoriteVehicles.includes(rent.vehiculo[0].id)
+                            ? "heart"
+                            : "heart-o"
+                        }
+                        size={24}
+                        color={
+                          favoriteVehicles.includes(rent.vehiculo[0].id)
+                            ? "blue"
+                            : "black"
+                        }
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.infoRow}>
+                    <Text>
+                      <Text style={{ color: "blue", fontSize: 26 }}>
+                        {rent.precioDia}
+                      </Text>
+                      <Text style={{ fontSize: 20 }}>/ dia</Text>
+                    </Text>
+                  </View>
+                  <Image
+                    style={{ width: "100%", height: 200 }}
+                    source={{ uri: rent.vehiculo[0].imagen }}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+            ))
+          : apiData.map((rent) => (
+              <TouchableWithoutFeedback
+                key={rent.vehiculo[0].id}
+                onPress={() => handleVehiclePress(rent.vehiculo[0].id)}
+              >
+                <View style={styles.vehicleContainer}>
+                  <View style={styles.infoRow}>
+                    <Text>
+                      <Text style={styles.infoLabelBold}>
+                        {rent.vehiculo[0].marca}
+                      </Text>
+                      <Text style={{ fontSize: 20 }}>
+                        {" "}
+                        {rent.vehiculo[0].modelo}
+                      </Text>
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => toggleFavorite(rent.vehiculo[0].id)}
+                    >
+                      <Icon
+                        name={
+                          favoriteVehicles.includes(rent.vehiculo[0].id)
+                            ? "heart"
+                            : "heart-o"
+                        }
+                        size={24}
+                        color={
+                          favoriteVehicles.includes(rent.vehiculo[0].id)
+                            ? "blue"
+                            : "black"
+                        }
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.infoRow}>
+                    <Text>
+                      <Text style={{ color: "blue", fontSize: 26 }}>
+                        {rent.precioDia}
+                      </Text>
+                      <Text style={{ fontSize: 20 }}>/ dia</Text>
+                    </Text>
+                  </View>
+                  <Image
+                    style={{ width: "100%", height: 200 }}
+                    source={{ uri: rent.vehiculo[0].imagen }}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+            ))}
       </ScrollView>
     </View>
   );
@@ -133,14 +202,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 10,
     backgroundColor: "white",
-    marginRight: 10, // Espacio entre la barra de búsqueda y el botón de filtro
+    marginRight: 10,
   },
   searchInput: {
     flex: 1,
     height: 40,
   },
   searchIcon: {
-    marginRight: 10, // Espacio entre el campo de búsqueda y el ícono de lupa
+    marginRight: 10,
   },
   filterButton: {
     padding: 10,
@@ -152,7 +221,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   vehicleContainer: {
-    backgroundColor: "white", // Color de fondo del container
+    backgroundColor: "white",
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
@@ -165,24 +234,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
   },
   infoLabelBold: {
-    fontSize: 36, // Tamaño de fuente más grande
-    fontWeight: "bold", // Texto en negrita
-  },
-  favoriteButton: {
-    padding: 5,
-  },
-  price: {
-    fontSize: 20,
+    fontSize: 36,
     fontWeight: "bold",
-  },
-  pricePerDay: {
-    fontSize: 16,
-  },
-  vehicleImage: {
-    width: "100%",
-    height: 200, // Altura de la imagen
-    borderRadius: 10,
   },
 });
 
-export default HomeScreen;
+export default HomeScreen;  

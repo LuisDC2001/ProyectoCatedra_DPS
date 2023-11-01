@@ -4,6 +4,7 @@ import Logo from '../assets/img/logo.png';
 import CustomInput from '../components/Input'
 import Button from '../components/Button'
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const SignInScreen = () => {
@@ -12,22 +13,46 @@ const SignInScreen = () => {
     const [isContraVisible, setContraVisible] = useState(false);
     const navigation = useNavigation();
 
-    const SignInPress = async() => {
-        await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/login.php',{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
+
+
+    const SignInPress = async () => {
+        await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/login.php', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify({"correoElectronico":correo,"contrasena":contra})  
-        }).then(res=>res.json())
-        .then(resData=>{
+            body: JSON.stringify({ "correoElectronico": correo, "contrasena": contra })
+        })
+            .then(async (res) => {
+                const resData = await res.json();
                 alert(resData.message);
-                if(resData.message==="Inicio de sesión exitoso"){
+                if (resData.message === "Inicio de sesión exitoso") {
+                    // Obtenemos la lista de usuarios en sesión actual
+                    const usuariosEnSesion = await AsyncStorage.getItem('usuariosEnSesion');
+                    const usuarios = usuariosEnSesion ? JSON.parse(usuariosEnSesion) : [];
+
+                    // Verificamos si el usuario ya está en la lista
+                    if (!usuarios.includes(correo)) {
+                        // Agregamos al usuario a la lista
+                        usuarios.push(correo);
+
+                        // Actualizamos la lista de usuarios en sesión
+                        await AsyncStorage.setItem('usuariosEnSesion', JSON.stringify(usuarios));
+                    }
+
+                   
+                    await AsyncStorage.setItem('usuarioCorreo', correo);
+                    console.log('Usuario almacenado en sesión:', correo);
+
                     navigation.navigate('HomeTab');
+                    setCorreo("");
+                    setContra("");
                 }
-        });
+            });
     }
+
+
 
     const ForgotPress = () => {
         navigation.navigate('Forgot');
@@ -64,9 +89,9 @@ const SignInScreen = () => {
                     value={contra}
                     setValue={setContra}
                     secureTextEntry={!isContraVisible}
-                    icononame="lock" 
+                    icononame="lock"
                     iconpassword={isContraVisible ? 'eye' : 'eye-slash'}
-                    onPress={ContraVisibility}/>
+                    onPress={ContraVisibility} />
                 <Button
                     text="¿Olvidaste tu contraseña?"
                     onPress={ForgotPress}
@@ -76,7 +101,7 @@ const SignInScreen = () => {
                     text="Ingresar"
                     onPress={SignInPress}
                     type="PRIMARY"
-                    size={350}/>
+                    size={350} />
 
                 <Button
                     text=" ¿Primera vez por aquí? Registrate"
@@ -102,7 +127,7 @@ const SignInScreen = () => {
 const styles = StyleSheet.create({
     root: {
         alignItems: 'center',
-        justifyContent: 'flex-start', //la sube
+        justifyContent: 'flex-start',
         padding: 20,
         height: '100%',
         marginTop: 100,

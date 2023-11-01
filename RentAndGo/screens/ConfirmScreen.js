@@ -4,51 +4,34 @@ import { useAppContext } from '../AppContext';
 import { useNavigation } from '@react-navigation/native';
 import ReservationsConfirm from "./ReservationsConfirmScreen";
 
-const Details = ({ route }) => {
+const Confirm = ({ route }) => {
 
   const navigation = useNavigation();
-  // Obteniendo el identificador del vehículo de los parámetros de navegación
-  const { vehicleId } = route.params;
 
-  // Accede a los datos de la API desde el contexto
-  const { apiData } = useAppContext();
+  const { vehicleDetails, fechaInicio, fechaFin, precioTotal } = route.params.reservationData;
+  
 
-  // Busca el vehículo correspondiente en los datos de la API
-  const vehicleDetails = apiData.find((vehicle) => vehicle.vehiculo[0].id === vehicleId);
-
-  const ReservationsConfirm = (vehicleDetails) => {
-    navigation.navigate('DateRangePicker', {
-      vehicleDetails, // Pasar vehicleDetails como parámetro
-    });
-  }
-
-  if (!vehicleDetails) {
-    // Si no se encuentra el vehículo, puedes mostrar un mensaje o manejar el caso de error según tus necesidades
-    return (
-      <View style={styles.container}>
-        <Text style={styles.brandModel}>Vehículo no encontrado</Text>
-      </View>
-    );
+  const ReservationsConfirm = () => {
+    navigation.navigate('ReservationsConfirm');
   }
 
   return (
     <View style={styles.container}>
-      <Text style={styles.brandModel}>
-        {`${vehicleDetails.vehiculo[0].marca} ${vehicleDetails.vehiculo[0].modelo}`}
-      </Text>
+        <Text style={styles.confirm}>Confirma tu reserva</Text>
 
-      <View style={styles.imageContainer}>
-        <Image
-          style={{ width: "100%", height: 200 }}
-          source={{ uri: vehicleDetails.vehiculo[0].imagen }}
-        />
-      </View>
-
-      <Text style={styles.specs}>Especificaciones</Text>
+      <Text style={styles.specs}>Confirma que todo este correcto:</Text>
       <View style={styles.detailsContainer}>
+      <Text style={styles.info}>
+          <Text style={styles.title}>Marca: </Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].modelo}</Text>
+        </Text>
+        <Text style={styles.info}>
+          <Text style={styles.title}>Modelo: </Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].año}</Text>
+        </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Año: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].anio}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].año}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Transmisión: </Text>
@@ -70,24 +53,30 @@ const Details = ({ route }) => {
           <Text style={styles.title}>Tipo de gasolina: </Text>
           <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].gasolina}</Text>
         </Text>
-      </View>
-
-      <View style={styles.leftContainer}>
-        <Text style={styles.preciotext}>Precio:</Text>
-      </View>
-      <View style={styles.middleContainer}>
-        <Text>
-          <Text style={{ color: "blue", fontSize: 32 }}>
-            {vehicleDetails.precioDia}
-          </Text>
-          <Text style={{ fontSize: 28 }}>/ día</Text>
+        <Text style={styles.info}>
+          <Text style={styles.title}>Fecha de inicio: </Text>
+          <Text style={styles.detalle}>{fechaInicio}</Text>
+        </Text>
+        <Text style={styles.info}>
+          <Text style={styles.title}>Fecha de fin: </Text>
+          <Text style={styles.detalle}>{fechaFin}</Text>
+        </Text>
+        <Text style={styles.info}>
+          <Text style={styles.title}>Precio por dia:</Text>
+          <Text style={styles.detalle}> ${vehicleDetails.precioDia}</Text>
+        </Text>
+        <Text style={styles.info}>
+          <Text style={styles.title}>Precio total:</Text>
+          <Text style={styles.detalle}> ${precioTotal}</Text>
         </Text>
       </View>
-      <View style={styles.rightContainer}>
-        <TouchableOpacity style={styles.reserveButton} onPress={() => ReservationsConfirm(vehicleDetails)}>
-          <Text style={styles.buttonText}>Reservar</Text>
-        </TouchableOpacity>
-      </View>
+
+      <View style={styles.buttonContainer}>
+    <TouchableOpacity style={styles.reserveButton} onPress={ReservationsConfirm}>
+      <Text style={styles.buttonText}>Confirmar Reserva</Text>
+    </TouchableOpacity>
+  </View>
+
     </View>
   );
 };
@@ -101,14 +90,19 @@ const styles = StyleSheet.create({
   },
   specs: {
     marginTop: 20,
-    fontSize: 24,
-    fontWeight: "bold",
+    fontSize: 18,
   },
   info: {
     paddingBottom: 15,
   },
-  brandModel: {
+  confirm: {
     fontSize: 28,
+    fontWeight: "bold",
+    marginTop: 10,
+    textAlign: "center",
+  },
+  brandModel: {
+    fontSize: 22,
     fontWeight: "bold",
     marginTop: 10,
     textAlign: "center",
@@ -132,7 +126,6 @@ const styles = StyleSheet.create({
     paddingLeft: 9,
     paddingRight: 9,
     paddingTop: 9,
-    marginBottom: 30,
   },
   title: {
     fontSize: 20,
@@ -144,22 +137,25 @@ const styles = StyleSheet.create({
   },
   preciotext:
   {
-    marginTop: 15,
-    fontSize: 28,
-    color: "gray",
+    marginTop:15,
+    fontSize:28,
+    color:"gray",
+  },
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   reserveButton: {
     padding: 10, // Aumenta el espacio alrededor del botón
     backgroundColor: '#4D4DFF',
     borderRadius: 8, // Agrega bordes redondeados al botón
-    marginTop: 25,
-    marginRight: 30,
     width: 200,
-    height: 65,
+    height: 55,
   },
   buttonText: {
     color: 'white', // Cambia el color del texto del botón según tus necesidades
-    fontSize: 24, // Aumenta el tamaño del texto del botón
+    fontSize: 20, // Aumenta el tamaño del texto del botón
     textAlign: "center",
     marginTop: 2,
   },
@@ -178,4 +174,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Details;
+export default Confirm;

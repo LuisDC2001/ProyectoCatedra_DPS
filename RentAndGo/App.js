@@ -10,15 +10,21 @@ import DetailsScreen from "./screens/DetailsScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
 import ReservationsScreen from "./screens/ReservationsScreen";
 import ForgotPassScreen from "./screens/ForgotPassScreen";
+import ForgotPassScreen2 from "./screens/ForgotPassScreen2";
 import AccountScreen from "./screens/AccountScreen";
 import FilterScreen from "./screens/FilterScreen";
 import VerificationScreen from "./screens/VerificationScreen";
 import NewPassScreen from "./screens/NewPassScreen";
 import PassChangedScreen from './screens/PassChangedScreen'
 import GoogleScreen from "./screens/GoogleScreen";
+import EditAccount from './screens/EditAccount';
+import ReservationsConfirm from "./screens/ReservationsConfirmScreen";
+import DateRangePicker from './screens/CalendarScreen';
+import Confirm from "./screens/ConfirmScreen";
 import { StatusBar } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AppProvider } from "./AppContext";
+
 
 
 
@@ -62,9 +68,9 @@ const HomeTab = () => {
           component={HomeScreen}
           options={{ headerShown: false }}
         />
-        <Tab.Screen name="Favoritos" component={FavoritesScreen} />
-        <Tab.Screen name="Reservas" component={ReservationsScreen} />
-        <Tab.Screen name="Cuenta" component={AccountScreen} />
+        <Tab.Screen name="Favoritos" component={FavoritesScreen} options={{ headerShown: false }} />
+        <Tab.Screen name="Reservas" component={ReservationsScreen} options={{ headerShown: false }} />
+        <Tab.Screen name="Cuenta" component={AccountScreen} options={{ headerShown: false }} />
       </Tab.Navigator>
     </AppProvider>
   );
@@ -90,6 +96,11 @@ const App = () => {
           <Stack.Screen 
             name="Forgot" 
             component={ForgotPassScreen} 
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen 
+            name="Forgot2" 
+            component={ForgotPassScreen2} 
             options={{ headerShown: false }}
           />
           <Stack.Screen 
@@ -132,6 +143,26 @@ const App = () => {
           <Stack.Screen 
             name="Filter" 
             component={FilterScreen} 
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen 
+            name="Edit" 
+            component={EditAccount} 
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen 
+            name="DateRangePicker" 
+            component={DateRangePicker} 
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen 
+            name="ReservationsConfirm" 
+            component={ReservationsConfirm} 
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen 
+            name="Confirm" 
+            component={Confirm} 
             options={{ headerShown: false }}
           />
 

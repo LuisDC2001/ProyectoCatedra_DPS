@@ -1,24 +1,18 @@
 import React from 'react'
-import { View, Text, TextInput,StyleSheet, Image, Button, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Image, Button, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const Input = ({ value, setValue, placeholder, secureTextEntry, icononame, iconpassword, onPress, keyboardtype }) => {
+const InputRead = ({ value, setValue, placeholder, keyboardtype, readonly }) => {
   return (
     <View style={styles.container}>
-      <Icon name={icononame} style={styles.icon} />
       <TextInput
         value={value}
         onChangeText={setValue}
         placeholder={placeholder}
-        style={styles.input}
+        style={[styles.input, readonly && styles.readonlyInput]}
         keyboardType={keyboardtype}
-        secureTextEntry={secureTextEntry} />
-      <TouchableOpacity onPress={onPress}>
-        <Icon
-          name={iconpassword}
-          style={styles.icon}
-        />
-      </TouchableOpacity>
+        editable={!readonly}
+        />    
     </View>
   )
 }
@@ -30,7 +24,6 @@ const styles = StyleSheet.create({
     borderColor: '#e8e8e8',
     borderWidth: 1,
     borderRadius: 9,
-    paddingHorizontal: 16,
     marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
@@ -40,12 +33,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'gray',
     paddingVertical: 12,
+   
   },
-  icon: {
-    fontSize: 20,
-    marginRight: 10,
-    color: 'gray',
+  readonlyInput: {
+    backgroundColor: '#B5B5B5', // Fondo gris cuando es de solo lectura
+    color: 'gray', // Texto gris cuando es de solo lectura
   },
 });
 
-export default Input;
+export default InputRead;
