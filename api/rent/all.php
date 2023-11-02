@@ -28,10 +28,10 @@
                    v.color, 
                    v.placa, 
                    v.imagen, 
-                   v.transmision, 
+                   t.nombre AS transmision, 
                    v.pasajeros, 
                    v.motor, 
-                   v.gasolina, 
+                   g.nombre AS gasolina, 
                    CASE
                     WHEN p.idTipoPropietario = 1 THEN p.nombre
                     ELSE p.razonSocial
@@ -54,6 +54,10 @@
                     ON v.idTipoVehiculo = tv.id
                  JOIN propietario AS p
                     ON v.idPropietario = p.id
+                 JOIN transmision AS t
+                    ON v.idTransmision = t.id
+                 JOIN gasolina AS g
+                    ON v.idGasolina = g.id
             WHERE r.disponible = 1 
                   AND r.fechaFila <= NOW()
             ORDER BY r.fechaFila DESC ;";

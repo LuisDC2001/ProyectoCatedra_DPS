@@ -24,9 +24,9 @@
             FROM marca AS m
             WHERE m.fechaFila <= NOW() AND m.nombre LIKE '".$search['marca']."'";
         $filterTransmition = "
-            SELECT v.transmision
-            FROM vehiculo AS v
-            WHERE v.fechaFila <= NOW() AND v.transmision LIKE '".$search['transmision']."'";
+            SELECT t.nombre
+            FROM transmision AS t
+            WHERE t.fechaFila <= NOW() AND t.nombre LIKE '".$search['transmision']."'";
         $filterYear = "
             SELECT v.year
             FROM vehiculo AS v
@@ -54,10 +54,10 @@
                    v.color, 
                    v.placa, 
                    v.imagen, 
-                   v.transmision, 
+                   t.nombre AS transmision, 
                    v.pasajeros, 
                    v.motor, 
-                   v.gasolina, 
+                   g.nombre AS gasolina, 
                    CASE
                     WHEN p.idTipoPropietario = 1 THEN p.nombre
                     ELSE p.razonSocial
@@ -80,6 +80,10 @@
                     ON v.idTipoVehiculo = tv.id
                  JOIN propietario AS p
                     ON v.idPropietario = p.id
+                 JOIN transmision AS t
+                    ON v.idTransmision = t.id
+                 JOIN gasolina AS g
+                    ON v.idGasolina = g.id
             WHERE r.disponible = 1 
                   AND r.fechaFila <= NOW()";
         if (isset($search['tipoVehiculo'])) {
