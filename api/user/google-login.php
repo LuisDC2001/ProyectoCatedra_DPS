@@ -3,6 +3,7 @@
 require_once '../vendor/autoload.php';
 require_once('../inc/validations.php');
 require_once('../inc/db_model.php');
+require_once('../inc/config.php');  
 
 // Función para verificar si el método HTTP es el esperado
 function allowedMethod($method) {
@@ -15,11 +16,11 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Method: POST');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Authorization, X-Request-With');
 
-// Configuración del cliente de Google
+// Configuración del cliente de Google usando constantes
 $client = new Google_Client();
-$client->setClientId('648005449573-peaogjdmcsjgpa62o1cchplrefqb1igg.apps.googleusercontent.com');
-$client->setClientSecret('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');
-$client->setRedirectUri('http://localhost/RentAndGo/api/user/google-login.php');
+$client->setClientId(GOOGLE_CLIENT_ID);
+$client->setClientSecret(GOOGLE_CLIENT_SECRET);
+$client->setRedirectUri(GOOGLE_REDIRECT_URI);
 $client->addScope(['profile', 'email']);
 
 $email = "";
@@ -58,19 +59,22 @@ if (allowedMethod('POST')) {
         if (!empty($user)) {
             echo json_encode($user);
         } else {
-            $defaultNacionalidad = 1;
-            $defaultRol = 1;
-            $tempPassword = password_hash("TempPassword123!", PASSWORD_DEFAULT);
+            // Usar las constantes para las propiedades por defecto del nuevo usuario
+            $defaultNacionalidad = DEFAULT_NACIONALIDAD;
+            $defaultRol = DEFAULT_ROL;
+            $tempPassword = password_hash(DEFAULT_PASSWORD, PASSWORD_DEFAULT);
 
             $query = "INSERT INTO usuario(nombre, apellido, correoElectronico, contrasena, fechaNacimiento, telefono, idNacionalidad, idRol) 
-                      VALUES (:nombre, :apellido, :email, :password, '1990-01-01', '1234567890', :defaultNacionalidad, :defaultRol)";
+                      VALUES (:nombre, :apellido, :email, :password, :defaultBirthdate, :defaultPhone, :defaultNacionalidad, :defaultRol)";
             $params = [
                 "nombre" => $nombre,
                 "apellido" => $apellido,
                 "email" => $email,
                 "password" => $tempPassword,
                 "defaultNacionalidad" => $defaultNacionalidad,
-                "defaultRol" => $defaultRol
+                "defaultRol" => $defaultRol,
+                "defaultBirthdate" => DEFAULT_BIRTHDATE,
+                "defaultPhone" => DEFAULT_PHONE
             ];
 
             $affectedRows = $dbModel->setTransactionQuery([$query], [$params]);

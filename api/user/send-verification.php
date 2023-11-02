@@ -1,11 +1,11 @@
 <?php
 // Importar las bibliotecas y archivos necesarios
 require_once '../vendor/autoload.php';
-
+require_once('../inc/config.php'); 
 require_once('../inc/validations.php');
 require_once('../inc/db_model.php');
 
-// IMportar las clases necesarios de PHPMailer
+// Importar las clases necesarios de PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -20,35 +20,30 @@ header('Content-Type: application/json');
 header('Access-Control-Allow-Method: POST');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Authorization, X-Request-With');
 
-// Función para enviar el email de verificación
-function sendVerificationEmail($email, $verificationCode) {
-    $verificationLink = "http://localhost/RentAndGo/api/user/verify.php?code=$verificationCode";
-
+// Función para enviar el email de creación exitosa
+function sendSuccessEmail($email) {
     $mail = new PHPMailer(true);
 
     try {
-        // Configuración del servidor (ajusta estos valores según tu configuración)
+        // Configuración del servidor para MailDev
         $mail->isSMTP();
-        $mail->Host = 'smtp.example.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'your-email@example.com';
-        $mail->Password = 'your_password';
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; 
-        $mail->Port = 587;
+        $mail->Host = 'localhost';  // Para MailDev, el host es 'localhost'
+        $mail->SMTPAuth = false;   // MailDev no requiere autenticación
+        $mail->Port = 1025;        // Puerto de MailDev
 
         // Configurar remitente y destinatario
-        $mail->setFrom('from@example.com', 'Mailer');
+        $mail->setFrom('no-reply@rentandgo.com', 'RentAndGo');
         $mail->addAddress($email);
 
         // Configurar el contenido del correo
         $mail->isHTML(true);
-        $mail->Subject = 'Verificación de correo electrónico';
-        $mail->Body = "Por favor, haz clic en el siguiente enlace para verificar tu correo electrónico: <a href=\"$verificationLink\">$verificationLink</a>";
+        $mail->Subject = 'Bienvenido a RentAndGo';
+        $mail->Body = '<h2>Bienvenido a RentAndGo</h2><p>Tu cuenta ha sido creada exitosamente. Gracias por unirte a nosotros.</p>';
 
         $mail->send();
         return true;
     } catch (Exception $e) {
-        // Si hay un errro al enviar el correo, devolver el mensaje de error
+        // Si hay un error al enviar el correo, devolverá el mensaje de error
         return "Error de PHPMailer: " . $mail->ErrorInfo;
     }
 }
@@ -56,7 +51,7 @@ function sendVerificationEmail($email, $verificationCode) {
 // Si el método HTTP es POST
 if (allowedMethod('POST')) {
     $data = json_decode(file_get_contents("php://input"), true);
-    // Si se recibión información
+    // Si se recibió información
     if (!empty($data)) {
         $email = $data['email'];
         $dbModel = new Model();
@@ -66,15 +61,10 @@ if (allowedMethod('POST')) {
 
         // Si se encontró el usuario
         if (!empty($user)) {
-            $verificationCode = bin2hex(random_bytes(50));
-            $sendResult = sendVerificationEmail($email, $verificationCode);
+            $sendResult = sendSuccessEmail($email);
             // Si el correo se envió correctamente
             if ($sendResult === true) {
-                // Actualizar el código de verificación del usuario en la base de datos
-                $query = "UPDATE Usuario SET verification_code = :verificationCode WHERE correoElectronico = :email";
-                $params = ["verificationCode" => $verificationCode, "email" => $email];
-                $dbModel->setTransactionQuery([$query], [$params]);
-                echo json_encode(["message" => "Verification email sent."]);
+                echo json_encode(["message" => "Welcome email sent."]);
             } else {
                 // Si hubo un error al enviar el correo
                 echo showErrors(500, 'INTERNAL SERVER ERROR', $sendResult);

@@ -1,45 +1,76 @@
-### Configuración de APIs google-login y send-verification
+# RentAndGo APIs
 
-#### Estructura de carpetas
+Este archivo README proporciona las instrucciones necesarias para configurar y probar las APIs de RentAndGo en un entorno de desarrollo local.
 
-- **api/config.php**: 
-  - Archivo de configuración que contiene las credenciales para la base de datos y el servidor SMTP.
-  - Es esencial configurar correctamente los valores de SMTP para garantizar el envío de correos electrónicos.
+## Requisitos previos
 
-#### Carpeta `user`
+Asegúrese de tener instalado lo siguiente:
 
-- **user/google-login.php**: 
-  - Permite a los usuarios iniciar sesión mediante Google.
-  - Si el usuario ya está registrado en la base se de datos, se devuelve su información; si no, se registra.
+- Postman 
+- Node.js y npm 
 
-- **user/send-verification.php**: 
-  - Envía un correo electrónico de verificación a la dirección de correo del usuario después de registrarse o iniciar sesión.
-  - Utiliza PHPMailer para enviar correos.
-  - Requiere que el archivo `config.php` esté correctamente configurado.
+## Instalación de dependencias
 
-#### Instrucciones
+Ejecute los siguientes comandos para instalar las bibliotecas PHP necesarias:
 
-1. Clona el repositorio a tu máquina local.
-2. Navega a la carpeta `api` y ajusta `config.php` con tus credenciales.
+composer require phpmailer/phpmailer
+composer require google/apiclient:"^2.0"
 
-# Instalando Composer
+## Configuración de MailDev
 
-php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php composer-setup.php
-php -r "unlink('composer-setup.php');"
+Para probar el envio de correos, se instalará y ejecutará MailDev:
 
-# Instalando PHPMailer y Google API Client
+npm install -g maildev
+maildev
 
-composer require phpmailer/phpmailer google/apiclient:^2.0
+MailDev se ejecutará en http://localhost:1080.
 
-# Configurando WampServer para SMTP local
+## Configuración de APIs en Postman
 
-PHP_INI_PATH="/path/to/your/php.ini"
-sed -i 's/SMTP = .*/SMTP = localhost/' $PHP_INI_PATH
-sed -i 's/smtp_port = .*/smtp_port = 25/' $PHP_INI_PATH
+### google-login.php
 
-Reinicia WampServer para aplicar los cambios.
+Método: POST
+URL: http://localhost/google-login.php
+Headers: Content-Type (Key) & application/json
+body: Seleccionar "raw" y escribir
 
-# Insertando columna requerida en la base de datos
+{
+    "email": "ejemplo123@gmail.com"
+}
 
-ALTER TABLE Usuario ADD verification_code VARCHAR(100) NULL;
+### send-verification.php
+
+Método: POST
+URL: http://localhost/send-verification.php
+Body: Seleccionar "raw" y escribir
+
+{
+    "email": "ejemplo123@gmail.com"
+}
+
+### reservaVehiculo.php
+
+Método: PSOT
+URL: http://localhost/reservaVehiculo.php
+Body: Seleccionar "x-www-form-urlencoded" y escribir (cómo ejemplo) lo siguiente
+
+1. idVehiculo (Key) & 4 (Value)
+2. cantidadDias (Key) & 3 (Value)
+3. precioDia (Key) & 30.00 (Value)
+4. precioDiaExtra (Key) & 35.00 (Value)
+5. porcentajeComision (Key) & 10 (Value)
+6. descripcion (Key) & reserva de prueba (Value)
+7. lugarEntrega (Key) & Sucursal Centro (Value)
+8. fechaEntrega (Key) & 2023-12-20 10:00:00 (Value)
+9. lugarDevolucion (Key) & Sucursal Centro (Value)
+
+### send-verificationReserva.php
+
+Método: POST
+URL: http://localhost/send-verificationReserva.php
+Body: Seleccionar "raw" y escribir
+
+{
+    "idReserva": 3,
+    "email": "cliente@correo.com"
+}
