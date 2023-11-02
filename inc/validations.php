@@ -33,16 +33,6 @@
         return $data;
     }
 
-    //Función para eliminar espacios vacíos y caracteres
-    function deleteSpecialCharacters($str, $characters = null){
-        if ($characters != null) {
-            $str = trim($str, $characters);
-        } else {
-            $str = trim($str); //Trim normal por defecto
-        }
-        return $str;
-    }
-
     //Función para validar formato de correo
     function validateEmail($email){
         $emailSanitized = preg_replace('/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/', '', $email);
@@ -87,16 +77,4 @@
         return $value;
     }
 
-    //Función para eliminar los datos innecesarios de un array
-    function removeKeysOfArray($array, $keys){
-        foreach ($array as $arrayKey => $value) {
-            $subArray = [$array[$arrayKey]];
-            foreach ($keys as $key) {
-                if (!array_key_exists($key, $subArray)) {
-                    unset($array[$arrayKey]);
-                }
-            }    
-        }
-        return $array;
-    }
 ?>

@@ -14,7 +14,6 @@
     function filterRents($search){
         $dbModel = new Model();
         $filterRents = array();
-        //$keys = array('tipoVehiculo', 'marca', 'transmision', 'año', 'pasajeros', 'precioMinimo', 'precioMaximo');
         $search = emptyStringToNull($search);
         $filterTypeOfCar = "
             SELECT tv.nombre
