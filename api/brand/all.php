@@ -9,7 +9,7 @@
     header('Access-Control-Allow-Method: GET');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Headers, Content-Type, Authorization, X-Request-With');
 
-    //Función para seleccionar todos las nacionalidades
+    //Función para seleccionar todos las marcas
     function getAllBrands() {
         $dbModel = new Model();
         $query = "
