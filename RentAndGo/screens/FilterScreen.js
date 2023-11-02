@@ -1,27 +1,105 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity,TextInput,ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
-
+import axios from "axios";
 const FilterScreen = () => {
   const navigation = useNavigation();
+  const [tipo, setTipo] = useState([]);
   const [selectedCarType, setSelectedCarType] = useState("");
+  const [marca, setMarca] = useState([]);
   const [selectedMarcaType, setSelectedMarcaType] = useState("");
+  const [transmision, setTransmision] = useState([]);
   const [selectedTransmisionType, setSelectedTransmisionType] = useState("");
-  const [selectedAñoType, setSelectedAñoType] = useState(""); 
-  const [selectedPasajerosType, setSelectedPasajerosType] = useState("");
+  const [minAño, setMinAño] = useState("");
+  const [maxAño, setMaxAño] = useState("");
+  const [minPasajeros, setMinPasajeros] = useState("");
+  const [maxPasajeros, setMaxPasajeros] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
 
+
+  const minAñoInt = parseInt(minAño);
+  const maxAñoInt = parseInt(maxAño);
+  const minPasajerosInt = parseInt(minPasajeros);
+  const maxPasajerosInt = parseInt(maxPasajeros);
+  const minPriceInt = parseInt(minPrice);
+  const maxPriceInt = parseInt(maxPrice);
   const handleGoBack = () => {
     navigation.goBack();
   };
 
-  const aplicarPress = () => {  
-    //navigation.navigate('HomeTab', { selectedCarType, selectedMarcaType, selectedTransmisionType, selectedAñoType, selectedPasajerosType, minPrice, maxPrice });
+  const aplicarPress = async () => {  
+    await fetch('http://192.168.1.14:8080/ProyectoCatedra_DPS/api/rent/filter.php',{
+      method:'POST',
+      headers:{
+          'Accept':'application/json',
+          'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+      "tipoVehiculo": selectedCarType,
+      "marca": selectedMarcaType,
+      "transmision": selectedTransmisionType,
+      "añoMinimo": minAñoInt,
+      "añoMaximo": maxAñoInt,
+      "pasajerosMinimo": minPasajerosInt,
+      "pasajerosMaximo": maxPasajerosInt,
+      "precioMinimo": minPriceInt,
+      "precioMaximo": maxPriceInt,
+    })  
+  })
+
     navigation.navigate('HomeTab');
   }
+
+  useEffect(() => {
+    const apiUrl = "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/brand/all.php";
+  
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        console.log("Response data:", response.data); // Log the response data
+        setMarca(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener la lista de marcas:", error);
+      });
+  }, []);
+  
+  useEffect(() => {
+    // URL de tu API que devuelve la lista de tipos
+    const apiUrl =
+      "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/typeOfCar/all.php";
+     
+
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        // Almacena la lista de tipo en el estado
+        setTipo(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener la lista de tipos:", error);
+      });
+  }, []);
+
+  useEffect(() => {
+    // URL de tu API que devuelve la lista de transmisiones
+    const apiUrl =
+      "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/transmition/all.php";
+     
+
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        // Almacena la lista de transmisiones en el estado
+        setTransmision(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener la lista de transmisiones:", error);
+      });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -32,73 +110,83 @@ const FilterScreen = () => {
 
       <Text style={styles.text}>Tipo de carro</Text>
       <View style={styles.pickerContainer}>
-        <Picker
-          style={{ width: "100%" }} // Ancho del Picker al 100% del contenedor
+      <Picker
           selectedValue={selectedCarType}
-          onValueChange={(itemValue, itemIndex) => setSelectedCarType(itemValue)}
+          onValueChange={(itemValue) => setSelectedCarType(itemValue)}
         >
-          <Picker.Item label="Seleccionar tipo de carro" value="" /> 
-          <Picker.Item label="Sedan" value="Sedan" />
-          <Picker.Item label="SUV" value="SUV" />
-          <Picker.Item label="Pick Up" value="Pick Up" />
-          <Picker.Item label="Hatchback" value="Hatchback" />
+          <Picker.Item label="Selecciona un tipo" value="" />
+          {tipo.map((tipo) => (
+            <Picker.Item
+              key={tipo.id}
+              label={tipo.nombre}
+              value={tipo.id}
+            />
+          ))}
         </Picker>
       </View>
       <Text style={styles.text}>Marca</Text>
       <View style={styles.pickerContainer}>
-        <Picker
-          style={{ width: "100%" }} 
+      <Picker
           selectedValue={selectedMarcaType}
-          onValueChange={(itemValue, itemIndex) => setSelectedMarcaType(itemValue)}
+          onValueChange={(itemValue) => setSelectedMarcaType(itemValue)}
         >
-          <Picker.Item label="Seleccionar marca" value="" /> 
-          <Picker.Item label="Toyota" value="Toyota" />
-          <Picker.Item label="Chevrolet" value="Chevrolet" />
-          <Picker.Item label="Kia" value="Kia" />
-          <Picker.Item label="Honda" value="Honda" />
-          
+          <Picker.Item label="Selecciona una marca" value="" />
+          {marca.map((brand) => (
+            <Picker.Item
+              key={brand.id}
+              label={brand.nombre}
+              value={brand.id}
+            />
+          ))}
         </Picker>
       </View>
       <Text style={styles.text}>Transmisión</Text>
       <View style={styles.pickerContainer}>
-        <Picker
-          style={{ width: "100%" }} 
+      <Picker
           selectedValue={selectedTransmisionType}
-          onValueChange={(itemValue, itemIndex) => setSelectedTransmisionType(itemValue)}
+          onValueChange={(itemValue) => setSelectedTransmisionType(itemValue)}
         >
-          <Picker.Item label="Seleccionar transmisión" value="" /> 
-          <Picker.Item label="Automático" value="Automático" />
-          <Picker.Item label="Estándar" value="Estándar" />
-          
+          <Picker.Item label="Selecciona una transmision" value="" />
+          {transmision.map((transmision) => (
+            <Picker.Item
+              key={transmision.id}
+              label={transmision.nombre}
+              value={transmision.id}
+            />
+          ))}
         </Picker>
       </View>
       <Text style={styles.text}>Año</Text>
-      <View style={styles.pickerContainer}>
-        <Picker
-          style={{ width: "100%" }} 
-          selectedValue={selectedAñoType}
-          onValueChange={(itemValue, itemIndex) => setSelectedAñoType(itemValue)}
-        >
-          <Picker.Item label="Seleccionar año" value="" /> 
-          <Picker.Item label="2023" value="2023" />
-          <Picker.Item label="2022" value="2022" />
-          <Picker.Item label="2021" value="2021" />
-          <Picker.Item label="2020" value="2020" />
-        </Picker>
+      <View style={styles.priceInputContainer}>
+      <TextInput
+          style={styles.priceInput}
+          placeholder="Mínimo"
+          value={minAño}
+          onChangeText={text => setMinAño(text)}
+        />
+        <Text style={styles.separator}>-</Text>
+        <TextInput
+          style={styles.priceInput}
+          placeholder="Máximo"
+          value={maxAño}
+          onChangeText={text => setMaxAño(text)}
+        />
       </View>
       <Text style={styles.text}>Pasajeros</Text>
-      <View style={styles.pickerContainer}>
-        <Picker
-          style={{ width: "100%" }} 
-          selectedValue={selectedPasajerosType}
-          onValueChange={(itemValue, itemIndex) => setSelectedPasajerosType(itemValue)}
-        >
-          <Picker.Item label="Seleccionar cant.pasajeros" value="" /> 
-          <Picker.Item label="2" value="2" />
-          <Picker.Item label="4" value="4" />
-          <Picker.Item label="5" value="5" />
-          <Picker.Item label="6" value="6" />
-        </Picker>
+      <View style={styles.priceInputContainer}>
+      <TextInput
+          style={styles.priceInput}
+          placeholder="Mínimo"
+          value={minPasajeros}
+          onChangeText={text => setMinPasajeros(text)}
+        />
+        <Text style={styles.separator}>-</Text>
+        <TextInput
+          style={styles.priceInput}
+          placeholder="Máximo"
+          value={maxPasajeros}
+          onChangeText={text => setMaxPasajeros(text)}
+        />
       </View>
       <Text style={styles.text}>Rango de Precio</Text>
       
@@ -195,4 +283,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default FilterScreen;
+export default FilterScreen;

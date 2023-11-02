@@ -14,7 +14,7 @@ const Details = ({ route }) => {
   const { apiData } = useAppContext();
 
   // Busca el vehículo correspondiente en los datos de la API
-  const vehicleDetails = apiData.find((vehicle) => vehicle.vehiculo[0].id === vehicleId);
+  const vehicleDetails = apiData.find((vehicle) => vehicle.vehiculo.id === vehicleId);
 
   const ReservationsConfirm = (vehicleDetails) => {
     navigation.navigate('DateRangePicker', {
@@ -34,13 +34,13 @@ const Details = ({ route }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.brandModel}>
-        {`${vehicleDetails.vehiculo[0].marca} ${vehicleDetails.vehiculo[0].modelo}`}
+        {`${vehicleDetails.vehiculo.marca} ${vehicleDetails.vehiculo.modelo}`}
       </Text>
 
       <View style={styles.imageContainer}>
         <Image
           style={{ width: "100%", height: 200 }}
-          source={{ uri: vehicleDetails.vehiculo[0].imagen }}
+          source={{ uri: vehicleDetails.vehiculo.imagen }}
         />
       </View>
 
@@ -48,27 +48,27 @@ const Details = ({ route }) => {
       <View style={styles.detailsContainer}>
         <Text style={styles.info}>
           <Text style={styles.title}>Año: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].anio}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.año}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Transmisión: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].transmision}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.transmision}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Tipo de carro: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].tipo}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.tipo}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Pasajeros: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].pasajeros}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.pasajeros}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Motor: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].motor}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.motor}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Tipo de gasolina: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].gasolina}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.gasolina}</Text>
         </Text>
       </View>
 
