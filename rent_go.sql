@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-10-2023 a las 18:27:30
+-- Tiempo de generación: 02-11-2023 a las 04:16:24
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -38,6 +38,28 @@ CREATE TABLE IF NOT EXISTS `estado` (
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `gasolina`
+--
+
+DROP TABLE IF EXISTS `gasolina`;
+CREATE TABLE IF NOT EXISTS `gasolina` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `gasolina`
+--
+
+INSERT INTO `gasolina` (`id`, `nombre`, `fechaFila`) VALUES
+(1, 'Regular', '2023-11-02 02:44:23'),
+(2, 'Diésel', '2023-11-02 02:44:23');
 
 -- --------------------------------------------------------
 
@@ -165,15 +187,15 @@ CREATE TABLE IF NOT EXISTS `reserva` (
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   KEY `FK_Vehiculo_Reserva` (`idVehiculo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `reserva`
 --
 
 INSERT INTO `reserva` (`id`, `cantidadDias`, `precioDia`, `precioDiaExtra`, `porcentajeComision`, `descripcion`, `lugarEntrega`, `fechaEntrega`, `lugarDevolucion`, `disponible`, `idVehiculo`, `fechaFila`) VALUES
-(1, 10, 7.50, 10.00, 10.00, NULL, 'Avenida España, San Salvador', '2023-10-30 08:30:00', 'Avenida España, San Salvador', 1, 3, '2023-10-05 14:51:44'),
-(2, 15, 6.25, 7.50, 8.00, 'Carro para 6 personas máximo, con seguro y poco kilometraje', 'Boulevard del Ejército, Soyapango', '2023-11-20 16:30:00', 'Boulevard del Ejército, Soyapango', 1, 2, '2023-10-05 14:51:44');
+(3, 10, 7.50, 10.00, 10.00, NULL, 'Avenida España, San Salvador', '2023-10-30 08:30:00', 'Avenida España, San Salvador', 1, 6, '2023-11-02 03:01:52'),
+(4, 15, 6.25, 7.50, 8.00, 'Carro para 6 personas máximo, con seguro y poco kilometraje', 'Boulevard del Ejército, Soyapango', '2023-11-20 16:30:00', 'Boulevard del Ejército, Soyapango', 1, 5, '2023-11-02 03:01:52');
 
 -- --------------------------------------------------------
 
@@ -244,6 +266,28 @@ INSERT INTO `tipovehiculo` (`id`, `nombre`, `fechaFila`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `transmision`
+--
+
+DROP TABLE IF EXISTS `transmision`;
+CREATE TABLE IF NOT EXISTS `transmision` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(50) NOT NULL,
+  `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `transmision`
+--
+
+INSERT INTO `transmision` (`id`, `nombre`, `fechaFila`) VALUES
+(1, 'Manual', '2023-11-02 02:44:23'),
+(2, 'Automática', '2023-11-02 02:44:23');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuario`
 --
 
@@ -257,6 +301,8 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `fechaNacimiento` date NOT NULL,
   `telefono` int(11) NOT NULL,
   `imagenPerfil` varchar(250) DEFAULT NULL,
+  `codigoVerificacion` int(11) DEFAULT NULL,
+  `verificado` tinyint(1) NOT NULL DEFAULT 0,
   `idNacionalidad` int(11) NOT NULL,
   `idRol` int(11) NOT NULL,
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
@@ -264,30 +310,35 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   UNIQUE KEY `U_CorreoElectronico_Usuario` (`correoElectronico`),
   KEY `FK_Nacionalidad_Usuario` (`idNacionalidad`),
   KEY `FK_Rol_Usuario` (`idRol`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
 --
 
-INSERT INTO `usuario` (`id`, `correoElectronico`, `contrasena`, `nombre`, `apellido`, `fechaNacimiento`, `telefono`, `imagenPerfil`, `idNacionalidad`, `idRol`, `fechaFila`) VALUES
-(3, 'fernandobonilla875@gmail.com', '$2y$10$p/7G0/SNubrBOeTxEGS6vuiUdO/xk7YJrNmwi9N9Zyu9GVhzvukMm', 'Fernando', 'Bonilla', '2001-10-16', 76684815, NULL, 1, 1, '2023-10-01 02:43:52'),
-(11, 'fernandobonilla@gmail.com', '$2y$10$Ew2cM5HN4qQOHjGRZ6TiBeam3aOg8XHWAXA7Jdz5uXLpf0lX2LnHi', 'Fernando', 'Orellana', '2001-10-16', 76684815, NULL, 1, 1, '2023-10-01 16:31:05'),
-(12, 'fernandoorellana@gmail.com', '$2y$10$/5VzxGlJIBX7iHfIXIzqOORVY93Fnl.zB345raqClYLp6MgrVzM8G', 'Fernando', 'Orellana', '2001-10-16', 714589712, NULL, 1, 1, '2023-10-01 16:32:34'),
-(13, 'fernandoorellana@hotmail.com', '$2y$10$ApOcIBgMcw2j3RvfOtN3Uu3f0/cDig9a/W2V6J7mORHlGzJUWDAqa', 'Fernando', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-01 16:44:20'),
-(16, 'john(.doe)@exa//mple.com', '$2y$10$Pggm7Zjmk90KUJJGso0/KuG.gMEj5QzAHL3HtDnMjtNkODBAdsvP.', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-01 17:16:22'),
-(17, 'john.doe@gm//ail.com', '$2y$10$EAaKJ/.HHxdPuLDGAeU0P.mY8VB7Yoef0gtYINsp1wsRePC6kLp.u', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-01 17:40:23'),
-(18, 'john.doe\'\'@gmail.com', '$2y$10$8LMJl8J8AgI4crUMg5HAoejH97P5Kp3yQFz9O1MBiuhwlPJPpJfSm', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-01 17:43:45'),
-(20, 'john.orellana123@gmail.com', '$2y$10$AnRW4F/wzc2CDALa613ZXuzYwSz.8aRSUNTfZ3SbdCzrzLmnV/FmO', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-01 17:46:51'),
-(22, 'john.brellana123@gmail//.com', '$2y$10$CzV2s4RM.Vk91VG1pJXnZe4qmc8BHfIEHhmPIy8wpa1WvqOstTpdW', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 00:34:09'),
-(25, 'juanhernandez@gmail.com', '$2y$10$uP.uFT3wJZKdpkC/UpsKGecbj.lsUWCGV0Q6qCxHZuELFclkUXaPa', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:05:57'),
-(27, 'juan.hernandez@gmail.com', '$2y$10$WKdR6PHTlr0eow1bxuuftuCqecJHiWHkDuDdKi.RTB9nodkB4xjn2', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:06:30'),
-(28, 'juan.hernandez123@gmail.com', '$2y$10$GYp5tlrbAvjTpISQByq12uCuAGhvdOYC3x.0fvuIGNo9v5qUvS/ae', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:08:51'),
-(29, 'juanhernandez123@gmail.com', '$2y$10$fjuJ2yRcAHMVb6HNREeOmOxnqa7xTb9BF3G7LbLuUUQmkYxct.uA6', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:09:10'),
-(30, 'franhernandez123@gmail.com', '$2y$10$1SdU9nojfLOpBusZlGL2dOCS7EfZmBC1HfXFdsxY00oQB4xoGS7Na', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:16:23'),
-(31, 'fran.hernandez123@gmail.com', '$2y$10$xHgafm7twte/X6sDmaPqhuDDH.JFT02mxU/TONGxru2Ov.aY5sSM6', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-02 02:29:33'),
-(32, 'francisco.hernandez123@gmail.com', 'b50c223392eaf1241f0c6ee672a21111dfb315fbed52c6c816e4d8498c303d0b', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-05 14:02:32'),
-(34, 'f.hernandez123@gmail.com', 'b50c223392eaf1241f0c6ee672a21111dfb315fbed52c6c816e4d8498c303d0b', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, 1, 1, '2023-10-05 15:06:21');
+INSERT INTO `usuario` (`id`, `correoElectronico`, `contrasena`, `nombre`, `apellido`, `fechaNacimiento`, `telefono`, `imagenPerfil`, `codigoVerificacion`, `verificado`, `idNacionalidad`, `idRol`, `fechaFila`) VALUES
+(3, 'fernandobonilla875@gmail.com', '$2y$10$p/7G0/SNubrBOeTxEGS6vuiUdO/xk7YJrNmwi9N9Zyu9GVhzvukMm', 'Fernando', 'Bonilla', '2001-10-16', 76684815, NULL, NULL, 0, 1, 1, '2023-10-01 02:43:52'),
+(11, 'fernandobonilla@gmail.com', '$2y$10$Ew2cM5HN4qQOHjGRZ6TiBeam3aOg8XHWAXA7Jdz5uXLpf0lX2LnHi', 'Fernando', 'Orellana', '2001-10-16', 76684815, NULL, NULL, 0, 1, 1, '2023-10-01 16:31:05'),
+(12, 'fernandoorellana@gmail.com', '$2y$10$/5VzxGlJIBX7iHfIXIzqOORVY93Fnl.zB345raqClYLp6MgrVzM8G', 'Fernando', 'Orellana', '2001-10-16', 714589712, NULL, NULL, 0, 1, 1, '2023-10-01 16:32:34'),
+(13, 'fernandoorellana@hotmail.com', '$2y$10$ApOcIBgMcw2j3RvfOtN3Uu3f0/cDig9a/W2V6J7mORHlGzJUWDAqa', 'Fernando', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-01 16:44:20'),
+(16, 'john(.doe)@exa//mple.com', '$2y$10$Pggm7Zjmk90KUJJGso0/KuG.gMEj5QzAHL3HtDnMjtNkODBAdsvP.', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-01 17:16:22'),
+(17, 'john.doe@gm//ail.com', '$2y$10$EAaKJ/.HHxdPuLDGAeU0P.mY8VB7Yoef0gtYINsp1wsRePC6kLp.u', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-01 17:40:23'),
+(18, 'john.doe\'\'@gmail.com', '$2y$10$8LMJl8J8AgI4crUMg5HAoejH97P5Kp3yQFz9O1MBiuhwlPJPpJfSm', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-01 17:43:45'),
+(20, 'john.orellana123@gmail.com', '$2y$10$AnRW4F/wzc2CDALa613ZXuzYwSz.8aRSUNTfZ3SbdCzrzLmnV/FmO', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-01 17:46:51'),
+(22, 'john.brellana123@gmail//.com', '$2y$10$CzV2s4RM.Vk91VG1pJXnZe4qmc8BHfIEHhmPIy8wpa1WvqOstTpdW', 'Joe', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-02 00:34:09'),
+(25, 'juanhernandez@gmail.com', '$2y$10$uP.uFT3wJZKdpkC/UpsKGecbj.lsUWCGV0Q6qCxHZuELFclkUXaPa', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-02 02:05:57'),
+(27, 'juan.hernandez@gmail.com', '$2y$10$WKdR6PHTlr0eow1bxuuftuCqecJHiWHkDuDdKi.RTB9nodkB4xjn2', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-02 02:06:30'),
+(28, 'juan.hernandez123@gmail.com', '$2y$10$GYp5tlrbAvjTpISQByq12uCuAGhvdOYC3x.0fvuIGNo9v5qUvS/ae', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-02 02:08:51'),
+(29, 'juanhernandez123@gmail.com', '$2y$10$fjuJ2yRcAHMVb6HNREeOmOxnqa7xTb9BF3G7LbLuUUQmkYxct.uA6', 'Juan', 'Hernandez', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-02 02:09:10'),
+(30, 'franhernandez123@gmail.com', '$2y$10$1SdU9nojfLOpBusZlGL2dOCS7EfZmBC1HfXFdsxY00oQB4xoGS7Na', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-02 02:16:23'),
+(31, 'fran.hernandez123@gmail.com', '$2y$10$xHgafm7twte/X6sDmaPqhuDDH.JFT02mxU/TONGxru2Ov.aY5sSM6', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-02 02:29:33'),
+(32, 'francisco.hernandez123@gmail.com', 'b50c223392eaf1241f0c6ee672a21111dfb315fbed52c6c816e4d8498c303d0b', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-05 14:02:32'),
+(34, 'f.hernandez123@gmail.com', 'b50c223392eaf1241f0c6ee672a21111dfb315fbed52c6c816e4d8498c303d0b', 'Francisco', 'Hernandez', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-05 15:06:21'),
+(37, 'fernandoorellana@hotmail//.com', '53e014e0641698d7e160f36f975cae22eb9c82ded1409d46e3c62474bc0c638a', 'Fernando', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-29 20:55:20'),
+(38, 'fernandoorellana@gmail//.com', '53e014e0641698d7e160f36f975cae22eb9c82ded1409d46e3c62474bc0c638a', 'Fernando', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-29 20:57:52'),
+(41, 'fernando.orellana@gmail//.com', '53e014e0641698d7e160f36f975cae22eb9c82ded1409d46e3c62474bc0c638a', 'Fernando', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-30 20:53:32'),
+(42, '(fernandoorellana@gmail.com)', '53e014e0641698d7e160f36f975cae22eb9c82ded1409d46e3c62474bc0c638a', 'Fernando', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-30 20:58:19'),
+(48, 'fernando.orellana@gmail.com', '53e014e0641698d7e160f36f975cae22eb9c82ded1409d46e3c62474bc0c638a', 'Fernando', 'Orellana', '2001-10-16', 71524789, NULL, NULL, 0, 1, 1, '2023-10-30 21:07:18');
 
 -- --------------------------------------------------------
 
@@ -325,29 +376,31 @@ CREATE TABLE IF NOT EXISTS `vehiculo` (
   `color` varchar(100) DEFAULT NULL,
   `placa` varchar(10) NOT NULL,
   `imagen` varchar(250) NOT NULL,
-  `transmision` varchar(100) NOT NULL,
   `pasajeros` int(11) NOT NULL,
   `motor` varchar(50) NOT NULL,
-  `gasolina` varchar(50) NOT NULL,
   `idModelo` int(11) NOT NULL,
   `idTipoVehiculo` int(11) NOT NULL,
   `idPropietario` int(11) NOT NULL,
+  `idTransmision` int(11) NOT NULL,
+  `idGasolina` int(11) NOT NULL,
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `U_Placa_Vehiculo` (`placa`),
   KEY `FK_Modelo_Vehiculo` (`idModelo`),
   KEY `FK_TipoVehiculo_Vehiculo` (`idTipoVehiculo`),
-  KEY `FK_Propietario_Vehiculo` (`idPropietario`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+  KEY `FK_Propietario_Vehiculo` (`idPropietario`),
+  KEY `FK_Gasolina_Vehiculo` (`idGasolina`),
+  KEY `FK_Transmision_Vehiculo` (`idTransmision`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `vehiculo`
 --
 
-INSERT INTO `vehiculo` (`id`, `year`, `color`, `placa`, `imagen`, `transmision`, `pasajeros`, `motor`, `gasolina`, `idModelo`, `idTipoVehiculo`, `idPropietario`, `fechaFila`) VALUES
-(1, 2018, 'Azul', 'P195A5', 'https://drive.google.com/uc?export=view&id=1vMvF4QIrOzdWaiC0XGrR_OxVRZ8T3vpi', 'Automatica', 5, '1.8 litros', 'Regular', 1, 1, 1, '2023-10-15 16:25:58'),
-(2, 2021, 'Gris', 'P121097', 'https://drive.google.com/uc?export=view&id=1HZjRbtR5kY5xSxT7V3d6waTG-XOfmgPc', 'Automatica', 5, '1.8 litros', 'Regular', 2, 2, 2, '2023-10-15 16:25:58'),
-(3, 2018, 'Verde', 'P979D1C', '', '', 0, '', '', 5, 1, 3, '2023-10-05 14:45:58');
+INSERT INTO `vehiculo` (`id`, `year`, `color`, `placa`, `imagen`, `pasajeros`, `motor`, `idModelo`, `idTipoVehiculo`, `idPropietario`, `idTransmision`, `idGasolina`, `fechaFila`) VALUES
+(4, 2018, 'Azul', 'P195A5', 'https://drive.google.com/uc?export=view&id=1vMvF4QIrOzdWaiC0XGrR_OxVRZ8T3vpi', 5, '1.8 litros', 1, 1, 1, 2, 1, '2023-11-02 03:00:14'),
+(5, 2021, 'Gris', 'P121097', 'https://drive.google.com/uc?export=view&id=1HZjRbtR5kY5xSxT7V3d6waTG-XOfmgPc', 5, '1.8 litros', 2, 2, 2, 2, 1, '2023-11-02 03:00:14'),
+(6, 2018, 'Verde', 'P979D1C', '', 4, '1.8 litros', 5, 1, 3, 1, 1, '2023-11-02 03:00:14');
 
 --
 -- Restricciones para tablas volcadas
@@ -390,9 +443,11 @@ ALTER TABLE `usuario_reserva`
 -- Filtros para la tabla `vehiculo`
 --
 ALTER TABLE `vehiculo`
+  ADD CONSTRAINT `FK_Gasolina_Vehiculo` FOREIGN KEY (`idGasolina`) REFERENCES `gasolina` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Modelo_Vehiculo` FOREIGN KEY (`idModelo`) REFERENCES `modelo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Propietario_Vehiculo` FOREIGN KEY (`idPropietario`) REFERENCES `propietario` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `FK_TipoVehiculo_Vehiculo` FOREIGN KEY (`idTipoVehiculo`) REFERENCES `tipovehiculo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_TipoVehiculo_Vehiculo` FOREIGN KEY (`idTipoVehiculo`) REFERENCES `tipovehiculo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Transmision_Vehiculo` FOREIGN KEY (`idTransmision`) REFERENCES `transmision` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

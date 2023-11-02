@@ -30,11 +30,11 @@
         $filterYear = "
             SELECT v.year
             FROM vehiculo AS v
-            WHERE v.fechaFila <= NOW() AND v.year = '".$search['año']."'";
+            WHERE v.fechaFila <= NOW() AND (v.year BETWEEN '".$search['añoMinimo']."' AND '".$search['añoMaximo']."')";
         $filterPassengers = "
             SELECT v.pasajeros
             FROM vehiculo AS v
-            WHERE v.fechaFila <= NOW() AND v.pasajeros = '".$search['pasajeros']."'"; 
+            WHERE v.fechaFila <= NOW() AND (v.pasajeros BETWEEN '".$search['pasajerosMinimo']."' AND '".$search['pasajerosMaximo']."')";
         $filterPrices = "
             SELECT r.precioDia
             FROM reserva AS r

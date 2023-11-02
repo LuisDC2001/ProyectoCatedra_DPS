@@ -47,25 +47,41 @@ CREATE TABLE TipoVehiculo(
     CONSTRAINT PK_TipoVehiculo PRIMARY KEY (id)
 ) ENGINE = INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
+CREATE TABLE Transmision(
+    id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(50) NOT NULL,
+    fechaFila TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Transmision PRIMARY KEY (id)
+) ENGINE = INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+CREATE TABLE Gasolina(
+    id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(50) NOT NULL,
+    fechaFila TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT PK_Gasolina PRIMARY KEY (id)
+) ENGINE = INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
 CREATE TABLE Vehiculo(
     id INT NOT NULL AUTO_INCREMENT,
     year INT NOT NULL,
     color VARCHAR(100) NULL,
     placa VARCHAR(10) NOT NULL,
     imagen VARCHAR(250) NOT NULL,
-    transmision VARCHAR(100) NOT NULL,
     pasajeros INT NOT NULL,
     motor VARCHAR(50) NOT NULL,
-    gasolina VARCHAR(50) NOT NULL,
     idModelo INT NOT NULL,
     idTipoVehiculo INT NOT NULL,
     idPropietario INT NOT NULL,
+    idTransmision INT NOT NULL,
+    idGasolina INT NOT NULL,
     fechaFila TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     CONSTRAINT PK_Vehiculo PRIMARY KEY (id),
     CONSTRAINT U_Placa_Vehiculo UNIQUE (placa),
     CONSTRAINT FK_Modelo_Vehiculo FOREIGN KEY (idModelo) REFERENCES Modelo(id) ON DELETE CASCADE ON UPDATE CASCADE,
     CONSTRAINT FK_TipoVehiculo_Vehiculo FOREIGN KEY (idTipoVehiculo) REFERENCES TipoVehiculo(id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT FK_Propietario_Vehiculo FOREIGN KEY (idPropietario) REFERENCES Propietario(id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FK_Propietario_Vehiculo FOREIGN KEY (idPropietario) REFERENCES Propietario(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_Transmision_Vehiculo FOREIGN KEY (idTransmision) REFERENCES Transmision(id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_Gasolina_Vehiculo FOREIGN KEY (idGasolina) REFERENCES Gasolina(id) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 CREATE TABLE Reserva(
@@ -108,7 +124,7 @@ CREATE TABLE Usuario(
     fechaNacimiento DATE NOT NULL,
     telefono INT NOT NULL,
     imagenPerfil VARCHAR(250) NULL,
-    codigoVerificacion INT NOT NULL DEFAULT 0,
+    codigoVerificacion INT NULL,
     verificado BOOLEAN NOT NULL DEFAULT FALSE,
     idNacionalidad INT NOT NULL,
     idRol INT NOT NULL,
@@ -130,7 +146,6 @@ CREATE TABLE Usuario_Reserva(
     id INT NOT NULL AUTO_INCREMENT,
     fechaReserva DATETIME NOT NULL,
     fechaFin DATETIME NOT NULL,
-    favorito BOOLEAN NOT NULL DEFAULT FALSE,
     resena TEXT NULL,
     idEstado INT NOT NULL,
     idUsuario INT NOT NULL,
