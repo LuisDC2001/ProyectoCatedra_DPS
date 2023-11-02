@@ -31,27 +31,40 @@ const FilterScreen = () => {
   };
 
   const aplicarPress = async () => {  
-    await fetch('http://192.168.1.14:8080/ProyectoCatedra_DPS/api/rent/filter.php',{
-      method:'POST',
-      headers:{
-          'Accept':'application/json',
-          'Content-Type':'application/json'
-      },
-      body: JSON.stringify({
-      "tipoVehiculo": selectedCarType,
-      "marca": selectedMarcaType,
-      "transmision": selectedTransmisionType,
-      "añoMinimo": minAñoInt,
-      "añoMaximo": maxAñoInt,
-      "pasajerosMinimo": minPasajerosInt,
-      "pasajerosMaximo": maxPasajerosInt,
-      "precioMinimo": minPriceInt,
-      "precioMaximo": maxPriceInt,
-    })  
-  })
-
-    navigation.navigate('HomeTab');
+    try {
+      const response = await fetch('http://192.168.1.14:8080/ProyectoCatedra_DPS/api/rent/filter.php', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          "tipoVehiculo": selectedCarType,
+          "marca": selectedMarcaType,
+          "transmision": selectedTransmisionType,
+          "añoMinimo": minAñoInt,
+          "añoMaximo": maxAñoInt,
+          "pasajerosMinimo": minPasajerosInt,
+          "pasajerosMaximo": maxPasajerosInt,
+          "precioMinimo": minPriceInt,
+          "precioMaximo": maxPriceInt,
+        }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Error al consultar la API de filtros');
+      }
+      
+      const data = await response.json();
+      console.log('Data:', data);
+      // Pasa el arreglo de carros filtrados como parámetro al volver a HomeScreen
+      navigation.navigate('HomeTab', { filteredCars: data });
+    } catch (error) {
+      console.error('Error al aplicar filtros:', error);
+      // Maneja el error, por ejemplo, mostrando un mensaje de error al usuario
+    }
   }
+  
 
   useEffect(() => {
     const apiUrl = "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/brand/all.php";
@@ -119,7 +132,7 @@ const FilterScreen = () => {
             <Picker.Item
               key={tipo.id}
               label={tipo.nombre}
-              value={tipo.id}
+              value={tipo.nombre}
             />
           ))}
         </Picker>
@@ -135,7 +148,7 @@ const FilterScreen = () => {
             <Picker.Item
               key={brand.id}
               label={brand.nombre}
-              value={brand.id}
+              value={brand.nombre}
             />
           ))}
         </Picker>
@@ -151,7 +164,7 @@ const FilterScreen = () => {
             <Picker.Item
               key={transmision.id}
               label={transmision.nombre}
-              value={transmision.id}
+              value={transmision.nombre}
             />
           ))}
         </Picker>
