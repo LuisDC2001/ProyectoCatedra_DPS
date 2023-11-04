@@ -110,7 +110,7 @@ const Edit = () => {
                 <ReadInput
                     placeholder="Ingresa tu correo electrónico"
                     value={usuarioCorreo}
-                    setValue={setUsuarioCorreo}
+                    //setValue={setUsuarioCorreo}
                     readonly={true}
                 />
                 <Text style={styles.texto3}>Nombre</Text>
@@ -137,7 +137,7 @@ const Edit = () => {
                 <ReadInput
                     placeholder="******"
                     value=""
-                    setValue=""
+                    //setValue=""
                     readonly={true}
                 />
 
