@@ -18,6 +18,7 @@ import PassChangedScreen from './screens/PassChangedScreen'
 import GoogleScreen from "./screens/GoogleScreen";
 import EditAccount from './screens/EditAccount';
 import ReservationsConfirm from "./screens/ReservationsConfirmScreen";
+import ForgotPassScreen2 from "./screens/ForgotPassScreen2";
 import DateRangePicker from './screens/CalendarScreen';
 import Confirm from "./screens/ConfirmScreen";
 import { StatusBar } from "react-native";
@@ -95,6 +96,11 @@ const App = () => {
           <Stack.Screen 
             name="Forgot" 
             component={ForgotPassScreen} 
+            options={{ headerShown: false }}
+          />
+           <Stack.Screen 
+            name="Forgot2" 
+            component={ForgotPassScreen2} 
             options={{ headerShown: false }}
           />
           <Stack.Screen 

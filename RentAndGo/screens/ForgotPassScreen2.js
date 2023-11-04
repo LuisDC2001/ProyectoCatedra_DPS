@@ -1,19 +1,34 @@
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CustomInput from '../components/Input'
 import Button from '../components/Button'
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const ForgotPass = () => {
-
-    const [correo, setCorreo] = useState('');
+const ForgotPass2 = () => {
 
     const navigation = useNavigation();
+    const [usuarioCorreo, setUsuarioCorreo] = useState("");
 
     const goback = () => {
         navigation.goBack();
     
     }
+
+    const getUsuarioCorreoFromStorage = async () => {
+        try {
+          const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
+          if (usuarioCorreo) {
+            setUsuarioCorreo(usuarioCorreo);
+          }
+        } catch (error) {
+          console.error('Error al obtener el correo del usuario desde AsyncStorage:', error);
+        }
+      };
+
+    useEffect(() => {
+        getUsuarioCorreoFromStorage();
+      }, []);
 
     const send = async() => {
 
@@ -23,7 +38,7 @@ const ForgotPass = () => {
                 'Accept':'application/json',
                 'Content-Type':'application/json'
             },
-            body: JSON.stringify({"correoElectronico": correo})  
+            body: JSON.stringify({"correoElectronico": usuarioCorreo})  
         }).then(res=>res.json())
         .then(resData=>{
                 alert(resData.message);
@@ -49,10 +64,9 @@ const ForgotPass = () => {
                 <Text style={styles.texto2}>Ingresa tu correo electrónico para poder enviarte un código verificación</Text>
 
                 <CustomInput
-                    placeholder="Correo electrónico"
-                    value={correo}
-                    setValue={setCorreo}
+                    value={usuarioCorreo}
                     icononame="envelope"
+                    editable = {false}
                 />
 
                 <Button 
@@ -93,4 +107,4 @@ const styles = StyleSheet.create({
 });
 
 
-export default ForgotPass;
+export default ForgotPass2;

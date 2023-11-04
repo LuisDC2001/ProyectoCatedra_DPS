@@ -16,8 +16,21 @@ const Verification = () => {
     
     }
 
-    const check = () => {
-        navigation.navigate('NewPass');
+    const check = async() => {
+        await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/codigoverificacion.php',{
+            method:'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({"code":codigo})  
+        }).then(res=>res.json())
+        .then(resData=>{
+                alert(resData.message);
+                if(resData.message==="Se ha validado el codigo ingresado"){
+                    navigation.navigate('NewPass');
+                }
+        });
     }
 
     return (

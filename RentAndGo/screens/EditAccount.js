@@ -1,52 +1,94 @@
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import ReadInput from '../components/ReadInput';
+import CustomInput from '../components/Input';
 import Button from '../components/Button';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
 
 
 const Edit = () => {
 
-    const [correo, setCorreo] = useState('');
-    const [contra, setContra] = useState('');
-    const [nombre, setnombre] = useState('');
-    const [apellido, setapellido] = useState('');
-    const [numero, setnumero] = useState('');
-    const [fecha, guardarFecha] = useState("");
-    const [isContraVisible, setContraVisible] = useState(false);
+    const [usuarioCorreo, setUsuarioCorreo] = useState("");
+    const [nombreU, setNombre] = useState("");
+    const [apellido, setapellido] = useState("");
+    const [telefono, setTelefono] = useState("");
     const navigation = useNavigation();
 
+    const DataFromApi=async()=>{
+        const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
+          if (usuarioCorreo) {
+            setUsuarioCorreo(usuarioCorreo);
+          }
+    
+        await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/allUserInfo.php',{
+                method:'POST',
+                headers:{
+                    'Accept':'application/json',
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({"correoElectronico": usuarioCorreo})  
+            }).then(res=>res.json())
+            .then(Data=>{
+                console.log(Data.usuario);
+              setNombre(Data.usuario[0].nombre);
+              setapellido(Data.usuario[0].apellido);
+              setTelefono(Data.usuario[0].telefono);          
+            });
+      };
 
-    const RegistroPress = () => {
-        console.warn("Guardar Cambios")
-    }
+    useEffect(() => {
+        DataFromApi();
+      }, []);
 
     const goback = () => {
         navigation.goBack();
     }
 
     const cambiarcontra = () => {
-        console.warn("Cambiar contraseña")
+        navigation.navigate('Forgot2');
     }
 
-
-    const showDatePicker = () => {
-        setDatePickerVisibility(true);
-    };
-    const hideDatePicker = () => {
-        setDatePickerVisibility(false);
-    };
-
-    const confirmarFecha = (date) => {
-        const año = date.getFullYear();
-        const mes = date.getMonth() + 1;
-        const dia = date.getDate();
-
-        // Formatea la fecha en "yyyy-MM-dd"
-        const fechaFormateada = `${año}-${mes < 10 ? '0' : ''}${mes}-${dia < 10 ? '0' : ''}${dia}`;
-        guardarFecha(fechaFormateada);
-        hideDatePicker();
+    const ActualizarPress = async () => {
+        // Validación de campos
+      if (!usuarioCorreo || !nombreU || !apellido || !telefono) {
+        alert("Por favor, completa todos los campos.");
+        return;
+      }
+      const telefonoValido = /^[0-9]{8}$/.test(telefono);
+      if (!telefonoValido) {
+        alert("Por favor, ingresa un número de teléfono válido (8 dígitos numéricos).");
+        return;
+      }
+      if(!/^[a-zA-Z]+$/.test(nombreU)){
+        alert("Por favor ingrese solamente valores de texto")
+        return;
+      }
+      if(!/^[a-zA-Z]+$/.test(apellido)){
+        alert("Por favor ingrese solamente valores de texto")
+        return;
+      }
+    
+        await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/updateUserInfo.php',{
+          method:'POST',
+          headers:{
+              'Accept':'application/json',
+              'Content-Type':'application/json'
+          },
+          body: JSON.stringify({"correoElectronico": usuarioCorreo,
+          "nombre": nombreU,
+          "apellido": apellido,
+          "telefono": telefono,})  
+      }).then(res=>res.json())
+      .then(resData=>{
+              alert(resData.message);
+              if(resData.message==="Se ha actualizado la informacion del usuario"){
+                  navigation.navigate('Cuenta');
+              }
+      });
     };
 
 
@@ -67,15 +109,15 @@ const Edit = () => {
                 <Text style={styles.texto3}>Correo Electrónico</Text>
                 <ReadInput
                     placeholder="Ingresa tu correo electrónico"
-                    value={correo}
-                    setValue={setCorreo}
+                    value={usuarioCorreo}
+                    setValue={setUsuarioCorreo}
                     readonly={true}
                 />
                 <Text style={styles.texto3}>Nombre</Text>
                 <ReadInput
                     placeholder="Ingresa tu Nombre"
-                    value={nombre}
-                    setValue={setnombre}
+                    value={nombreU}
+                    setValue={setNombre}
                 />
                 <Text style={styles.texto3}>Apellido</Text>
                 <ReadInput
@@ -85,17 +127,17 @@ const Edit = () => {
                 />
 
                 <Text style={styles.texto3}>Número de teléfono</Text>
-                <ReadInput
+                <CustomInput
                     placeholder="+503 | Ingresa tu número de teléfono"
-                    value={numero}
-                    setValue={setnumero}
+                    value={telefono.toString()}
+                    onChangeText={(text) => setTelefono(text)}
                     keyboardtype='phone-pad'
                 />
                 <Text style={styles.texto3}>Contraseña</Text>
                 <ReadInput
-                    placeholder="Contraseña"
-                    value={contra}
-                    setValue={setContra}
+                    placeholder="******"
+                    value=""
+                    setValue=""
                     readonly={true}
                 />
 
@@ -105,7 +147,7 @@ const Edit = () => {
 
                 <Button
                     text="Guardar Cambios"
-                    onPress={RegistroPress}
+                    onPress={ActualizarPress}
                     type="PRIMARY"
                     
                 />

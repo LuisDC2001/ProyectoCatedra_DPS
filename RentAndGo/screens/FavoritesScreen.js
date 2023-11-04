@@ -40,8 +40,6 @@ const FavoritesScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Vehículos Favoritos</Text>
-      <Text style={styles.usuarioCorreo}>Correo del Usuario: {usuarioCorreo}</Text>
-
       {isLoading ? (
         <ActivityIndicator size="large" color="blue" />
       ) : (

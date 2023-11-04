@@ -17,18 +17,31 @@ const NewPass = () => {
         navigation.goBack();
     }
 
-    const change = () => {
-        navigation.navigate('PassChanged');
+    const change = async() => {
+        await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/nuevacontraseña.php',{
+            method:'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({"contrasena":contra,"confcontrasena":contranueva})  
+        }).then(res=>res.json())
+        .then(resData=>{
+                //alert(resData.message);
+                if(resData.message==="Se ha actualizado la contraseña"){
+                    navigation.navigate('PassChanged');
+                }
+        });
     }
 
     const ContraVisibility = () => {
         setContraVisible(!isContraVisible);
-        console.warn("Se cambia el estado de la contraseña")
+       
     }
 
     const ContraVisibility2 = () => {
         setContraVisible2(!isContraVisible2);
-        console.warn("Se cambia el estado de la contraseña")
+        
     }
 
     return (

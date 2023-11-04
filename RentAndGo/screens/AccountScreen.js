@@ -10,7 +10,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const FilterScreen = () => {
   const navigation = useNavigation();
 
+
   const [usuarioCorreo, setUsuarioCorreo] = useState("");
+  const [nombreU, setNombre] = useState("");
+  const [apellido, setapellido] = useState("");
+  const [fechanac, setfechanac] = useState("");
+  const [nacionalidad, setNacionalidad] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [fechafila, setfechafila] = useState("");
+
+
   const editOnPress = () => {
     navigation.navigate("Edit");
   };
@@ -24,12 +33,36 @@ const FilterScreen = () => {
       console.error('Error al obtener el correo del usuario desde AsyncStorage:', error);
     }
   };
+  const UserDataFromApi = async () => {
+    const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
+    if (usuarioCorreo) {
+      setUsuarioCorreo(usuarioCorreo);
+    }
+
+    await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/allUserInfo.php', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ "correoElectronico": usuarioCorreo })
+    }).then(res => res.json())
+      .then(resData => {
+        setNombre(resData.usuario[0].nombre);
+        setapellido(resData.usuario[0].apellido);
+        setfechanac(resData.usuario[0].fechaNacimiento);
+        setNacionalidad(resData.usuario[0].nacionalidad);
+        setTelefono(resData.usuario[0].telefono);
+        setfechafila(resData.usuario[0].fechaFila);
+
+      });
+  };
 
   const logout = async () => {
     try {
       // Elimina la información de la sesión al presionar el botón "Cerrar Sesión"
-      
-      navigation.navigate('SignIn'); 
+
+      navigation.navigate('SignIn');
     } catch (error) {
       console.error('Error al cerrar la sesión:', error);
     }
@@ -37,6 +70,7 @@ const FilterScreen = () => {
 
   useEffect(() => {
     getUsuarioCorreoFromStorage();
+    UserDataFromApi();
   }, []);
 
 
@@ -45,57 +79,56 @@ const FilterScreen = () => {
     <View style={styles.container}>
       <View style={styles.cajita}>
         <Text style={styles.cajita_text}>Hola</Text>
-        <Text style={styles.cajita_usuario}>Usuario!</Text>
+        <Text style={styles.cajita_usuario}>{nombreU}</Text>
         <Text style={styles.reservas}>
           <Text style={styles.cajita_text2}> Usuario desde: </Text>
-          <Text style={styles.cajita_fecha}>Insertar fecha aqui</Text>
-        </Text>
-        <Text style={styles.reservas}>
-          <Text style={styles.cajita_text2}> Reservas realizadas: </Text>
-          <Text style={styles.cajita_fecha}>Insertar cantidad aqui</Text>
+          <Text style={styles.cajita_fecha}>{fechafila}</Text>
         </Text>
       </View>
-      <Text style={styles.detalles_text}>Detalles de perfil                                             </Text>
+      <Text style={styles.detalles_text}>Detalles de perfil</Text>
       <View style={styles.cajita2}>
         <Text style={styles.reservas}>
           <Text style={styles.detalles_bold}> Nombre: </Text>
-          <Text style={styles.detalles_light}>Insertar nombre aqui</Text>
+          <Text style={styles.detalles_light}>{nombreU}</Text>
         </Text>
         <Text style={styles.reservas}>
           <Text style={styles.detalles_bold}> Apellido: </Text>
-          <Text style={styles.detalles_light}>Insertar apellido aqui</Text>
+          <Text style={styles.detalles_light}>{apellido}</Text>
         </Text>
         <Text style={styles.reservas}>
           <Text style={styles.detalles_bold}> Fecha de nacimiento: </Text>
-          <Text style={styles.detalles_light}>Insertar fecha aqui</Text>
+          <Text style={styles.detalles_light}>{fechanac}</Text>
         </Text>
         <Text style={styles.reservas}>
           <Text style={styles.detalles_bold}> Nacionalidad: </Text>
-          <Text style={styles.detalles_light}>Insertar nacionalidad aqui</Text>
+          <Text style={styles.detalles_light}>{nacionalidad}</Text>
         </Text>
         <Text style={styles.reservas}>
           <Text style={styles.detalles_bold}> Numero de telefono: </Text>
-          <Text style={styles.detalles_light}>Insertar numero aqui</Text>
+          <Text style={styles.detalles_light}>{telefono}</Text>
         </Text>
         <Text style={styles.reservas}>
           <Text style={styles.detalles_bold}> Correo Electronico: </Text>
           <Text style={styles.detalles_light}>{usuarioCorreo}</Text>
         </Text>
       </View>
-      <TouchableOpacity onPress={editOnPress}>
-        <Text style={styles.edit}>
-          <Icon name="pencil" size={24} color="#4D4DFF" alignItems="right"/>
-          <Text style={styles.text}> Editar perfil</Text>
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={logout}>
-      <Text style={styles.edit}>
-          <Icon name="close" size={24} color="#4D4DFF" alignItems="center"/>
-          <Text style={styles.text}> Cerrar Sesión</Text>
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.botones}>
+        <TouchableOpacity onPress={editOnPress}>
+          <Text style={styles.edit}>
+            <Icon name="pencil" size={24} color="#4D4DFF" alignItems="right" />
+            <Text style={styles.text}> Editar perfil</Text>
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={logout}>
+          <Text style={styles.edit}>
+            <Icon name="close" size={24} color="#4D4DFF" alignItems="center" />
+            <Text style={styles.text}> Cerrar Sesión</Text>
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-      
+
+
 
     </View>
   );
@@ -112,11 +145,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   cajita: {
-    marginTop: 80,
     backgroundColor: "#4D4DFF",
     borderRadius: 10,
     width: 380,
     height: 250,
+    marginBottom: 15,
   },
   cajita2: {
     backgroundColor: "white",
@@ -176,12 +209,17 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   edit: {
-    marginLeft: 240,
-    marginBottom: 150,
     color: "#4D4DFF",
+    marginBottom: 15
+
   },
-  
- 
+  botones: {
+    marginLeft: 200,
+    marginTop: 20,
+
+  }
+
+
 });
 
 export default FilterScreen;
