@@ -16,7 +16,7 @@ const SignInScreen = () => {
 
 
     const SignInPress = async () => {
-        await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/login.php', {
+        await fetch('http://192.168.1.14:8080/ProyectoCatedra_DPS/api/user/login.php', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

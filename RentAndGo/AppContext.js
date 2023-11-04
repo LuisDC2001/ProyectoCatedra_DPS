@@ -33,7 +33,7 @@ export const AppProvider = ({ children }) => {
   const fetchDataFromApi = async () => {
     try {
       const response = await fetch(
-        "http://192.168.0.13:80/ProyectoCatedra_DPS/api/rent/all.php"
+        "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/rent/all.php"
       );
       const data = await response.json();
       setApiData(data);

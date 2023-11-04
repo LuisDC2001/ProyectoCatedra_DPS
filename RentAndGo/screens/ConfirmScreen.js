@@ -23,35 +23,35 @@ const Confirm = ({ route }) => {
       <View style={styles.detailsContainer}>
       <Text style={styles.info}>
           <Text style={styles.title}>Marca: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].modelo}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.modelo}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Modelo: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].año}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.año}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Año: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].año}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.año}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Transmisión: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].transmision}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.transmision}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Tipo de carro: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].tipo}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.tipo}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Pasajeros: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].pasajeros}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.pasajeros}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Motor: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].motor}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.motor}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Tipo de gasolina: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].gasolina}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.gasolina}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Fecha de inicio: </Text>

@@ -32,7 +32,7 @@ const ForgotPass2 = () => {
 
     const send = async() => {
 
-        await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/recuperarpass.php',{
+        await fetch('http://192.168.1.14:8080/ProyectoCatedra_DPS/api/user/recuperarpass.php',{
             method:'POST',
             headers:{
                 'Accept':'application/json',

@@ -24,7 +24,7 @@ const Edit = () => {
             setUsuarioCorreo(usuarioCorreo);
           }
     
-        await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/allUserInfo.php',{
+        await fetch('http://192.168.1.14:8080/ProyectoCatedra_DPS/api/user/allUserInfo.php',{
                 method:'POST',
                 headers:{
                     'Accept':'application/json',
@@ -72,7 +72,7 @@ const Edit = () => {
         return;
       }
     
-        await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/user/updateUserInfo.php',{
+        await fetch('http://192.168.1.14:8080/ProyectoCatedra_DPS/api/user/updateUserInfo.php',{
           method:'POST',
           headers:{
               'Accept':'application/json',
@@ -127,9 +127,9 @@ const Edit = () => {
                 />
 
                 <Text style={styles.texto3}>Número de teléfono</Text>
-                <CustomInput
+                <ReadInput
                     placeholder="+503 | Ingresa tu número de teléfono"
-                    value={telefono.toString()}
+                    value={telefono}
                     onChangeText={(text) => setTelefono(text)}
                     keyboardtype='phone-pad'
                 />

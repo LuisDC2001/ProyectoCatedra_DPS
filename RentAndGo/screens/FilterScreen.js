@@ -32,7 +32,7 @@ const FilterScreen = () => {
 
   const aplicarPress = async () => {  
     try {
-      const response = await fetch('http://192.168.0.13:80/ProyectoCatedra_DPS/api/rent/filter.php', {
+      const response = await fetch('http://192.168.1.14:8080/ProyectoCatedra_DPS/api/rent/filter.php', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -67,7 +67,7 @@ const FilterScreen = () => {
   
 
   useEffect(() => {
-    const apiUrl = "http://192.168.0.13:80/ProyectoCatedra_DPS/api/brand/all.php";
+    const apiUrl = "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/brand/all.php";
   
     axios
       .get(apiUrl)
@@ -83,7 +83,7 @@ const FilterScreen = () => {
   useEffect(() => {
     // URL de tu API que devuelve la lista de tipos
     const apiUrl =
-      "http://192.168.0.13:80/ProyectoCatedra_DPS/api/typeOfCar/all.php";
+      "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/typeOfCar/all.php";
      
 
     axios
@@ -100,7 +100,7 @@ const FilterScreen = () => {
   useEffect(() => {
     // URL de tu API que devuelve la lista de transmisiones
     const apiUrl =
-      "http://192.168.0.13:80/ProyectoCatedra_DPS/api/transmition/all.php";
+      "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/transmition/all.php";
      
 
     axios
