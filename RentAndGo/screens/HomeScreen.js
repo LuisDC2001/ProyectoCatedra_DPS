@@ -75,7 +75,19 @@ const HomeScreen = () => {
       // Maneja el error, por ejemplo, mostrando un mensaje de error al usuario
     }
   };
-
+  const clearFilters = () => {
+    setSelectedCarType(""); // Limpia el valor seleccionado en el picker de tipo de carro
+    setSelectedMarcaType(""); // Limpia el valor seleccionado en el picker de marca
+    setSelectedTransmisionType(""); // Limpia el valor seleccionado en el picker de transmisión
+    setMinAño(""); // Limpia el valor del año mínimo
+    setMaxAño(""); // Limpia el valor del año máximo
+    setMinPasajeros(""); // Limpia el valor de pasajeros mínimo
+    setMaxPasajeros(""); // Limpia el valor de pasajeros máximo
+    setMinPrice(""); // Limpia el valor del precio mínimo
+    setMaxPrice(""); // Limpia el valor del precio máximo
+    fetchDataFromApi();
+  };
+  
   useEffect(() => {
     const apiUrl =
       "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/brand/all.php";
@@ -145,7 +157,7 @@ const HomeScreen = () => {
     );
     setSearchResults(filteredVehicles);
   };
-  
+
   const toggleFilterMenu = () => {
     if (showFilters) {
       // Si el menú de filtros está abierto, lo cerramos
@@ -163,8 +175,7 @@ const HomeScreen = () => {
       }).start(() => setShowFilters(true));
     }
   };
-  
-  
+
   const handleVehiclePress = (vehicleId) => {
     navigation.navigate("Details", { vehicleId });
   };
@@ -185,30 +196,29 @@ const HomeScreen = () => {
           </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={toggleFilterMenu}>
-        <Text>
-        <Icon name="sliders" size={24} color="black" />
-          <Icon
-            name={showFilters ? "caret-up" : "caret-down"}
-            size={24}
-            color="black"
-          />
-        </Text>
+          <Text>
+            <Icon name="sliders" size={24} color="black" />
+            <Icon
+              name={showFilters ? "caret-up" : "caret-down"}
+              size={24}
+              color="black"
+            />
+          </Text>
         </TouchableOpacity>
       </View>
 
       <Animated.View
-  style={{
-    height: filterHeight,
-    overflow: "hidden",
-    alignItems: "center",
-  }}
->
+        style={{
+          height: filterHeight,
+          overflow: "hidden",
+          alignItems: "center",
+        }}
+      >
         <Text style={styles.text}>Tipo de carro</Text>
         <View style={styles.pickerContainer}>
           <Picker
             selectedValue={selectedCarType}
             onValueChange={(itemValue) => setSelectedCarType(itemValue)}
-            
           >
             <Picker.Item label="Selecciona un tipo" value="" />
             {tipo.map((tipo) => (
@@ -301,9 +311,14 @@ const HomeScreen = () => {
             onChangeText={(text) => setMaxPrice(text)}
           />
         </View>
-        <TouchableOpacity style={styles.filterButton} onPress={aplicarPress}>
-          <Text style={styles.buttonText}>Aplicar Filtros</Text>
-        </TouchableOpacity>
+        <Text>
+          <TouchableOpacity style={styles.filterButton} onPress={aplicarPress}>
+            <Text style={styles.buttonText}>Aplicar Filtros</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.filterButton} onPress={clearFilters}>
+            <Text style={styles.buttonText}>Limpiar Filtros</Text>
+          </TouchableOpacity>
+        </Text>
       </Animated.View>
 
       <Text style={styles.title}>Vehiculos Disponibles</Text>
