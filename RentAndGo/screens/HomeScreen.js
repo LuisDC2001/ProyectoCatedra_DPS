@@ -169,7 +169,7 @@ const HomeScreen = () => {
     } else {
       // Si el menú de filtros está cerrado, lo abrimos
       Animated.timing(filterHeight, {
-        toValue: 550, // Ajusta la altura que prefieras
+        toValue: 650, // Altura final del menú de filtros
         duration: 300,
         useNativeDriver: false,
       }).start(() => setShowFilters(true));
@@ -311,14 +311,14 @@ const HomeScreen = () => {
             onChangeText={(text) => setMaxPrice(text)}
           />
         </View>
-        <Text>
+
           <TouchableOpacity style={styles.filterButton} onPress={aplicarPress}>
             <Text style={styles.buttonText}>Aplicar Filtros</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.filterButton} onPress={clearFilters}>
             <Text style={styles.buttonText}>Limpiar Filtros</Text>
           </TouchableOpacity>
-        </Text>
+
       </Animated.View>
 
       <Text style={styles.title}>Vehiculos Disponibles</Text>
@@ -458,6 +458,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   filterButton: {
+    marginTop: 10,
     padding: 10,
   },
   title: {
