@@ -53,10 +53,17 @@
             if (empty($idState)) {
                 $value = showErrors(400, 'BAD REQUEST', 'Las fechas seleccionadas están fuera del rango');
             } else {
+                $query = "
+                    SELECT u.id
+                    FROM usuario AS u
+                    WHERE u.correoElectronico = '".$data['correoElectronico']."'";
+                $idUser = $dbModel->getQuery($query)[0]['id'];
                 $query[0] = "
                     INSERT INTO usuario_reserva(fechaReserva, fechaInicio, fechaFin, idEstado, idUsuario, idReserva)
                     VALUES (NOW(), :fechaInicio, :fechaFin, :idEstado, :idUsuario, :idReserva)";
                 $data['idEstado'] = $idState;
+                $data['idUsuario'] = $idUser;
+                unset($data['correoElectronico']);
                 $params[0] = $data;
                 $query[1] = "
                     UPDATE reserva
