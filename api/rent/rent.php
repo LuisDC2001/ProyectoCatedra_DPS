@@ -13,7 +13,7 @@
     function stateRent($startRentDate){
         $dbModel = new Model();
         $startRentDate = date_format(date_create($startRentDate), 'Y-m-d');
-        $actualDate = (new DateTime())->format('Y-m-d');
+        $actualDate = date_format(date_create(), 'Y-m-d');
         if ($startRentDate < $actualDate) {
             $value = false;
         } elseif ($startRentDate > $actualDate) {
@@ -27,9 +27,33 @@
             $query = "
                 SELECT e.id  
                 FROM estado AS e
-                WHERE e.nombre = 'Activo' AND e.fechaFila <= NOW()";
+                WHERE e.nombre = 'Activa' AND e.fechaFila <= NOW()";
             $idState = $dbModel->getQuery($query)[0]['id'];
             $value = $idState;
+        }
+        return $value;
+    }
+
+    //Función para validaciones
+    function validations($data){
+        $dbModel = new Model();
+        $value = true;
+        $query = "
+            SELECT 1 AS verificado
+            FROM reserva AS r
+            WHERE r.id = '".$data['idReserva']."' AND r.fechaFila <= NOW() AND r.disponible = 1
+            LIMIT 1";
+        if (empty($dbModel->getQuery($query))) {
+            $value = false;
+            $valueError = 'La reserva seleccionada ya no se encuentra disponible';
+        }
+        $idState = stateRent($data['fechaInicio']);
+        if (!$idState) {
+            $value = false;
+            $valueError = 'Las fechas seleccionadas están fuera del rango';
+        }
+        if (!$value){
+            echo showErrors(400, 'BAD REQUEST', $valueError);
         }
         return $value;
     }
@@ -38,40 +62,29 @@
     function rent($data) {
         $dbModel = new Model();
         $data = emptyStringToNull($data);
-        $value = true;
-        //Validar si está disponible la reserva
-        $query = "
-            SELECT 1 AS verificado
-            FROM reserva AS r
-            WHERE r.id = '".$data['idReserva']."' AND r.fechaFila <= NOW() AND r.disponible = 1
-            LIMIT 1";
-        if ($dbModel->getQuery($query)[0]['verificado'] != 1) {
-            $value = showErrors(400, 'BAD REQUEST', 'La reserva seleccionada ya no se encuentra disponible');
-        }
-        else {
-            $idState = stateRent($data['idReserva'], $data['fechaInicio']);
-            if (empty($idState)) {
-                $value = showErrors(400, 'BAD REQUEST', 'Las fechas seleccionadas están fuera del rango');
-            } else {
-                $query = "
-                    SELECT u.id
-                    FROM usuario AS u
-                    WHERE u.correoElectronico = '".$data['correoElectronico']."' AND u.fechaFila <= NOW()";
-                $idUser = $dbModel->getQuery($query)[0]['id'];
-                $query[0] = "
-                    INSERT INTO usuario_reserva(fechaReserva, fechaInicio, fechaFin, idEstado, idUsuario, idReserva)
-                    VALUES (NOW(), :fechaInicio, :fechaFin, :idEstado, :idUsuario, :idReserva)";
-                $data['idEstado'] = $idState;
-                $data['idUsuario'] = $idUser;
-                unset($data['correoElectronico']);
-                $params[0] = $data;
-                $query[1] = "
-                    UPDATE reserva
-                    SET    disponible = 0
-                    WHERE  id = :idReserva";
-                $params[1] = (array) $data['idReserva'];
-                $dbModel->setTransactionQuery($query, $params);
-            }
+        $value = validations($data);
+        if ($value) {
+            $query = "
+                SELECT u.id
+                FROM usuario AS u
+                WHERE u.correoElectronico = '".$data['correoElectronico']."' AND u.fechaFila <= NOW()";
+            $idUser = $dbModel->getQuery($query)[0]['id'];
+            unset($query);
+            $query[0] = "
+                INSERT INTO usuario_reserva(fechaReserva, fechaInicio, fechaFin, idEstado, idUsuario, idReserva)
+                VALUES (NOW(), :fechaInicio, :fechaFin, :idEstado, :idUsuario, :idReserva)";
+            $data['idEstado'] = stateRent($data['fechaInicio']);
+            $data['idUsuario'] = $idUser;
+            $data['fechaInicio'] = date_format(date_create($data['fechaInicio']), 'Y-m-d');
+            $data['fechaFin'] = date_format(date_create($data['fechaFin']), 'Y-m-d');
+            unset($data['correoElectronico']);
+            $params[0] = $data;
+            $query[1] = "
+                UPDATE reserva
+                SET    disponible = 0
+                WHERE  id = :idReserva";
+            $params[1] = array('idReserva' => $data['idReserva']);
+            return $dbModel->setTransactionQuery($query, $params);
         }
         return $value;
     }
@@ -81,10 +94,8 @@
         //Obtener la información
         $data = json_decode(file_get_contents("php://input"), true);
         if (!empty($data)) {
-            if (rent($data) == true) {
+            if (!empty(rent($data))) {
                 echo showErrors(201, 'CREATED');
-            } else {
-                echo rent($data);
             }
         } else {
             echo showErrors(400, 'BAD REQUEST', 'No se ha enviado información o no es aceptado el formato en que se envió');

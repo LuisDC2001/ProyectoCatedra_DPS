@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-11-2023 a las 21:54:59
+-- Tiempo de generación: 06-11-2023 a las 00:23:31
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -37,7 +37,16 @@ CREATE TABLE IF NOT EXISTS `estado` (
   `nombre` varchar(50) NOT NULL,
   `fechaFila` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `estado`
+--
+
+INSERT INTO `estado` (`id`, `nombre`, `fechaFila`) VALUES
+(1, 'Reservada', '2023-11-05 23:04:59'),
+(2, 'Activa', '2023-11-05 23:04:59'),
+(3, 'Finalizada', '2023-11-05 23:04:59');
 
 -- --------------------------------------------------------
 
@@ -193,8 +202,8 @@ CREATE TABLE IF NOT EXISTS `reserva` (
 --
 
 INSERT INTO `reserva` (`id`, `cantidadDias`, `precioDia`, `precioDiaExtra`, `porcentajeComision`, `descripcion`, `lugarEntrega`, `lugarDevolucion`, `disponible`, `idVehiculo`, `fechaFila`) VALUES
-(3, 10, 7.50, 10.00, 10.00, NULL, 'Avenida España, San Salvador', 'Avenida España, San Salvador', 1, 6, '2023-11-02 03:01:52'),
-(4, 15, 6.25, 7.50, 8.00, 'Carro para 6 personas máximo, con seguro y poco kilometraje', 'Boulevard del Ejército, Soyapango', 'Boulevard del Ejército, Soyapango', 1, 5, '2023-11-02 03:01:52');
+(3, 10, 7.50, 10.00, 10.00, NULL, 'Avenida España, San Salvador', 'Avenida España, San Salvador', 1, 6, '2023-11-05 23:22:36'),
+(4, 15, 6.25, 7.50, 8.00, 'Carro para 6 personas máximo, con seguro y poco kilometraje', 'Boulevard del Ejército, Soyapango', 'Boulevard del Ejército, Soyapango', 1, 5, '2023-11-05 23:22:44');
 
 -- --------------------------------------------------------
 
@@ -360,7 +369,7 @@ CREATE TABLE IF NOT EXISTS `usuario_reserva` (
   KEY `FK_Estado_Usuario_Reserva` (`idEstado`),
   KEY `FK_Usuario_Usuario_Reserva` (`idUsuario`),
   KEY `FK_Reserva_Usuario_Reserva` (`idReserva`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish_ci;
 
 -- --------------------------------------------------------
 
