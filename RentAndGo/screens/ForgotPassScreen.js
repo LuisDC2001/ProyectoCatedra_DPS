@@ -33,10 +33,6 @@ const ForgotPass = () => {
         });
     }
 
-    const sendcode=()=>{
-        navigation.navigate('Verification');
-    }
-
     return (
         <ScrollView>
             <View style={styles.root}>

@@ -84,7 +84,6 @@ const Login = () => {
           else
           {
             alert(resData.mensajeReal);
-            //navigation.navigate('SignIn');
           }
   });
 };
@@ -119,7 +118,7 @@ const Login = () => {
   
 
   useEffect(() => {
-    // URL de tu API que devuelve la lista de países
+    // URL de API que devuelve la lista de países
     const apiUrl =
       "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/nationality/all.php";
      

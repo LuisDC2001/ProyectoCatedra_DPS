@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  Animated,
+import { View,ScrollView,Text,TextInput,TouchableOpacity,Image,StyleSheet,TouchableWithoutFeedback,Animated,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useAppContext } from "../AppContext";
@@ -21,11 +12,6 @@ const HomeScreen = () => {
   const [searchText, setSearchText] = useState("");
   const [apiData, setApiData] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
-  const navigation = useNavigation();
-
-  const [showFilters, setShowFilters] = useState(false);
-  const filterHeight = new Animated.Value(0); // Altura inicial en 0
-
   const [tipo, setTipo] = useState([]);
   const [selectedCarType, setSelectedCarType] = useState("");
   const [marca, setMarca] = useState([]);
@@ -38,6 +24,12 @@ const HomeScreen = () => {
   const [maxPasajeros, setMaxPasajeros] = useState("");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+
+  const navigation = useNavigation();
+
+  const [showFilters, setShowFilters] = useState(false);
+  const filterHeight = new Animated.Value(0); // Altura inicial en 0
+
 
   const aplicarPress = async () => {
     try {
@@ -62,17 +54,14 @@ const HomeScreen = () => {
           }),
         }
       );
-
       if (!response.ok) {
         throw new Error("Error al consultar la API de filtros");
       }
-
       const data = await response.json();
       console.log("Data:", data);
       setApiData(data);
     } catch (error) {
       console.error("Error al aplicar filtros:", error);
-      // Maneja el error, por ejemplo, mostrando un mensaje de error al usuario
     }
   };
   const clearFilters = () => {
@@ -88,6 +77,7 @@ const HomeScreen = () => {
     fetchDataFromApi();
   };
   
+  //Api para traer marcas
   useEffect(() => {
     const apiUrl =
       "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/brand/all.php";
@@ -95,7 +85,7 @@ const HomeScreen = () => {
     axios
       .get(apiUrl)
       .then((response) => {
-        console.log("Response data:", response.data); // Log the response data
+        console.log("Response data:", response.data);
         setMarca(response.data);
       })
       .catch((error) => {
@@ -103,8 +93,8 @@ const HomeScreen = () => {
       });
   }, []);
 
+  //Api para traer tipos de carro
   useEffect(() => {
-    // URL de tu API que devuelve la lista de tipos
     const apiUrl =
       "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/typeOfCar/all.php";
 
@@ -119,8 +109,8 @@ const HomeScreen = () => {
       });
   }, []);
 
+  //Api para traer transmisiones
   useEffect(() => {
-    // URL de tu API que devuelve la lista de transmisiones
     const apiUrl =
       "http://192.168.1.14:8080/ProyectoCatedra_DPS/api/transmition/all.php";
 
