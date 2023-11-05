@@ -56,7 +56,7 @@
                 $query = "
                     SELECT u.id
                     FROM usuario AS u
-                    WHERE u.correoElectronico = '".$data['correoElectronico']."'";
+                    WHERE u.correoElectronico = '".$data['correoElectronico']."' AND u.fechaFila <= NOW()";
                 $idUser = $dbModel->getQuery($query)[0]['id'];
                 $query[0] = "
                     INSERT INTO usuario_reserva(fechaReserva, fechaInicio, fechaFin, idEstado, idUsuario, idReserva)
