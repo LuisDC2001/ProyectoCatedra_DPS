@@ -92,7 +92,6 @@ CREATE TABLE Reserva(
     porcentajeComision DECIMAL(4,2) NOT NULL,
     descripcion TEXT NULL,
     lugarEntrega TEXT NOT NULL,
-    fechaEntrega DATETIME NOT NULL,
     lugarDevolucion TEXT NOT NULL,
     disponible BOOLEAN NOT NULL DEFAULT TRUE,
     idVehiculo INT NOT NULL,
@@ -145,7 +144,8 @@ CREATE TABLE Estado(
 CREATE TABLE Usuario_Reserva(
     id INT NOT NULL AUTO_INCREMENT,
     fechaReserva DATETIME NOT NULL,
-    fechaFin DATETIME NOT NULL,
+    fechaInicio DATE NOT NULL,
+    fechaFin DATE NOT NULL,
     resena TEXT NULL,
     idEstado INT NOT NULL,
     idUsuario INT NOT NULL,

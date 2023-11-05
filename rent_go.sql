@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-11-2023 a las 04:16:24
+-- Tiempo de generación: 05-11-2023 a las 21:54:59
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -180,7 +180,6 @@ CREATE TABLE IF NOT EXISTS `reserva` (
   `porcentajeComision` decimal(4,2) NOT NULL,
   `descripcion` text DEFAULT NULL,
   `lugarEntrega` text NOT NULL,
-  `fechaEntrega` datetime NOT NULL,
   `lugarDevolucion` text NOT NULL,
   `disponible` tinyint(1) NOT NULL DEFAULT 1,
   `idVehiculo` int(11) NOT NULL,
@@ -193,9 +192,9 @@ CREATE TABLE IF NOT EXISTS `reserva` (
 -- Volcado de datos para la tabla `reserva`
 --
 
-INSERT INTO `reserva` (`id`, `cantidadDias`, `precioDia`, `precioDiaExtra`, `porcentajeComision`, `descripcion`, `lugarEntrega`, `fechaEntrega`, `lugarDevolucion`, `disponible`, `idVehiculo`, `fechaFila`) VALUES
-(3, 10, 7.50, 10.00, 10.00, NULL, 'Avenida España, San Salvador', '2023-10-30 08:30:00', 'Avenida España, San Salvador', 1, 6, '2023-11-02 03:01:52'),
-(4, 15, 6.25, 7.50, 8.00, 'Carro para 6 personas máximo, con seguro y poco kilometraje', 'Boulevard del Ejército, Soyapango', '2023-11-20 16:30:00', 'Boulevard del Ejército, Soyapango', 1, 5, '2023-11-02 03:01:52');
+INSERT INTO `reserva` (`id`, `cantidadDias`, `precioDia`, `precioDiaExtra`, `porcentajeComision`, `descripcion`, `lugarEntrega`, `lugarDevolucion`, `disponible`, `idVehiculo`, `fechaFila`) VALUES
+(3, 10, 7.50, 10.00, 10.00, NULL, 'Avenida España, San Salvador', 'Avenida España, San Salvador', 1, 6, '2023-11-02 03:01:52'),
+(4, 15, 6.25, 7.50, 8.00, 'Carro para 6 personas máximo, con seguro y poco kilometraje', 'Boulevard del Ejército, Soyapango', 'Boulevard del Ejército, Soyapango', 1, 5, '2023-11-02 03:01:52');
 
 -- --------------------------------------------------------
 
@@ -350,8 +349,8 @@ DROP TABLE IF EXISTS `usuario_reserva`;
 CREATE TABLE IF NOT EXISTS `usuario_reserva` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `fechaReserva` datetime NOT NULL,
-  `fechaFin` datetime NOT NULL,
-  `favorito` tinyint(1) NOT NULL DEFAULT 0,
+  `fechaInicio` date NOT NULL,
+  `fechaFin` date NOT NULL,
   `resena` text DEFAULT NULL,
   `idEstado` int(11) NOT NULL,
   `idUsuario` int(11) NOT NULL,
