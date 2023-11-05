@@ -23,7 +23,8 @@
                    r.lugarDevolucion, 
                    ma.nombre AS marca, 
                    mo.nombre AS modelo, 
-                   tv.nombre AS tipo, 
+                   tv.nombre AS tipo,
+                   v.id, 
                    v.year AS año, 
                    v.color, 
                    v.placa, 
@@ -101,45 +102,6 @@
             unset($rents[$key]['fechaNacimiento']);
         }
         return $rents;
-
-        /*$query = "
-            SELECT r.cantidadDias, r.precioDia, r.precioDiaExtra, r.descripcion, r.lugarEntrega, r.fechaEntrega, r.lugarDevolucion, r.idVehiculo
-            FROM reserva AS r
-            WHERE r.disponible = 1 AND r.fechaFila <= NOW()
-            ORDER BY r.fechaFila DESC";
-        $rent = $dbModel->getQuery($query);
-        foreach ($rent as $key => $value) {
-            $idVehiculo = $rent[$key]['idVehiculo'];
-            $query = "
-                SELECT ma.nombre AS marca, mo.nombre AS modelo, tv.nombre AS tipo, v.year AS año, v.color, v.placa, v.imagen, v.transmision, v.pasajeros, v.motor, v.gasolina, v.idPropietario
-                FROM vehiculo AS v
-                     JOIN modelo mo ON v.idModelo = mo.id
-                     JOIN marca ma ON mo.idMarca = ma.id
-                     JOIN tipovehiculo tv ON v.idTipoVehiculo = tv.id
-                WHERE v.id = ".$idVehiculo. " AND v.fechaFila <= NOW()
-                LIMIT 1";
-            $car = $dbModel->getQuery($query);
-            $idPropietario = $car[0]['idPropietario'];
-            $query = "
-                SELECT CASE
-                        WHEN p.idTipoPropietario = 1 THEN p.nombre
-                        ELSE p.razonSocial
-                       END AS nombre,
-                       CASE
-                        WHEN p.idTipoPropietario = 1 THEN p.apellido
-                        ELSE p.nombreComercial
-                       END AS apellido,
-                       p.correoElectronico, p.telefono, p.fechaNacimiento
-                FROM propietario AS p
-                WHERE p.id = ".$idPropietario. " AND p.fechaFila <= NOW()
-                LIMIT 1";
-            $owner = $dbModel->getQuery($query);
-            unset($car[0]['idPropietario']);
-            $rent[$key]['vehiculo'] = $car;
-            $rent[$key]['propietario'] = $owner;
-            unset($rent[$key]['idVehiculo']);
-        }
-        return $rent;*/
     }
 
     //Ejecución de la API
