@@ -22,11 +22,11 @@
                    r.descripcion, 
                    r.lugarEntrega, 
                    r.fechaEntrega, 
-                   r.lugarDevolucion, 
+                   r.lugarDevolucion,
+                   v.id,  
                    ma.nombre AS marca, 
                    mo.nombre AS modelo, 
                    tv.nombre AS tipo,
-                   v.id, 
                    v.year AS año, 
                    v.color, 
                    v.placa, 
@@ -133,6 +133,7 @@
         $filterRents = $dbModel->getQuery($query);
         foreach ($filterRents as $key => $value) {
             $filterRents[$key]['vehiculo'] = array(
+                'id' => $filterRents[$key]['id'],
                 'marca' => $filterRents[$key]['marca'],
                 'modelo' => $filterRents[$key]['modelo'],
                 'tipo' => $filterRents[$key]['tipo'],
@@ -152,6 +153,7 @@
                 'telefono' => $filterRents[$key]['telefono'],
                 'fechaNacimiento' => $filterRents[$key]['fechaNacimiento']
             );
+            unset($filterRents[$key]['id']);
             unset($filterRents[$key]['marca']);
             unset($filterRents[$key]['modelo']);
             unset($filterRents[$key]['tipo']);
