@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView } from "react-native-gesture-handler";
-import Edit from "./EditAccount";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 

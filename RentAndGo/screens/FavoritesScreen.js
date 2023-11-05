@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  ScrollView,
-  Text,
-  Image,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  ActivityIndicator,
+import { View,ScrollView,Text,Image,StyleSheet,TouchableWithoutFeedback,ActivityIndicator,
 } from "react-native";
 import { useAppContext } from "../AppContext";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,27 +8,10 @@ import { useNavigation } from "@react-navigation/native";
 const FavoritesScreen = () => {
   const { favoriteVehicles, apiData, isLoading, toggleFavorite } = useAppContext();
   const navigation = useNavigation();
-  const [usuarioCorreo, setUsuarioCorreo] = useState("");
 
   const handleVehiclePress = (vehicleId) => {
     navigation.navigate("Details", { vehicleId });
   };
-
-
-  useEffect(() => {
-    getUsuarioCorreoFromStorage();
-  }, []);
-  const getUsuarioCorreoFromStorage = async () => {
-    try {
-      const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
-      if (usuarioCorreo) {
-        setUsuarioCorreo(usuarioCorreo);
-      }
-    } catch (error) {
-      console.error('Error al obtener el correo del usuario desde AsyncStorage:', error);
-    }
-  };
-
 
   return (
     <View style={styles.container}>

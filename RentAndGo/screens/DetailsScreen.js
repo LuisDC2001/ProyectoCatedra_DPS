@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useAppContext } from '../AppContext';
 import { useNavigation } from '@react-navigation/native';
-import ReservationsConfirm from "./ReservationsConfirmScreen";
 
 const Details = ({ route }) => {
 
@@ -23,7 +22,7 @@ const Details = ({ route }) => {
   }
 
   if (!vehicleDetails) {
-    // Si no se encuentra el vehículo, puedes mostrar un mensaje o manejar el caso de error según tus necesidades
+    // Si no se encuentra el vehículo, mostrar un mensaje o manejar el caso de error
     return (
       <View style={styles.container}>
         <Text style={styles.brandModel}>Vehículo no encontrado</Text>

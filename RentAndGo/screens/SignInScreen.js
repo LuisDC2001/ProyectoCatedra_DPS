@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Logo from '../assets/img/logo.png';
 import CustomInput from '../components/Input'
 import Button from '../components/Button'
@@ -70,7 +70,7 @@ const SignInScreen = () => {
         setContraVisible(!isContraVisible);
      
     }
-
+    
     return (
         <ScrollView>
             <View style={styles.root}>

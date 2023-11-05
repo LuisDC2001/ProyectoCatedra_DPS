@@ -1,8 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-import { useAppContext } from '../AppContext';
 import { useNavigation } from '@react-navigation/native';
-import ReservationsConfirm from "./ReservationsConfirmScreen";
 
 const Confirm = ({ route }) => {
 

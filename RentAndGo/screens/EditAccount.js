@@ -3,7 +3,6 @@ import React, { useState,useEffect } from 'react';
 import ReadInput from '../components/ReadInput';
 import CustomInput from '../components/Input';
 import Button from '../components/Button';
-import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
