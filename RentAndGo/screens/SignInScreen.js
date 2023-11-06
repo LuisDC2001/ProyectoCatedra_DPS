@@ -68,7 +68,7 @@ const SignInScreen = () => {
 
     const ContraVisibility = () => {
         setContraVisible(!isContraVisible);
-        console.warn("Se cambia el estado de la contraseña")
+     
     }
 
     return (

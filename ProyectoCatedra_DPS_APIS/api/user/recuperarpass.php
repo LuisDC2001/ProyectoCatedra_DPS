@@ -33,7 +33,7 @@ require 'PHPMailer/src/SMTP.php';
     if (!empty($result)) {
         $code = rand(999999, 111111);
         $query2[0]=" 
-        UPDATE `usuario` SET `code`= :code WHERE `correoElectronico`=:correoElectronico";
+        UPDATE `usuario` SET `codigoVerificacion`= :code WHERE `correoElectronico`=:correoElectronico";
          $data['code']=$code;
          $data['correoElectronico']=$email;
          $params[0]=(array) $data;
@@ -62,7 +62,6 @@ require 'PHPMailer/src/SMTP.php';
                 $mail->Body    = 'Tu codigo de recuperacion es  <b>'.$code.'</b>';
 
                 $mail->send();
-                echo 'Message has been sent';
                 } catch (Exception $e) {
                     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 }

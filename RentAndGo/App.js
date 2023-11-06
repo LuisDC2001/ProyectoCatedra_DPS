@@ -10,7 +10,6 @@ import DetailsScreen from "./screens/DetailsScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
 import ReservationsScreen from "./screens/ReservationsScreen";
 import ForgotPassScreen from "./screens/ForgotPassScreen";
-import ForgotPassScreen2 from "./screens/ForgotPassScreen2";
 import AccountScreen from "./screens/AccountScreen";
 import FilterScreen from "./screens/FilterScreen";
 import VerificationScreen from "./screens/VerificationScreen";
@@ -19,6 +18,7 @@ import PassChangedScreen from './screens/PassChangedScreen'
 import GoogleScreen from "./screens/GoogleScreen";
 import EditAccount from './screens/EditAccount';
 import ReservationsConfirm from "./screens/ReservationsConfirmScreen";
+import ForgotPassScreen2 from "./screens/ForgotPassScreen2";
 import DateRangePicker from './screens/CalendarScreen';
 import Confirm from "./screens/ConfirmScreen";
 import { StatusBar } from "react-native";
@@ -98,7 +98,7 @@ const App = () => {
             component={ForgotPassScreen} 
             options={{ headerShown: false }}
           />
-          <Stack.Screen 
+           <Stack.Screen 
             name="Forgot2" 
             component={ForgotPassScreen2} 
             options={{ headerShown: false }}

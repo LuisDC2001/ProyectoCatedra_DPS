@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity} from 'react-native';
 import React, { useState,useEffect } from 'react';
 import ReadInput from '../components/ReadInput';
+import CustomInput from '../components/Input';
 import Button from '../components/Button';
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
@@ -32,6 +33,7 @@ const Edit = () => {
                 body: JSON.stringify({"correoElectronico": usuarioCorreo})  
             }).then(res=>res.json())
             .then(Data=>{
+                console.log(Data.usuario);
               setNombre(Data.usuario[0].nombre);
               setapellido(Data.usuario[0].apellido);
               setTelefono(Data.usuario[0].telefono);          
@@ -108,7 +110,7 @@ const Edit = () => {
                 <ReadInput
                     placeholder="Ingresa tu correo electrónico"
                     value={usuarioCorreo}
-                    setValue={setUsuarioCorreo}
+                    //setValue={setUsuarioCorreo}
                     readonly={true}
                 />
                 <Text style={styles.texto3}>Nombre</Text>
@@ -128,14 +130,14 @@ const Edit = () => {
                 <ReadInput
                     placeholder="+503 | Ingresa tu número de teléfono"
                     value={telefono}
-                    setValue={setTelefono}
+                    onChangeText={(text) => setTelefono(text)}
                     keyboardtype='phone-pad'
                 />
                 <Text style={styles.texto3}>Contraseña</Text>
                 <ReadInput
                     placeholder="******"
                     value=""
-                    setValue=""
+                    //setValue=""
                     readonly={true}
                 />
 

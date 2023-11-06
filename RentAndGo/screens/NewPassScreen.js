@@ -36,12 +36,12 @@ const NewPass = () => {
 
     const ContraVisibility = () => {
         setContraVisible(!isContraVisible);
-        console.warn("Se cambia el estado de la contraseña")
+       
     }
 
     const ContraVisibility2 = () => {
         setContraVisible2(!isContraVisible2);
-        console.warn("Se cambia el estado de la contraseña")
+        
     }
 
     return (

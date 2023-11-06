@@ -1,19 +1,56 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useAppContext } from '../AppContext';
 import { useNavigation } from '@react-navigation/native';
 import ReservationsConfirm from "./ReservationsConfirmScreen";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Confirm = ({ route }) => {
 
   const navigation = useNavigation();
 
-  const { vehicleDetails, fechaInicio, fechaFin, precioTotal } = route.params.reservationData;
+  const {vehicleDetails, fechaInicio, fechaFin, precioTotal } = route.params.reservationData;
+  const [usuarioCorreo, setUsuarioCorreo] = useState("");
+  const [idReserva, setidReserva] = useState("");
   
+  console.log(vehicleDetails);
 
   const ReservationsConfirm = () => {
     navigation.navigate('ReservationsConfirm');
   }
+
+  useEffect(() => {
+    confirmarReserva();
+  }, []);
+
+  const confirmarReserva=async()=>{
+    const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
+      if (usuarioCorreo) {
+        setUsuarioCorreo(usuarioCorreo);
+      }
+
+    await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/rent/rent.php',{
+            method:'POST',
+            headers:{
+                'Accept':'application/json',
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify({"correoElectronico": usuarioCorreo,
+             "idReserva":idReserva,
+             "fechaInicio":fechaInicio,
+             "fechaFin":fechaFin
+       })  
+        }).then(res=>res.json())
+        .then(Data=>{
+          if(Data.mensaje==="CREATED"){
+            navigation.navigate('ReservationsConfirm');
+        }
+        else
+        {
+          alert(Data.mensajeReal);
+        }        
+        });
+  };
 
   return (
     <View style={styles.container}>
@@ -23,35 +60,35 @@ const Confirm = ({ route }) => {
       <View style={styles.detailsContainer}>
       <Text style={styles.info}>
           <Text style={styles.title}>Marca: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].modelo}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.idReserva}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Modelo: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].año}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.año}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Año: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].año}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.año}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Transmisión: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].transmision}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.transmision}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Tipo de carro: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].tipo}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.tipo}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Pasajeros: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].pasajeros}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.pasajeros}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Motor: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].motor}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.motor}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Tipo de gasolina: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.vehiculo[0].gasolina}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.gasolina}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Fecha de inicio: </Text>
@@ -72,7 +109,7 @@ const Confirm = ({ route }) => {
       </View>
 
       <View style={styles.buttonContainer}>
-    <TouchableOpacity style={styles.reserveButton} onPress={ReservationsConfirm}>
+    <TouchableOpacity style={styles.reserveButton} onPress={confirmarReserva}>
       <Text style={styles.buttonText}>Confirmar Reserva</Text>
     </TouchableOpacity>
   </View>

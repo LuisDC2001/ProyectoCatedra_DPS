@@ -17,13 +17,13 @@
     function validarCodigo($code){
         $dbModel = new Model();
         $query = "
-        SELECT `nombre`,`apellido` FROM `usuario` WHERE `code`=:code";
+        SELECT `nombre`,`apellido` FROM `usuario` WHERE `codigoVerificacion`=:code";
         $result= $dbModel->getQuery($query,['code'=>$code]);
         if (!empty($result)) {
             // Usuario encontrado
             $codigo=0;
             $query2[0]=" 
-            UPDATE `usuario` SET `code`= $codigo WHERE `code`=:code";
+            UPDATE `usuario` SET `codigoVerificacion`= $codigo WHERE `codigoVerificacion`=:code";
             $data['code']=$code;
             $params[0]=(array) $data;
             return $dbModel->setTransactionQuery($query2,$params);

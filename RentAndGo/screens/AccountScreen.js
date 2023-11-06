@@ -6,8 +6,10 @@ import { ScrollView } from "react-native-gesture-handler";
 import Edit from "./EditAccount";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 const FilterScreen = () => {
   const navigation = useNavigation();
+
 
   const [usuarioCorreo, setUsuarioCorreo] = useState("");
   const [nombreU, setNombre] = useState("");
@@ -16,12 +18,11 @@ const FilterScreen = () => {
   const [nacionalidad, setNacionalidad] = useState("");
   const [telefono, setTelefono] = useState("");
   const [fechafila, setfechafila] = useState("");
-  
-  
+
+
   const editOnPress = () => {
     navigation.navigate("Edit");
   };
-
   const getUsuarioCorreoFromStorage = async () => {
     try {
       const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
@@ -32,37 +33,37 @@ const FilterScreen = () => {
       console.error('Error al obtener el correo del usuario desde AsyncStorage:', error);
     }
   };
-
-  const UserDataFromApi=async()=>{
+  const UserDataFromApi = async () => {
     const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
-      if (usuarioCorreo) {
-        setUsuarioCorreo(usuarioCorreo);
-      }
+    if (usuarioCorreo) {
+      setUsuarioCorreo(usuarioCorreo);
+    }
 
-    await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/allUserInfo.php',{
-            method:'POST',
-            headers:{
-                'Accept':'application/json',
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify({"correoElectronico": usuarioCorreo})  
-        }).then(res=>res.json())
-        .then(resData=>{
-          setNombre(resData.usuario[0].nombre);
-          setapellido(resData.usuario[0].apellido);
-          setfechanac(resData.usuario[0].fechaNacimiento);
-          setNacionalidad(resData.usuario[0].nacionalidad);
-          setTelefono(resData.usuario[0].telefono);
-          setfechafila(resData.usuario[0].fechaFila);
-          
-        });
+    await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/allUserInfo.php', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ "correoElectronico": usuarioCorreo })
+    }).then(res => res.json())
+      .then(resData => {
+        setNombre(resData.usuario[0].nombre);
+        setapellido(resData.usuario[0].apellido);
+        setfechanac(resData.usuario[0].fechaNacimiento);
+        setNacionalidad(resData.usuario[0].nacionalidad);
+        setTelefono(resData.usuario[0].telefono);
+        setfechafila(resData.usuario[0].fechaFila);
+
+      });
   };
 
   const logout = async () => {
     try {
       // Elimina la información de la sesión al presionar el botón "Cerrar Sesión"
-      
-      navigation.navigate('SignIn'); 
+      await AsyncStorage.setItem('usuarioCorreo', "");
+      await AsyncStorage.setItem('usuariosEnSesion',"");
+      navigation.navigate('SignIn');
     } catch (error) {
       console.error('Error al cerrar la sesión:', error);
     }
@@ -78,15 +79,10 @@ const FilterScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.cajita}>
-        <Text style={styles.cajita_text}>Hola</Text>
-        <Text style={styles.cajita_usuario}>{nombreU}</Text>
+        <Text style={styles.cajita_text}>Hola {nombreU}</Text>
         <Text style={styles.reservas}>
           <Text style={styles.cajita_text2}> Usuario desde: </Text>
           <Text style={styles.cajita_fecha}>{fechafila}</Text>
-        </Text>
-        <Text style={styles.reservas}>
-          <Text style={styles.cajita_text2}> Reservas realizadas: </Text>
-          <Text style={styles.cajita_fecha}>Insertar cantidad aqui</Text>
         </Text>
       </View>
       <Text style={styles.detalles_text}>Detalles de perfil</Text>
@@ -116,20 +112,23 @@ const FilterScreen = () => {
           <Text style={styles.detalles_light}>{usuarioCorreo}</Text>
         </Text>
       </View>
-      <TouchableOpacity onPress={editOnPress}>
-        <Text style={styles.edit}>
-          <Icon name="pencil" size={24} color="#4D4DFF" alignItems="right"/>
-          <Text style={styles.text}> Editar perfil</Text>
-        </Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={logout}>
-      <Text style={styles.edit}>
-          <Icon name="close" size={24} color="#4D4DFF" alignItems="center"/>
-          <Text style={styles.text}> Cerrar Sesión</Text>
-        </Text>
-      </TouchableOpacity>
+      <View style={styles.botones}>
+        <TouchableOpacity onPress={editOnPress}>
+          <Text style={styles.edit}>
+            <Icon name="pencil" size={24} color="#4D4DFF" alignItems="right" />
+            <Text style={styles.text}> Editar perfil</Text>
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={logout}>
+          <Text style={styles.edit}>
+            <Icon name="close" size={24} color="#4D4DFF" alignItems="center" />
+            <Text style={styles.text}> Cerrar Sesión</Text>
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-      
+
+
 
     </View>
   );
@@ -146,11 +145,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   cajita: {
-    marginTop: 80,
     backgroundColor: "#4D4DFF",
     borderRadius: 10,
     width: 380,
-    height: 250,
+    height: 150,
+    marginBottom: 15,
+    
   },
   cajita2: {
     backgroundColor: "white",
@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   cajita_text: {
     marginTop: 20,
     marginLeft: 20,
-    textAlign: "left",
+    textAlign: "center",
     color: "white",
     fontSize: 40,
     fontWeight: "bold",
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
   cajita_text2: {
     marginTop: 20,
     marginLeft: 20,
-    textAlign: "left",
+    textAlign: "center",
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
@@ -179,19 +179,20 @@ const styles = StyleSheet.create({
   cajita_usuario: {
     marginLeft: 20,
     marginBottom: 10,
-    textAlign: "left",
+    textAlign: "center",
     color: "white",
     fontSize: 40,
     fontWeight: "bold",
   },
   cajita_fecha: {
     marginLeft: 20,
-    textAlign: "left",
+    textAlign:"center",
     color: "white",
     fontSize: 16,
   },
   reservas: {
     marginTop: 10,
+    
   },
   detalles_text: {
     textAlign: "left",
@@ -210,12 +211,17 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   edit: {
-    marginLeft: 240,
-    marginBottom: 150,
     color: "#4D4DFF",
+    marginBottom: 15
+
   },
-  
- 
+  botones: {
+    marginLeft: 200,
+    marginTop: 20,
+
+  }
+
+
 });
 
 export default FilterScreen;

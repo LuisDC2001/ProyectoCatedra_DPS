@@ -40,28 +40,26 @@ const FavoritesScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Vehículos Favoritos</Text>
-      <Text style={styles.usuarioCorreo}>Correo del Usuario: {usuarioCorreo}</Text>
-
       {isLoading ? (
         <ActivityIndicator size="large" color="blue" />
       ) : (
         <ScrollView>
           {apiData
-            .filter((rent) => favoriteVehicles.includes(rent.vehiculo[0].id))
+            .filter((rent) => favoriteVehicles.includes(rent.vehiculo.id))
             .map((rent) => (
               <TouchableWithoutFeedback
-                key={rent.vehiculo[0].id}
-                onPress={() => handleVehiclePress(rent.vehiculo[0].id)}
+                key={rent.vehiculo.id}
+                onPress={() => handleVehiclePress(rent.vehiculo.id)}
               >
                 <View style={styles.vehicleContainer}>
                   <View style={styles.infoRow}>
                     <Text>
                       <Text style={styles.infoLabelBold}>
-                        {rent.vehiculo[0].marca}
+                        {rent.vehiculo.marca}
                       </Text>
                       <Text style={{ fontSize: 20 }}>
                         {" "}
-                        {rent.vehiculo[0].modelo}
+                        {rent.vehiculo.modelo}
                       </Text>
                     </Text>
                   </View>
@@ -75,7 +73,7 @@ const FavoritesScreen = () => {
                   </View>
                   <Image
                     style={{ width: "100%", height: 200 }}
-                    source={{ uri: rent.vehiculo[0].imagen }}
+                    source={{ uri: rent.vehiculo.imagen }}
                   />
                 </View>
               </TouchableWithoutFeedback>
