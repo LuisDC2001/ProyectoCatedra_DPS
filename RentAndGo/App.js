@@ -7,7 +7,6 @@ import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import HomeScreen from "./screens/HomeScreen";
 import DetailsScreen from "./screens/DetailsScreen";
-import DetailsReservationScreen from "./screens/DetailsReservationScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
 import ReservationsScreen from "./screens/ReservationsScreen";
 import ForgotPassScreen from "./screens/ForgotPassScreen";
@@ -134,13 +133,6 @@ const App = () => {
             component={DetailsScreen} 
             options={{ headerShown: false }}
           />
-
-          <Stack.Screen 
-            name="DetailsReservation" 
-            component={DetailsReservationScreen} 
-            options={{ headerShown: false }}
-          />
-
           <Stack.Screen 
             name="Filter" 
             component={FilterScreen} 

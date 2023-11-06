@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity,TouchableWithoutFeedback,Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity,TouchableWithoutFeedback,Image, ScrollView } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
 import LottieView from 'lottie-react-native';
@@ -23,7 +23,7 @@ const ReservationScreen = () => {
  /* const ReservationDataFromApi = async () => {
     try {
       const response = await fetch(
-        "http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/allRent.php"
+        "http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/allreservation.php"
       );
       const data = await response.json();
       setApiData(data);
@@ -67,18 +67,39 @@ const ReservationScreen = () => {
       console.error("Error al encontrar reservas:", error);
     }
   };
-
   useEffect(() => {
     ReservationFromApi();
   }, []);
 
-  const handleVehiclePress = (Id) => {
-    navigation.navigate("DetailsReservation", { Id });
-  };
 
   return (
     <View style={styles.container}>
-    
+      <View >
+      <Text style={styles.infoBold2}>Mis reservas</Text>
+      </View>
+      <ScrollView>
+      {apiData.map((reservation) => (
+          <View style={styles.vehicleContainer}>
+            <View >
+              <Text>
+              <Text style={styles.infoLabelBold}>
+                        {reservation.marca}
+                      </Text>
+                      <Text style={{ fontSize: 20 }}>
+                        {" "}
+                        {reservation.modelo}
+                      </Text>
+              </Text>
+              <Text style={styles.infoLabel}>{reservation.estado}</Text>
+              <Image
+                    style={{ width: "100%", height: 200 }}
+                    source={{ uri: reservation.imagen }}
+                  />
+            </View>
+          </View>
+      ))}
+      </ScrollView>
+      
     </View>
   );
 };
@@ -109,6 +130,19 @@ const styles = StyleSheet.create({
   infoLabelBold: {
     fontSize: 36,
     fontWeight: "bold",
+  }, 
+  infoLabelBold2: {
+    fontSize: 36,
+    fontWeight: "bold",
+    marginBottom: 50,
+  },
+  infoBold2: {
+    fontSize: 36,
+    fontWeight: "bold",
+    marginBottom: 50,
+  },
+  infoLabel: {
+    fontSize: 18,
   },
 });
 
