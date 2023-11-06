@@ -34,7 +34,7 @@ export const AppProvider = ({ children }) => {
   const fetchDataFromApi = async () => {
     try {
       const response = await fetch(
-        "http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/rent/all.php"
+        "http://172.16.101.194:80/ProyectoCatedra_DPS_APIS/api/rent/all.php"
       );
       const data = await response.json();
       setApiData(data);
@@ -58,7 +58,7 @@ export const AppProvider = ({ children }) => {
         setUsuarioCorreo(usuarioCorreo);
       }
       const response = await fetch(
-        "http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/user/allRent.php",
+        "http://172.16.101.194:80/ProyectoCatedra_DPS_APIS/api/user/allRent.php",
         {
           method: "POST",
           headers: {

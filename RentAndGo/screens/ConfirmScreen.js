@@ -27,7 +27,7 @@ const Confirm = ({ route }) => {
         setUsuarioCorreo(usuarioCorreo);
       }
 
-    await fetch('http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/rent/rent.php',{
+    await fetch('http://172.16.101.194:80/ProyectoCatedra_DPS_APIS/api/rent/rent.php',{
             method:'POST',
             headers:{
                 'Accept':'application/json',

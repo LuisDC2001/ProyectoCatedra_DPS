@@ -56,7 +56,7 @@ const Details = ({ route }) => {
         <Text style={styles.specs}>Información de reserva</Text>
 
         <View style={styles.detailsContainer}>
-        <Text style={styles.title}>Info reserva </Text>
+        <Text style={styles.title}>Información de reserva </Text>
           <Text style={styles.info}>
             <Text style={styles.title}>Fecha inicio: </Text>
             <Text style={styles.detalle}>{reserveDetails.fechaInicio}</Text>
@@ -66,21 +66,48 @@ const Details = ({ route }) => {
             <Text style={styles.detalle}>{reserveDetails.fechaFin}</Text>
           </Text>
           <Text style={styles.info}>
-            <Text style={styles.title}>modelo: </Text>
+            <Text style={styles.title}>Fecha de reservación: </Text>
+            <Text style={styles.detalle}>{reserveDetails.fechaReserva}</Text>
+          </Text>
+          <Text style={styles.info}>
+            <Text style={styles.title}>Precio Día: </Text>
+            <Text style={styles.detalle}>$ {reserveDetails.precioDia}</Text>
+          </Text>
+          <Text style={styles.info}>
+            <Text style={styles.title}>Lugar Entrega: </Text>
+            <Text style={styles.detalle}>{reserveDetails.lugarEntrega}</Text>
+          </Text>
+          <Text style={styles.info}>
+            <Text style={styles.title}>Lugar Devolución: </Text>
+            <Text style={styles.detalle}>{reserveDetails.lugarDevolucion}</Text>
+          </Text>
+          <View style={styles.detailsContainer}>
+          <Text style={styles.title}>Información de Carro </Text>
+          <Text style={styles.info}>
+            <Text style={styles.title}>Modelo: </Text>
             <Text style={styles.detalle}>{reserveDetails.modelo}</Text>
           </Text>
           <Text style={styles.info}>
-            <Text style={styles.title}>modelo: </Text>
-            <Text style={styles.detalle}>{reserveDetails.modelo}</Text>
+            <Text style={styles.title}>Marca: </Text>
+            <Text style={styles.detalle}>{reserveDetails.marca}</Text>
           </Text>
           <Text style={styles.info}>
-            <Text style={styles.title}>modelo: </Text>
-            <Text style={styles.detalle}>{reserveDetails.modelo}</Text>
+            <Text style={styles.title}>Año: </Text>
+            <Text style={styles.detalle}>{reserveDetails.año}</Text>
           </Text>
           <Text style={styles.info}>
-            <Text style={styles.title}>modelo: </Text>
-            <Text style={styles.detalle}>{reserveDetails.modelo}</Text>
+            <Text style={styles.title}>Color: </Text>
+            <Text style={styles.detalle}>{reserveDetails.color}</Text>
           </Text>
+          <Text style={styles.info}>
+            <Text style={styles.title}>Tipo: </Text>
+            <Text style={styles.detalle}>{reserveDetails.tipo}</Text>
+          </Text>
+          <Text style={styles.info}>
+            <Text style={styles.title}>Placa: </Text>
+            <Text style={styles.detalle}>{reserveDetails.placa}</Text>
+          </Text>
+          </View>
         </View>
 
       </ScrollView>

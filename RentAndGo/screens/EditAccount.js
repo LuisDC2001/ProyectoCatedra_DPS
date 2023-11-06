@@ -24,7 +24,7 @@ const Edit = () => {
             setUsuarioCorreo(usuarioCorreo);
           }
     
-        await fetch('http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/user/allUserInfo.php',{
+        await fetch('http://172.16.101.194:80/ProyectoCatedra_DPS_APIS/api/user/allUserInfo.php',{
                 method:'POST',
                 headers:{
                     'Accept':'application/json',
@@ -72,7 +72,7 @@ const Edit = () => {
         return;
       }
     
-        await fetch('http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/user/updateUserInfo.php',{
+        await fetch('http://172.16.101.194:80/ProyectoCatedra_DPS_APIS/api/user/updateUserInfo.php',{
           method:'POST',
           headers:{
               'Accept':'application/json',

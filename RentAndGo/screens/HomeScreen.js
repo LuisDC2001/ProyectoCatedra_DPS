@@ -35,7 +35,7 @@ const HomeScreen = () => {
   const aplicarPress = async () => {
     try {
       const response = await fetch(
-        "http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/rent/filter.php",
+        "http://172.16.101.194:80/ProyectoCatedra_DPS_APIS/api/rent/filter.php",
         {
           method: "POST",
           headers: {
@@ -85,7 +85,7 @@ const HomeScreen = () => {
   //Api para traer marcas
   useEffect(() => {
     const apiUrl =
-      "http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/brand/all.php";
+      "http://172.16.101.194:80/ProyectoCatedra_DPS_APIS/api/brand/all.php";
 
     axios
       .get(apiUrl)
@@ -101,7 +101,7 @@ const HomeScreen = () => {
   //Api para traer tipos de carro
   useEffect(() => {
     const apiUrl =
-      "http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/typeOfCar/all.php";
+      "http://172.16.101.194:80/ProyectoCatedra_DPS_APIS/api/typeOfCar/all.php";
 
     axios
       .get(apiUrl)
@@ -117,7 +117,7 @@ const HomeScreen = () => {
   //Api para traer transmisiones
   useEffect(() => {
     const apiUrl =
-      "http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/transmition/all.php";
+      "http://172.16.101.194:80/ProyectoCatedra_DPS_APIS/api/transmition/all.php";
 
     axios
       .get(apiUrl)
@@ -137,7 +137,7 @@ const HomeScreen = () => {
   const fetchDataFromApi = async () => {
     try {
       const response = await axios.get(
-        "http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/rent/all.php"
+        "http://172.16.101.194:80/ProyectoCatedra_DPS_APIS/api/rent/all.php"
       );
       setApiData(response.data);
     } catch (error) {
