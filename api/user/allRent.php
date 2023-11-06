@@ -14,58 +14,67 @@
         $dbModel = new Model();
         $data = emptyStringToNull($data);
         $query = "
-            SELECT ur.id,
-                   ur.fechaReserva,
-                   e.nombre AS estado,
-                   ur.fechaInicio,
-                   ur.fechaFin,
-                   r.cantidadDias, 
-                   r.precioDia, 
-                   r.precioDiaExtra, 
-                   r.lugarEntrega,
-                   r.lugarDevolucion, 
-                   ma.nombre AS marca, 
-                   mo.nombre AS modelo, 
-                   tv.nombre AS tipo,
-                   v.year AS año, 
-                   v.color, 
-                   v.placa, 
-                   v.imagen, 
-                   CASE
-                    WHEN p.idTipoPropietario = 1 THEN p.nombre
-                    ELSE p.razonSocial
-                   END AS nombre,
-                   CASE
-                    WHEN p.idTipoPropietario = 1 THEN p.apellido
-                    ELSE p.nombreComercial
-                   END AS apellido,
-                   p.correoElectronico, 
-                   p.telefono, 
-                   p.fechaNacimiento
-            FROM usuario_reserva AS ur
-                 JOIN usuario AS u 
-                    ON ur.idUsuario = u.id
-                 JOIN estado AS e
-                    ON ur.idEstado = e.id
-                 JOIN reserva AS r
-                    ON ur.idReserva = r.id
-                 JOIN vehiculo AS v
-                    ON r.idVehiculo = v.id
-                 JOIN modelo AS mo 
-                    ON v.idModelo = mo.id
-                 JOIN marca AS ma 
-                    ON mo.idMarca = ma.id
-                 JOIN tipovehiculo AS tv 
-                    ON v.idTipoVehiculo = tv.id
-                 JOIN propietario AS p
-                    ON v.idPropietario = p.id
-                 JOIN transmision AS t
-                    ON v.idTransmision = t.id
-                 JOIN gasolina AS g
-                    ON v.idGasolina = g.id
-            WHERE ur.idUsuario = '".intval($data['idUsuario'])."' AND ur.fechaFila <= NOW()";
-        $query .= "ORDER BY ur.fechaFila DESC";
-        return $dbModel->getQuery($query);
+            SELECT u.id
+            FROM usuario AS u
+            WHERE u.correoElectronico = '".$data['correoElectronico']."' AND u.fechaFila <= NOW()";
+        $idUser = $dbModel->getQuery($query)[0]['id'];
+        if (!empty($idUser)) {
+            $query = "
+                SELECT ur.id,
+                    ur.fechaReserva,
+                    e.nombre AS estado,
+                    ur.fechaInicio,
+                    ur.fechaFin,
+                    r.cantidadDias, 
+                    r.precioDia, 
+                    r.precioDiaExtra, 
+                    r.lugarEntrega,
+                    r.lugarDevolucion, 
+                    ma.nombre AS marca, 
+                    mo.nombre AS modelo, 
+                    tv.nombre AS tipo,
+                    v.year AS año, 
+                    v.color, 
+                    v.placa, 
+                    v.imagen, 
+                    CASE
+                        WHEN p.idTipoPropietario = 1 THEN p.nombre
+                        ELSE p.razonSocial
+                    END AS nombre,
+                    CASE
+                        WHEN p.idTipoPropietario = 1 THEN p.apellido
+                        ELSE p.nombreComercial
+                    END AS apellido,
+                    p.correoElectronico, 
+                    p.telefono, 
+                    p.fechaNacimiento
+                FROM usuario_reserva AS ur
+                    JOIN usuario AS u 
+                        ON ur.idUsuario = u.id
+                    JOIN estado AS e
+                        ON ur.idEstado = e.id
+                    JOIN reserva AS r
+                        ON ur.idReserva = r.id
+                    JOIN vehiculo AS v
+                        ON r.idVehiculo = v.id
+                    JOIN modelo AS mo 
+                        ON v.idModelo = mo.id
+                    JOIN marca AS ma 
+                        ON mo.idMarca = ma.id
+                    JOIN tipovehiculo AS tv 
+                        ON v.idTipoVehiculo = tv.id
+                    JOIN propietario AS p
+                        ON v.idPropietario = p.id
+                    JOIN transmision AS t
+                        ON v.idTransmision = t.id
+                    JOIN gasolina AS g
+                        ON v.idGasolina = g.id
+                WHERE ur.idUsuario = '".$idUser."' AND ur.fechaFila <= NOW()";
+            $query .= "ORDER BY ur.fechaFila DESC";
+            return $dbModel->getQuery($query);
+        } else {
+            return false;
+        }
     }
 
 
