@@ -57,7 +57,7 @@ El proyecto se encuentra bajo la licencia Creative Commons, la forma en la que l
 
   •	Link video demostración segunda entrega: https://drive.google.com/file/d/193eHiR-UfOyaXyFRYT4epXYS0UhVKboH/view?usp=sharing
 
-#Estructura del proyecto
+# Estructura del proyecto
   El presente repositorio, consta de dos carpetas, la carpeta RentAndGo la cual contiene lo referente a la aplicación, y la carpeta ProyectoDPS_APIS que contiene lo referentes a las apis desarrolladas en el backend
     - RentAndGo (a continuación se desglosan las carpetas y archivos más relevantes)
         - android: todo lo referente a react native para android
