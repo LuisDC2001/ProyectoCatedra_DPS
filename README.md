@@ -58,58 +58,99 @@ El proyecto se encuentra bajo la licencia Creative Commons, la forma en la que l
   •	Link video demostración segunda entrega: https://drive.google.com/file/d/193eHiR-UfOyaXyFRYT4epXYS0UhVKboH/view?usp=sharing
 
 # Estructura del proyecto
+
+
   El presente repositorio, consta de dos carpetas, la carpeta RentAndGo la cual contiene lo referente a la aplicación, y la carpeta ProyectoDPS_APIS que contiene lo referentes a las apis desarrolladas en el backend
-    - RentAndGo (a continuación se desglosan las carpetas y archivos más relevantes)
-        - android: todo lo referente a react native para android
-        - assets: contiene archivos multimedia tales como imagenes o animaciones utilizadas en la aplicación
-        - components: carpeta que contiene componentes necesarios a utilizar para la creación de algunas pantallas
-        - screens: contiene todas las pantallas desarrolladas
-            - AccountScreen.js
-            - CalendarScreen.js
-            - ConfirmScreen.js
-            - DetailsScreen.js
-            - EditAccount.js
-            - FavoritesScreen.js
-            - FilterScreen.js
-            - ForgotPassScreen.js
-            - ForgotPassScreen2.js
-            - HomeScreen.js
-            - NewPassScreen.js
-            - PassChangedScreen.js
-            - ReservationsConfirmScreen.js
-            - ReservationsScreen.js
-            - SignInScreen.js
-            - SignUpScreen.js
-            -  SplashScreen.js
-            -VerificationScreen.js
-        - App.js: En este archivo se definen las distintas pantallas disponibles y las rutas para la navegación hacia las mismas, también se establece un contexto de aplicación mediante un AppProvider para compartir estados entre pantallas
-        - AppContext.js: Define el manejo de estados e información para el manejo de funcionalidades como Favoritos y Detalles
-        
-    - ProyectoDPS_APIS: Se dividen carpeta de api y inc, donde api es donde están los archivos .php que sirven para interpretar las solicitudes
-        -api: se divide a su vez en carpetas según la tabla en la base de datos a la que hace referencia
-            - brand: 
-                - all.php: api para obtener marcas de carros
-            - nationality: 
-                - all.php: api para obtener listado de nacionalidades
-            - rent: 
-                - all.php: api para obtener listado de carros
-                - filter.php: api para manejo de filtros desde la aplicación
-            - transimision: 
-                - all.php: api para obtener listado de tipos de transmisión de los carros
-            - typeOfCar: 
-                - all.php: api para obtener listado de tipos de carro
-            - user: 
-                - PHPMailer: carpeta que contiene las librerias necesarias para el envio de correos
-                - allUserInfo.php: api para obtener la información del usuario
-                - codigoVerificacion: api para validar codigo de verificación en el apartado de cambio de contraseñas
-                - login.php: api para el manejo del inicio de sesión
-                - nuevaContraseña.php: api para el manejo de cambio de contraseña
-                - recuperarPass.php: api para la recuperación de contraseña
-                - register.php: api para el registro de usuarios
-                - updateUserInfo: api para el manejo de actualización de datos del usuario
-        - inc:  los archivos o carpetas necesarias para correr las distintas apis
-            - dbmodel.php: contiene la lógica de conexión a la base de datos
-            - validations.php: contiene las distintas validaciones para las apis
+
+  
+
+  - RentAndGo (a continuación se desglosan las carpetas y archivos más relevantes)
+
+  
+      - android: todo lo referente a react native para android
+
+      
+      - assets: contiene archivos multimedia tales como imagenes o animaciones utilizadas en la aplicación
+
+      
+      - components: carpeta que contiene componentes necesarios a utilizar para la creación de algunas pantallas
+
+      
+      - screens: contiene todas las pantallas desarrolladas
+          - AccountScreen.js
+          - CalendarScreen.js
+          - ConfirmScreen.js
+          - DetailsScreen.js
+          - EditAccount.js
+          - FavoritesScreen.js
+          - FilterScreen.js
+          - ForgotPassScreen.js
+          - ForgotPassScreen2.js
+          - HomeScreen.js
+          - NewPassScreen.js
+          - PassChangedScreen.js
+          - ReservationsConfirmScreen.js
+          - ReservationsScreen.js
+          - SignInScreen.js
+          - SignUpScreen.js
+          - SplashScreen.js
+          - VerificationScreen.js
             
-    - rent_go.sql: Script referente a la base de datos utilizada
+      - App.js: En este archivo se definen las distintas pantallas disponibles y las rutas para la navegación hacia las mismas, también se establece un contexto de aplicación mediante un AppProvider para compartir estados entre pantallas
+        
+      - AppContext.js: Define el manejo de estados e información para el manejo de funcionalidades como Favoritos y Detalles
+   
+        
+  - ProyectoDPS_APIS: Se dividen carpeta de api y inc, donde api es donde están los archivos .php que sirven para interpretar las solicitudes
+
+    
+      - api: Se divide a su vez en carpetas según la tabla en la base de datos a la que hace referencia
+        
+        - brand:
+          
+          - all.php: API para obtener marcas de carros
+            
+        - nationality:
+          
+          - all.php: API para obtener listado de nacionalidades
+            
+        - rent:
+          
+          - all.php: API para obtener listado de carros
+            
+          - filter.php: API para manejo de filtros desde la aplicación
+            
+        - transimision:
+          
+          - all.php: API para obtener listado de tipos de transmisión de los carros
+            
+        - typeOfCar:
+          
+          - all.php: API para obtener listado de tipos de carro
+            
+        - user:
+          
+          - PHPMailer: Carpeta que contiene las librerias necesarias para el envio de correos
+            
+          - allUserInfo.php: API para obtener la información del usuario
+            
+          - codigoVerificacion.php: API para validar codigo de verificación en el apartado de cambio de contraseñas
+            
+          - login.php: API para el manejo del inicio de sesión
+            
+          - nuevaContraseña.php: API para el manejo de cambio de contraseña
+            
+          - recuperarPass.php: API para la recuperación de contraseña
+            
+          - register.php: API para el registro de usuarios
+            
+          - updateUserInfo: API para el manejo de actualización de datos del usuario
+            
+      - inc:  Los archivos o carpetas necesarias para correr las distintas apis
+        
+        - dbmodel.php: Contiene la lógica de conexión a la base de datos
+          
+        - validations.php: Contiene las distintas validaciones para las apis
+           
+      - rent_go.sql: Script referente a la base de datos utilizada
           
