@@ -32,7 +32,7 @@ const FilterScreen = () => {
 
   const aplicarPress = async () => {  
     try {
-      const response = await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/rent/filter.php', {
+      const response = await fetch('http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/rent/filter.php', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

@@ -34,7 +34,7 @@ export const AppProvider = ({ children }) => {
   const fetchDataFromApi = async () => {
     try {
       const response = await fetch(
-        "http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/rent/all.php"
+        "http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/rent/all.php"
       );
       const data = await response.json();
       setApiData(data);
@@ -51,22 +51,38 @@ export const AppProvider = ({ children }) => {
 
    
   // Función para cargar los datos de la API
-  const ReservationDataFromApi = async () => {
+  const ReservationFromApi = async () => {
     try {
+      const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
+      if (usuarioCorreo) {
+        setUsuarioCorreo(usuarioCorreo);
+      }
       const response = await fetch(
-        "http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/allRent.php"
+        "http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/user/allRent.php",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ "correoElectronico": usuarioCorreo }),
+        }
       );
-      const data = await response.json();
-      setReservationData(data);
-      setIsLoading(false);
+      if (response.status === 204) {
+        setApiData([]);
+      } else {
+        const data = await response.json();
+        console.log("Data:", data);
+        setReservationData(data);
+        console.log(apiData);
+      }
     } catch (error) {
-      console.error("Error al obtener datos de la API:", error);
-      setIsLoading(false);
+      console.error("Error al encontrar reservas:", error);
     }
   };
 
   useEffect(() => {
-    ReservationDataFromApi();
+    ReservationFromApi();
   }, []);
 
 

@@ -60,7 +60,7 @@ const Login = () => {
   }
 
 
-    await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/register.php',{
+    await fetch('http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/user/register.php',{
       method:'POST',
       headers:{
           'Accept':'application/json',
@@ -120,7 +120,7 @@ const Login = () => {
   useEffect(() => {
     // URL de API que devuelve la lista de países
     const apiUrl =
-      "http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/nationality/all.php";
+      "http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/nationality/all.php";
      
 
     axios

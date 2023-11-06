@@ -39,7 +39,7 @@ const FilterScreen = () => {
       setUsuarioCorreo(usuarioCorreo);
     }
 
-    await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/allUserInfo.php', {
+    await fetch('http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/user/allUserInfo.php', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

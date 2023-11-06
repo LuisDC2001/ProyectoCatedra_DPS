@@ -18,7 +18,7 @@ const NewPass = () => {
     }
 
     const change = async() => {
-        await fetch('http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/nuevacontraseña.php',{
+        await fetch('http://192.168.1.24:80/ProyectoCatedra_DPS_APIS/api/user/nuevacontraseña.php',{
             method:'POST',
             headers:{
                 'Accept':'application/json',
