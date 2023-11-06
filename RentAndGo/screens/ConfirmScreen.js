@@ -11,17 +11,10 @@ const Confirm = ({ route }) => {
 
   const {vehicleDetails, fechaInicio, fechaFin, precioTotal } = route.params.reservationData;
   const [usuarioCorreo, setUsuarioCorreo] = useState("");
-  const [idReserva, setidReserva] = useState("");
-  
-  console.log(vehicleDetails);
 
   const ReservationsConfirm = () => {
     navigation.navigate('ReservationsConfirm');
   }
-
-  useEffect(() => {
-    confirmarReserva();
-  }, []);
 
   const confirmarReserva=async()=>{
     const usuarioCorreo = await AsyncStorage.getItem('usuarioCorreo');
@@ -36,7 +29,7 @@ const Confirm = ({ route }) => {
                 'Content-Type':'application/json'
             },
             body: JSON.stringify({"correoElectronico": usuarioCorreo,
-             "idReserva":idReserva,
+             "idReserva":vehicleDetails.idReserva,
              "fechaInicio":fechaInicio,
              "fechaFin":fechaFin
        })  
@@ -60,7 +53,7 @@ const Confirm = ({ route }) => {
       <View style={styles.detailsContainer}>
       <Text style={styles.info}>
           <Text style={styles.title}>Marca: </Text>
-          <Text style={styles.detalle}>{vehicleDetails.idReserva}</Text>
+          <Text style={styles.detalle}>{vehicleDetails.vehiculo.marca}</Text>
         </Text>
         <Text style={styles.info}>
           <Text style={styles.title}>Modelo: </Text>

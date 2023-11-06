@@ -4,6 +4,7 @@ import LottieView from 'lottie-react-native';
 import tw from 'twrnc';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 const SplashScreen = ({ navigation }) => {
   const lottieAnim = useRef(null);
   const textAnim = useRef(new Animated.Value(0)).current;
@@ -71,6 +72,7 @@ const SplashScreen = ({ navigation }) => {
       >
         <Text style={styles.text}>Rent & Go</Text>
       </Animated.View>
+      <Image source={require('../assets/img/licencia.jpeg')} style={styles.image} resizeMode="contain"/>
     </View>
   );
 };
@@ -87,7 +89,7 @@ const styles = StyleSheet.create({
   textContainer: {
     alignItems: 'center',
     position: 'absolute',
-    bottom: 200,
+    bottom: 350,
   },
   text: {
     fontSize: 32,
@@ -95,6 +97,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'black',
   },
+  image: {
+    marginTop: 150,
+   width: 200, 
+    height: 200,
+  },
 });
 
 export default SplashScreen;
+
