@@ -16,7 +16,8 @@
         $filterRents = array();
         $search = emptyStringToNull($search);
         $query = "
-            SELECT r.cantidadDias, 
+            SELECT r.id AS idReserva,
+                   r.cantidadDias, 
                    r.precioDia, 
                    r.precioDiaExtra, 
                    r.descripcion, 
