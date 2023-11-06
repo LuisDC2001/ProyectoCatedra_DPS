@@ -6,6 +6,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
   const [favoriteVehicles, setFavoriteVehicles] = useState([]);
   const [apiData, setApiData] = useState([]);
+  const [ReservationData, setReservationData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [usuarioCorreo, setUsuarioCorreo] = useState("");
 
@@ -47,6 +48,27 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     fetchDataFromApi();
   }, []);
+
+   
+  // Función para cargar los datos de la API
+  const ReservationDataFromApi = async () => {
+    try {
+      const response = await fetch(
+        "http://192.168.1.10:81/ProyectoCatedra_DPS_APIS/api/user/allRent.php"
+      );
+      const data = await response.json();
+      setReservationData(data);
+      setIsLoading(false);
+    } catch (error) {
+      console.error("Error al obtener datos de la API:", error);
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    ReservationDataFromApi();
+  }, []);
+
 
   const toggleFavorite = (vehicleId) => {
     setFavoriteVehicles((prevFavorites) => {
@@ -91,7 +113,7 @@ export const AppProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ favoriteVehicles, toggleFavorite, apiData, isLoading }}
+      value={{ favoriteVehicles, toggleFavorite, apiData, isLoading, ReservationData }}
     >
       {children}
     </AppContext.Provider>

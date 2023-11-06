@@ -63,7 +63,7 @@ const SignInScreen = () => {
     }
 
     const Google = () => {
-        navigation.navigate('Google');
+        //navigation.navigate('Google');
     }
 
     const ContraVisibility = () => {

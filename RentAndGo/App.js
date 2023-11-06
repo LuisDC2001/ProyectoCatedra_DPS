@@ -7,6 +7,7 @@ import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import HomeScreen from "./screens/HomeScreen";
 import DetailsScreen from "./screens/DetailsScreen";
+import DetailsReservationScreen from "./screens/DetailsReservationScreen";
 import FavoritesScreen from "./screens/FavoritesScreen";
 import ReservationsScreen from "./screens/ReservationsScreen";
 import ForgotPassScreen from "./screens/ForgotPassScreen";
@@ -15,7 +16,6 @@ import FilterScreen from "./screens/FilterScreen";
 import VerificationScreen from "./screens/VerificationScreen";
 import NewPassScreen from "./screens/NewPassScreen";
 import PassChangedScreen from './screens/PassChangedScreen'
-import GoogleScreen from "./screens/GoogleScreen";
 import EditAccount from './screens/EditAccount';
 import ReservationsConfirm from "./screens/ReservationsConfirmScreen";
 import ForgotPassScreen2 from "./screens/ForgotPassScreen2";
@@ -134,9 +134,10 @@ const App = () => {
             component={DetailsScreen} 
             options={{ headerShown: false }}
           />
-           <Stack.Screen 
-            name="Google" 
-            component={GoogleScreen} 
+
+          <Stack.Screen 
+            name="DetailsReservation" 
+            component={DetailsReservationScreen} 
             options={{ headerShown: false }}
           />
 

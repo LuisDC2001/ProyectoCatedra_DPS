@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity,ScrollView } from "react-native";
 import { useAppContext } from '../AppContext';
 import { useNavigation } from '@react-navigation/native';
 import ReservationsConfirm from "./ReservationsConfirmScreen";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Button from '../components/Button'
 
 const Confirm = ({ route }) => {
+
+  const goback = () => {
+    navigation.goBack();
+}
 
   const navigation = useNavigation();
 
@@ -47,8 +52,16 @@ const Confirm = ({ route }) => {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.confirm}>Confirma tu reserva</Text>
 
+      <View style={styles.header}>
+                <Button
+                    onPress={goback}
+                    icononame="chevron-left"
+                    size={60}
+                />
+       </View>
+       <ScrollView>
+      <Text style={styles.confirm}>Confirma tu reserva</Text>
       <Text style={styles.specs}>Confirma que todo este correcto:</Text>
       <View style={styles.detailsContainer}>
       <Text style={styles.info}>
@@ -100,13 +113,12 @@ const Confirm = ({ route }) => {
           <Text style={styles.detalle}> ${precioTotal}</Text>
         </Text>
       </View>
-
       <View style={styles.buttonContainer}>
     <TouchableOpacity style={styles.reserveButton} onPress={confirmarReserva}>
       <Text style={styles.buttonText}>Confirmar Reserva</Text>
     </TouchableOpacity>
   </View>
-
+  </ScrollView>
     </View>
   );
 };
