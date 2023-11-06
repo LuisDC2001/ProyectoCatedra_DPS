@@ -20,7 +20,6 @@
                    r.precioDiaExtra, 
                    r.descripcion, 
                    r.lugarEntrega, 
-                   r.fechaEntrega, 
                    r.lugarDevolucion,
                    v.id,  
                    ma.nombre AS marca, 
